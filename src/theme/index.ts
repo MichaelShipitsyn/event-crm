@@ -1,7 +1,7 @@
 import { colors, createMuiTheme, responsiveFontSizes } from '@material-ui/core';
-import type { Theme as MuiTheme } from '@material-ui/core/styles/createMuiTheme';
-import type { Shadows as MuiShadows } from '@material-ui/core/styles/shadows';
-import type {
+import { Theme as MuiTheme } from '@material-ui/core/styles/createMuiTheme';
+import { Shadows as MuiShadows } from '@material-ui/core/styles/shadows';
+import {
   Palette as MuiPalette,
   TypeBackground as MuiTypeBackground
 } from '@material-ui/core/styles/createPalette';

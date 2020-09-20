@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { FC } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(() =>

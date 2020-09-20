@@ -2,12 +2,7 @@ import React from 'react';
 import type { FC } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import {
-  Box,
-  Button,
-  FormHelperText,
-  TextField
-} from '@material-ui/core';
+import { Box, Button, FormHelperText, TextField } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
 export const LoginForm: FC = () => {
@@ -19,14 +14,13 @@ export const LoginForm: FC = () => {
         submit: null
       }}
       validationSchema={Yup.object().shape({
-        email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+        email: Yup.string()
+          .email('Must be a valid email')
+          .max(255)
+          .required('Email is required'),
         password: Yup.string().max(255).required('Password is required')
       })}
-      onSubmit={async (values, {
-        setErrors,
-        setStatus,
-        setSubmitting
-      }) => {
+      onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
           console.log('send');
         } catch (err) {
@@ -43,10 +37,7 @@ export const LoginForm: FC = () => {
         touched,
         values
       }) => (
-        <form
-          noValidate
-          onSubmit={handleSubmit}
-        >
+        <form noValidate onSubmit={handleSubmit}>
           <TextField
             error={Boolean(touched.email && errors.email)}
             fullWidth
@@ -76,9 +67,7 @@ export const LoginForm: FC = () => {
           />
           {errors.submit && (
             <Box mt={3}>
-              <FormHelperText error>
-                {errors.submit}
-              </FormHelperText>
+              <FormHelperText error>{errors.submit}</FormHelperText>
             </Box>
           )}
           <Box mt={2}>
@@ -94,17 +83,9 @@ export const LoginForm: FC = () => {
             </Button>
           </Box>
           <Box mt={2}>
-            <Alert
-              severity="info"
-            >
+            <Alert severity="info">
               <div>
-                Use
-                {' '}
-                <b>admin@gmail.com</b>
-                {' '}
-                and password
-                {' '}
-                <b>Password123</b>
+                Use <b>admin@gmail.com</b> and password <b>Password123</b>
               </div>
             </Alert>
           </Box>

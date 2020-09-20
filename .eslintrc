@@ -1,21 +1,17 @@
 {
-  "parser": "babel-eslint",
-  "env": {
-    "es6": true,
-    "browser": true
-  },
   "extends": [
     "airbnb-typescript",
     "airbnb/hooks",
-    "plugin:@typescript-eslint/eslint-recommended",
+    "prettier",
     "plugin:@typescript-eslint/recommended"
   ],
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "paths": ["src"],
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
+  "plugins": ["prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
     }
   },
   "rules": {
@@ -32,5 +28,18 @@
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "off"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "react": {
+      "version": "detect"
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true
   }
 }

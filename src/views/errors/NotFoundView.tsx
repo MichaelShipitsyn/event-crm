@@ -37,10 +37,7 @@ const NotFoundView: FC = () => {
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Page
-      className={classes.root}
-      title="404: Not found"
-    >
+    <Page className={classes.root} title="404: Not found">
       <Container maxWidth="lg">
         <Typography
           align="center"
@@ -49,30 +46,18 @@ const NotFoundView: FC = () => {
         >
           404: The page you are looking for isn’t here
         </Typography>
-        <Typography
-          align="center"
-          variant="subtitle2"
-          color="textSecondary"
-        >
-          You either tried some shady route or you
-          came here by mistake. Whichever it is, try using the navigation.
+        <Typography align="center" variant="subtitle2" color="textSecondary">
+          You either tried some shady route or you came here by mistake.
+          Whichever it is, try using the navigation.
         </Typography>
-        <Box
-          mt={6}
-          display="flex"
-          justifyContent="center"
-        >
+        <Box mt={6} display="flex" justifyContent="center">
           <img
             alt="Under development"
             className={classes.image}
             src="/static/images/undraw_page_not_found_su7k.svg"
           />
         </Box>
-        <Box
-          mt={6}
-          display="flex"
-          justifyContent="center"
-        >
+        <Box mt={6} display="flex" justifyContent="center">
           <Button
             color="secondary"
             component={RouterLink}

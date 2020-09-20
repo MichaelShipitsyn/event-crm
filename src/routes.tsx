@@ -24,7 +24,7 @@ export const renderRoutes = (routes: Routes = []): JSX.Element => (
             key={i}
             path={route.path}
             exact={route.exact}
-            render={props => (
+            render={(props) => (
               <Guard>
                 <Layout>
                   {route.routes ? (
@@ -52,7 +52,7 @@ const routes: Routes = [
     exact: true,
     path: '/',
     component: lazy(() =>
-      import('views/auth/LoginView').then(m => ({
+      import('views/auth/LoginView').then((m) => ({
         default: m.LoginView
       }))
     )

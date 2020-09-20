@@ -17,7 +17,7 @@ import { Logo } from 'components/Logo';
 import { LoginForm } from './LoginForm';
 
 const useStyles = makeStyles((theme: Theme) => {
-  return ({
+  return {
     root: {
       backgroundColor: theme.palette.background.dark,
       display: 'flex',
@@ -26,34 +26,24 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     cardContainer: {
       paddingBottom: 80,
-      paddingTop: 80,
+      paddingTop: 80
     },
     cardContent: {
       padding: theme.spacing(4),
       display: 'flex',
       flexDirection: 'column',
       minHeight: 400
-    },
-  })
+    }
+  };
 });
 
 export const LoginView: FC = () => {
   const classes = useStyles();
 
   return (
-    <Page
-      className={classes.root}
-      title="Login"
-    >
-      <Container
-        className={classes.cardContainer}
-        maxWidth="sm"
-      >
-        <Box
-          mb={8}
-          display="flex"
-          justifyContent="center"
-        >
+    <Page className={classes.root} title="Login">
+      <Container className={classes.cardContainer} maxWidth="sm">
+        <Box mb={8} display="flex" justifyContent="center">
           <RouterLink to="/">
             <Logo />
           </RouterLink>
@@ -67,25 +57,15 @@ export const LoginView: FC = () => {
               mb={3}
             >
               <div>
-                <Typography
-                  color="textPrimary"
-                  gutterBottom
-                  variant="h2"
-                >
+                <Typography color="textPrimary" gutterBottom variant="h2">
                   Sign in
                 </Typography>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                >
+                <Typography variant="body2" color="textSecondary">
                   Sign in on the internal platform
                 </Typography>
               </div>
             </Box>
-            <Box
-              flexGrow={1}
-              mt={3}
-            >
+            <Box flexGrow={1} mt={3}>
               <LoginForm />
             </Box>
             <Box my={3}>
