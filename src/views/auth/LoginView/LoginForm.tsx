@@ -4,8 +4,12 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, FormHelperText, TextField } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import { useDispatch } from 'react-redux';
+import { loginRequest } from 'store/auth/slice';
 
 export const LoginForm: FC = () => {
+  const dispatch = useDispatch();
+  dispatch(loginRequest());
   return (
     <Formik
       initialValues={{
