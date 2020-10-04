@@ -1,8 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from 'types/users';
 
-type AuthPayload = {
+type SetCurrentUserPayload = {
   user: IUser;
+};
+
+type LoginRequestPayload = {
+  email: string;
+  password: string;
 };
 
 type AuthState = {
@@ -19,19 +24,25 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loginRequest() {},
-    logoutRequest() {},
-    setCurrentUser(state, action: PayloadAction<AuthPayload>) {
+    loginRequestSaga(state, action: PayloadAction<LoginRequestPayload>) {},
+    logoutRequestSaga() {},
+    setCurrentUser(state, action: PayloadAction<SetCurrentUserPayload>) {
       const { user } = action.payload;
       state.isAuthenticated = true;
       state.user = user;
     },
-    logoutUser(state) {
+    removeCurrentUser(state) {
       state.isAuthenticated = false;
       state.user = null;
     }
   }
 });
 
-export const { setCurrentUser, logoutUser, loginRequest } = authSlice.actions;
+export const {
+  setCurrentUser,
+  removeCurrentUser,
+  loginRequestSaga,
+  logoutRequestSaga
+} = authSlice.actions;
+
 export const authSliceReducer = authSlice.reducer;

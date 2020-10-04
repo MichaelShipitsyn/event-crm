@@ -5,11 +5,11 @@ import { Formik } from 'formik';
 import { Box, Button, FormHelperText, TextField } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useDispatch } from 'react-redux';
-import { loginRequest } from 'store/auth/slice';
+import { loginRequestSaga } from 'store/auth/slice';
 
 export const LoginForm: FC = () => {
   const dispatch = useDispatch();
-  dispatch(loginRequest());
+
   return (
     <Formik
       initialValues={{
@@ -24,12 +24,10 @@ export const LoginForm: FC = () => {
           .required('Email is required'),
         password: Yup.string().max(255).required('Password is required')
       })}
-      onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-        try {
-          console.log('send');
-        } catch (err) {
-          console.error(err);
-        }
+      onSubmit={async (values) => {
+        dispatch(
+          loginRequestSaga({ email: values.email, password: values.password })
+        );
       }}
     >
       {({
