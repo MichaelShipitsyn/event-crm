@@ -4,6 +4,10 @@ const setHeaderAuthorization = (token) => {
   request.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 };
 
+const removeHeaderAuthorization = (token) => {
+  delete request.defaults.headers.common['Authorization'];
+};
+
 const login = (email, password) =>
   request.post('/auth/login', {
     email,
@@ -15,5 +19,6 @@ const getUser = () => request.get('/auth/user');
 export const authApi = {
   login,
   getUser,
-  setHeaderAuthorization
+  setHeaderAuthorization,
+  removeHeaderAuthorization
 };

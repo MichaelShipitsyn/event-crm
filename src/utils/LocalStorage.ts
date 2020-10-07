@@ -18,5 +18,9 @@ export const LocalStorage = {
     } catch (error) {
       return undefined;
     }
+  },
+
+  removeItem: (key) => {
+    localStorage.removeItem(key);
   }
 };

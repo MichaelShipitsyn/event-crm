@@ -1,5 +1,11 @@
 import { takeLatest, put } from 'redux-saga/effects';
-import { loginRequestSaga } from 'store/auth/slice';
+import {
+  loginRequestSaga,
+  checkAuthRequestSaga,
+  setCurrentUser,
+  logoutRequestSaga,
+  removeCurrentUser
+} from 'store/auth/slice';
 import { authApi } from 'api/auth';
 import { LocalStorage } from 'utils/LocalStorage';
 import {
@@ -17,6 +23,7 @@ function* loginRequest({ payload }: ReturnType<typeof loginRequestSaga>) {
     yield LocalStorage.setItem('token', response.data.access_token);
     yield authApi.setHeaderAuthorization(response.data.access_token);
     const userData = yield authApi.getUser();
+    yield put(setCurrentUser(userData.data));
     yield LocalStorage.setItem('user', userData.data);
 
     yield put(resetRequestError());
@@ -27,6 +34,23 @@ function* loginRequest({ payload }: ReturnType<typeof loginRequestSaga>) {
   }
 }
 
+function* checkAuthRequest() {
+  const token = LocalStorage.getItem('token');
+  yield authApi.setHeaderAuthorization(token);
+  const userData = yield authApi.getUser();
+  yield put(setCurrentUser(userData.data));
+  yield LocalStorage.setItem('user', userData.data);
+}
+
+function* logoutRequest() {
+  authApi.removeHeaderAuthorization();
+  LocalStorage.removeItem('token');
+  LocalStorage.removeItem('user');
+  yield put(removeCurrentUser());
+}
+
 export function* watchAuthActions() {
   yield takeLatest(loginRequestSaga, loginRequest);
+  yield takeLatest(checkAuthRequestSaga, checkAuthRequest);
+  yield takeLatest(logoutRequestSaga, logoutRequest);
 }

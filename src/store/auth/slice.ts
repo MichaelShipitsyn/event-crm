@@ -25,6 +25,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     loginRequestSaga(state, action: PayloadAction<LoginRequestPayload>) {},
+    checkAuthRequestSaga() {},
     logoutRequestSaga() {},
     setCurrentUser(state, action: PayloadAction<SetCurrentUserPayload>) {
       const { user } = action.payload;
@@ -42,7 +43,8 @@ export const {
   setCurrentUser,
   removeCurrentUser,
   loginRequestSaga,
-  logoutRequestSaga
+  logoutRequestSaga,
+  checkAuthRequestSaga
 } = authSlice.actions;
 
 export const authSliceReducer = authSlice.reducer;

@@ -1,6 +1,7 @@
 import React, { Suspense, Fragment, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { LoadingScreen } from 'components/LoadingScreen';
+import { AuthGuard } from 'components/AuthGuard';
 
 type Routes = {
   exact?: boolean;
@@ -56,6 +57,21 @@ const routes: Routes = [
         default: m.LoginView
       }))
     )
+  },
+  {
+    path: '/app',
+    guard: AuthGuard,
+    routes: [
+      {
+        exact: true,
+        path: '/app/employee',
+        component: lazy(() =>
+          import('views/employee/EmployeeView').then((m) => ({
+            default: m.EmployeeView
+          }))
+        )
+      }
+    ]
   }
 ];
 
