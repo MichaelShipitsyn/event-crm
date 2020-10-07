@@ -6,8 +6,13 @@ import { Box, Button, FormHelperText, TextField } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useDispatch } from 'react-redux';
 import { loginRequestSaga } from 'store/auth/slice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/rootReducer';
 
 export const LoginForm: FC = () => {
+  const requestError = useSelector(
+    (state: RootState) => state.global.requestError
+  );
   const dispatch = useDispatch();
 
   return (
@@ -67,9 +72,9 @@ export const LoginForm: FC = () => {
             value={values.password}
             variant="outlined"
           />
-          {errors.submit && (
+          {requestError && (
             <Box mt={3}>
-              <FormHelperText error>{errors.submit}</FormHelperText>
+              <FormHelperText error>{requestError}</FormHelperText>
             </Box>
           )}
           <Box mt={2}>

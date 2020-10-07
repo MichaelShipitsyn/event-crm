@@ -29,8 +29,9 @@ function* loginRequest({ payload }: ReturnType<typeof loginRequestSaga>) {
     yield put(resetRequestError());
     yield put(stopLoader());
   } catch (error) {
+    const requestError = error.response.data.message;
     yield put(stopLoader());
-    yield put(setRequestError({ error }));
+    yield put(setRequestError({ error: requestError }));
   }
 }
 
