@@ -8,6 +8,7 @@ import {
 } from 'store/auth/slice';
 import { authApi } from 'api/auth';
 import { LocalStorage } from 'utils/LocalStorage';
+import { getErrorMessage } from 'utils/getErrorMessage';
 import {
   setRequestError,
   resetRequestError,
@@ -29,7 +30,7 @@ function* loginRequest({ payload }: ReturnType<typeof loginRequestSaga>) {
     yield put(resetRequestError());
     yield put(stopLoader());
   } catch (error) {
-    const requestError = error.response.data.message;
+    const requestError = getErrorMessage(error);
     yield put(stopLoader());
     yield put(setRequestError({ error: requestError }));
   }
