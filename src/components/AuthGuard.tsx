@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import type { FC, ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAuthRequestSaga } from 'store/auth/slice';
+import { checkAuthRequest } from 'store/auth/slice';
 import { RootState } from 'store/rootReducer';
 import { LoadingScreen } from './LoadingScreen';
 
@@ -17,7 +17,7 @@ export const AuthGuard: FC<AuthGuardProps> = ({ children }) => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      dispatch(checkAuthRequestSaga());
+      dispatch(checkAuthRequest());
     }
   });
 

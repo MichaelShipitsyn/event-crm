@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { Box, Button, FormHelperText, TextField } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useDispatch } from 'react-redux';
-import { loginRequestSaga } from 'store/auth/slice';
+import { loginRequest } from 'store/auth/slice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 
@@ -31,7 +31,7 @@ export const LoginForm: FC = () => {
       })}
       onSubmit={async (values) => {
         dispatch(
-          loginRequestSaga({ email: values.email, password: values.password })
+          loginRequest({ email: values.email, password: values.password })
         );
       }}
     >
