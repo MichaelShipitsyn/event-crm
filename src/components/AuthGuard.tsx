@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import type { FC, ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAuthRequest } from 'store/auth/slice';
+import { checkAuthRequest } from 'store/auth/thunks';
 import { RootState } from 'store/rootReducer';
 import { LoadingScreen } from './LoadingScreen';
 

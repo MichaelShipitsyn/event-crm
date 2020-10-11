@@ -4,7 +4,7 @@ const setHeaderAuthorization = (token) => {
   request.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 };
 
-const removeHeaderAuthorization = (token) => {
+const removeHeaderAuthorization = () => {
   delete request.defaults.headers.common['Authorization'];
 };
 

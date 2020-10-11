@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { Box, Button, FormHelperText, TextField } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useDispatch } from 'react-redux';
-import { loginRequest } from 'store/auth/slice';
+import { loginRequest } from 'store/auth/thunks';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 
