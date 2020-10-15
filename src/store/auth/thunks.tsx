@@ -2,7 +2,7 @@ import type { AppThunk } from 'store';
 import { authApi } from 'api/auth';
 import { LocalStorage } from 'utils/LocalStorage';
 import { getErrorMessage } from 'utils/getErrorMessage';
-import { setCurrentUser, removeCurrentUser } from './slice';
+import { setCurrentUser, removeCurrentUser, setAuthChecked } from './slice';
 import {
   setRequestError,
   resetRequestError,
@@ -40,8 +40,13 @@ export const checkAuthRequest = (): AppThunk => async (dispatch) => {
     const userData = await authApi.getUser();
     dispatch(setCurrentUser(userData.data));
   } catch (error) {
-    authApi.removeHeaderAuthorization();
-    LocalStorage.removeItem('token');
-    dispatch(removeCurrentUser());
+    dispatch(logoutUser());
   }
+  dispatch(setAuthChecked());
+};
+
+export const logoutUser = (): AppThunk => async (dispatch) => {
+  authApi.removeHeaderAuthorization();
+  LocalStorage.removeItem('token');
+  dispatch(removeCurrentUser());
 };

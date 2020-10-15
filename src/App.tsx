@@ -9,6 +9,7 @@ import { jssPreset, StylesProvider, ThemeProvider } from '@material-ui/core';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { GlobalStyles } from 'components/GlobalStyles';
 import { ScrollReset } from 'components/ScrollReset';
+import { AuthProvider } from 'components/AuthProvider';
 import { createTheme } from 'theme';
 import routes, { renderRoutes } from 'routes';
 
@@ -23,11 +24,13 @@ const App: FC = () => {
       <StylesProvider jss={jss}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <SnackbarProvider dense maxSnack={3}>
-            <Router history={history}>
-              <GlobalStyles />
-              <ScrollReset />
-              {renderRoutes(routes)}
-            </Router>
+            <AuthProvider>
+              <Router history={history}>
+                <GlobalStyles />
+                <ScrollReset />
+                {renderRoutes(routes)}
+              </Router>
+            </AuthProvider>
           </SnackbarProvider>
         </MuiPickersUtilsProvider>
       </StylesProvider>
