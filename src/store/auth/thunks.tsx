@@ -23,8 +23,7 @@ export const loginRequest = (payload: LoginRequestPayload): AppThunk => async (
     const response = await authApi.login(payload.email, payload.password);
     LocalStorage.setItem('token', response.data.access_token);
     authApi.setHeaderAuthorization(response.data.access_token);
-    const userData = await authApi.getUser();
-    dispatch(setCurrentUser(userData.data));
+    dispatch(setCurrentUser(response.data.user));
     dispatch(resetRequestError());
     dispatch(stopLoader());
   } catch (error) {
@@ -44,6 +43,5 @@ export const checkAuthRequest = (): AppThunk => async (dispatch) => {
     authApi.removeHeaderAuthorization();
     LocalStorage.removeItem('token');
     dispatch(removeCurrentUser());
-    window.location.href = '/';
   }
 };

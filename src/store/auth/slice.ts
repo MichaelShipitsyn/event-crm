@@ -2,11 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from 'types/users';
 
 type AuthState = {
+  isInitialised: boolean;
   isAuthenticated: boolean;
   user: IUser | null;
 };
 
 let initialState: AuthState = {
+  isInitialised: false,
   isAuthenticated: false,
   user: null
 };
@@ -15,7 +17,8 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCurrentUser(state, action: PayloadAction<IUser>) {
+    initialiseUser(state, action: PayloadAction<IUser>) {
+      state.isInitialised = true;
       state.isAuthenticated = true;
       state.user = action.payload;
     },
@@ -28,4 +31,4 @@ const authSlice = createSlice({
 
 export const authSliceReducer = authSlice.reducer;
 
-export const { setCurrentUser, removeCurrentUser } = authSlice.actions;
+export const { initialiseUser, removeCurrentUser } = authSlice.actions;

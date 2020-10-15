@@ -6,11 +6,11 @@ import { RootState } from 'store/rootReducer';
 import { LoadingScreen } from './LoadingScreen';
 import { Redirect } from 'react-router-dom';
 
-interface AuthGuardProps {
+interface GuestGuardProps {
   children?: ReactNode;
 }
 
-export const AuthGuard: FC<AuthGuardProps> = ({ children }) => {
+export const GuestGuard: FC<GuestGuardProps> = ({ children }) => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
@@ -25,8 +25,8 @@ export const AuthGuard: FC<AuthGuardProps> = ({ children }) => {
     return <LoadingScreen />;
   }
 
-  if (!isAuthenticated) {
-    return <Redirect to="/" />;
+  if (isAuthenticated) {
+    return <Redirect to="/app/employee" />;
   }
 
   return <>{children}</>;
