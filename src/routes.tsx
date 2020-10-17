@@ -1,7 +1,8 @@
 import React, { Suspense, Fragment, lazy } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { LoadingScreen } from 'components/LoadingScreen';
 import { AuthGuard } from 'components/AuthGuard';
+import { GuestGuard } from 'components/GuestGuard';
 
 type Routes = {
   exact?: boolean;
@@ -51,7 +52,8 @@ const routes: Routes = [
   },
   {
     exact: true,
-    path: '/',
+    guard: GuestGuard,
+    path: '/login',
     component: lazy(() =>
       import('views/auth/LoginView').then((m) => ({
         default: m.LoginView
@@ -59,19 +61,28 @@ const routes: Routes = [
     )
   },
   {
-    path: '/app',
+    exact: true,
+    guard: GuestGuard,
+    path: '/register',
+    component: lazy(() =>
+      import('views/auth/RegisterView').then((m) => ({
+        default: m.RegisterView
+      }))
+    )
+  },
+  {
+    exact: true,
     guard: AuthGuard,
-    routes: [
-      {
-        exact: true,
-        path: '/app/employee',
-        component: lazy(() =>
-          import('views/employee/EmployeeView').then((m) => ({
-            default: m.EmployeeView
-          }))
-        )
-      }
-    ]
+    path: '/',
+    component: lazy(() =>
+      import('views/employee/EmployeeView').then((m) => ({
+        default: m.EmployeeView
+      }))
+    )
+  },
+  {
+    path: '*',
+    component: () => <Redirect to="/404" />
   }
 ];
 

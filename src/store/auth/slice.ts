@@ -5,12 +5,16 @@ type AuthState = {
   isAuthChecked: boolean;
   isAuthenticated: boolean;
   user: IUser | null;
+  isLoginRequestLoading: boolean;
+  isRegisterRequestLoading: boolean;
 };
 
 let initialState: AuthState = {
   isAuthChecked: false,
   isAuthenticated: false,
-  user: null
+  user: null,
+  isLoginRequestLoading: false,
+  isRegisterRequestLoading: false
 };
 
 const authSlice = createSlice({
@@ -27,6 +31,12 @@ const authSlice = createSlice({
     },
     setAuthChecked(state) {
       state.isAuthChecked = true;
+    },
+    setLoginRequestLoader(state, action) {
+      state.isLoginRequestLoading = action.payload;
+    },
+    setRegisterRequestLoader(state, action) {
+      state.isRegisterRequestLoading = action.payload;
     }
   }
 });
@@ -36,5 +46,7 @@ export const authSliceReducer = authSlice.reducer;
 export const {
   setCurrentUser,
   removeCurrentUser,
-  setAuthChecked
+  setAuthChecked,
+  setLoginRequestLoader,
+  setRegisterRequestLoader
 } = authSlice.actions;

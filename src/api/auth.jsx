@@ -14,10 +14,19 @@ const login = (email, password) =>
     password
   });
 
+const register = (firstname, lastname, email, password) =>
+  request.post('/auth/register', {
+    firstname,
+    lastname,
+    email,
+    password
+  });
+
 const getUser = () => request.get('/auth/user');
 
 export const authApi = {
   login,
+  register,
   getUser,
   setHeaderAuthorization,
   removeHeaderAuthorization

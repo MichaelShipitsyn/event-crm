@@ -14,7 +14,7 @@ export const GuestGuard: FC<GuestGuardProps> = ({ children }) => {
   );
 
   if (isAuthenticated) {
-    return <Redirect to="/app/employee" />;
+    return <Redirect to="/" />;
   }
 
   return <>{children}</>;

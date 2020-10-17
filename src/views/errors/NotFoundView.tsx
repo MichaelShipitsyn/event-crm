@@ -44,11 +44,7 @@ const NotFoundView: FC = () => {
           variant={mobileDevice ? 'h4' : 'h1'}
           color="textPrimary"
         >
-          404: The page you are looking for isn’t here
-        </Typography>
-        <Typography align="center" variant="subtitle2" color="textSecondary">
-          You either tried some shady route or you came here by mistake.
-          Whichever it is, try using the navigation.
+          404: Страница не найдена
         </Typography>
         <Box mt={6} display="flex" justifyContent="center">
           <img
@@ -64,7 +60,7 @@ const NotFoundView: FC = () => {
             to="/"
             variant="outlined"
           >
-            Back to home
+            Вернуться на главную
           </Button>
         </Box>
       </Container>

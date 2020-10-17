@@ -1,7 +1,7 @@
 import React from 'react';
 import type { FC } from 'react';
 import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { history } from 'libs/history';
 import { create } from 'jss';
 import MomentUtils from '@date-io/moment';
 import { SnackbarProvider } from 'notistack';
@@ -14,7 +14,6 @@ import { createTheme } from 'theme';
 import routes, { renderRoutes } from 'routes';
 
 const jss = create({ plugins: [...jssPreset().plugins] });
-const history = createBrowserHistory();
 
 const App: FC = () => {
   const theme = createTheme();

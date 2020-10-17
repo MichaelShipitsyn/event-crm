@@ -14,7 +14,7 @@ export const AuthGuard: FC<AuthGuardProps> = ({ children }) => {
   );
 
   if (!isAuthenticated) {
-    return <Redirect to="/" />;
+    return <Redirect to="/login" />;
   }
 
   return <>{children}</>;

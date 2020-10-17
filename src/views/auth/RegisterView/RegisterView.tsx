@@ -14,7 +14,7 @@ import {
 import type { Theme } from 'theme';
 import { Page } from 'components/Page';
 import { Logo } from 'components/Logo';
-import { LoginForm } from './LoginForm';
+import { RegisterForm } from './RegisterForm';
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
-export const LoginView: FC = () => {
+export const RegisterView: FC = () => {
   const classes = useStyles();
 
   return (
@@ -58,12 +58,12 @@ export const LoginView: FC = () => {
             >
               <div>
                 <Typography color="textPrimary" gutterBottom variant="h2">
-                  Вход
+                  Регистрация
                 </Typography>
               </div>
             </Box>
             <Box flexGrow={1} mt={1}>
-              <LoginForm />
+              <RegisterForm />
             </Box>
             <Box my={3}>
               <Divider />
@@ -74,7 +74,7 @@ export const LoginView: FC = () => {
               variant="body2"
               color="textSecondary"
             >
-              Зарегистрироваться
+              У меня уже есть аккаунт
             </Link>
           </CardContent>
         </Card>
