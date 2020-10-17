@@ -2,15 +2,40 @@ import React from 'react';
 import type { FC } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { Box, Button, FormHelperText, TextField } from '@material-ui/core';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+  Box,
+  Button,
+  FormHelperText,
+  TextField,
+  CircularProgress
+} from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { loginRequest } from 'store/auth/thunks';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 
+const useStyles = makeStyles((theme) => {
+  return {
+    buttonProgress: {
+      color: theme.palette.success.main,
+      position: 'absolute',
+      top: '50%',
+      right: '15px',
+      marginTop: -12,
+      marginLeft: -12
+    }
+  };
+});
+
 export const LoginForm: FC = () => {
+  const classes = useStyles();
   const requestError = useSelector(
     (state: RootState) => state.global.requestError
+  );
+  const isLoginRequestLoading = useSelector(
+    (state: RootState) => state.auth.isLoginRequestLoading
   );
   const dispatch = useDispatch();
 
@@ -39,7 +64,6 @@ export const LoginForm: FC = () => {
         handleBlur,
         handleChange,
         handleSubmit,
-        isSubmitting,
         touched,
         values
       }) => (
@@ -75,10 +99,10 @@ export const LoginForm: FC = () => {
               <FormHelperText error>{requestError}</FormHelperText>
             </Box>
           )}
-          <Box mt={2}>
+          <Box mt={2} position="relative">
             <Button
               color="secondary"
-              disabled={isSubmitting}
+              disabled={isLoginRequestLoading}
               fullWidth
               size="large"
               type="submit"
@@ -86,6 +110,9 @@ export const LoginForm: FC = () => {
             >
               Войти
             </Button>
+            {isLoginRequestLoading && (
+              <CircularProgress size={24} className={classes.buttonProgress} />
+            )}
           </Box>
         </form>
       )}
