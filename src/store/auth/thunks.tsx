@@ -33,6 +33,7 @@ export const loginRequest = (payload: LoginRequestPayload): AppThunk => async (
     dispatch(setCurrentUser(response.data.user));
     dispatch(resetRequestError());
     dispatch(setLoginRequestLoader(false));
+    history.push('/app/employees');
   } catch (error) {
     const requestError = getErrorMessage(error);
     dispatch(setLoginRequestLoader(false));
@@ -56,7 +57,7 @@ export const registerRequest = (
     dispatch(setCurrentUser(response.data.user));
     dispatch(resetRequestError());
     dispatch(setRegisterRequestLoader(false));
-    history.push('/');
+    history.push('/app/employees');
   } catch (error) {
     const requestError = getErrorMessage(error);
     dispatch(setRegisterRequestLoader(false));

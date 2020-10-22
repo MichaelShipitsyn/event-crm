@@ -4,7 +4,6 @@ import { Router } from 'react-router-dom';
 import { history } from 'libs/history';
 import { create } from 'jss';
 import MomentUtils from '@date-io/moment';
-import { SnackbarProvider } from 'notistack';
 import { jssPreset, StylesProvider, ThemeProvider } from '@material-ui/core';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { GlobalStyles } from 'components/GlobalStyles';
@@ -22,15 +21,13 @@ const App: FC = () => {
     <ThemeProvider theme={theme}>
       <StylesProvider jss={jss}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <SnackbarProvider dense maxSnack={3}>
-            <AuthProvider>
-              <Router history={history}>
-                <GlobalStyles />
-                <ScrollReset />
-                {renderRoutes(routes)}
-              </Router>
-            </AuthProvider>
-          </SnackbarProvider>
+          <AuthProvider>
+            <Router history={history}>
+              <GlobalStyles />
+              <ScrollReset />
+              {renderRoutes(routes)}
+            </Router>
+          </AuthProvider>
         </MuiPickersUtilsProvider>
       </StylesProvider>
     </ThemeProvider>

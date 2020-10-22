@@ -53,7 +53,6 @@
     "jss": "^10.3.0",
     "lodash": "^4.17.19",
     "moment": "^2.27.0",
-    "notistack": "^0.9.17",
     "numeral": "^2.0.6",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",

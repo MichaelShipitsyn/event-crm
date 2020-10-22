@@ -70,7 +70,7 @@ export const RegisterView: FC = () => {
             </Box>
             <Link
               component={RouterLink}
-              to="/register"
+              to="/login"
               variant="body2"
               color="textSecondary"
             >

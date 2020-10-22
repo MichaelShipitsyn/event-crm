@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { LoadingScreen } from 'components/LoadingScreen';
 import { AuthGuard } from 'components/AuthGuard';
 import { GuestGuard } from 'components/GuestGuard';
+import { DashboardLayout } from 'layouts/DashboardLayout';
 
 type Routes = {
   exact?: boolean;
@@ -71,14 +72,28 @@ const routes: Routes = [
     )
   },
   {
-    exact: true,
+    path: '/app',
     guard: AuthGuard,
-    path: '/',
-    component: lazy(() =>
-      import('views/employee/EmployeeView').then((m) => ({
-        default: m.EmployeeView
-      }))
-    )
+    layout: DashboardLayout,
+    routes: [
+      {
+        exact: true,
+        path: '/app/employees',
+        component: lazy(() =>
+          import('views/employee/EmployeeList').then((m) => ({
+            default: m.EmployeeList
+          }))
+        )
+      },
+      {
+        exact: true,
+        path: '/app',
+        component: () => <Redirect to="/app/employees" />
+      },
+      {
+        component: () => <Redirect to="/404" />
+      }
+    ]
   },
   {
     path: '*',
