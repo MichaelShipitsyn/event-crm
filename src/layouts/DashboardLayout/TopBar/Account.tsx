@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { logoutUser } from 'store/auth/thunks';
 import { RootState } from 'store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
+import { getUserFullName } from 'store/auth/selector';
 import {
   Avatar,
   Box,
@@ -34,6 +35,7 @@ export const Account: FC = () => {
   const ref = useRef<any>(null);
   const user = useSelector((state: RootState) => state.auth.user);
   const [isOpen, setOpen] = useState<boolean>(false);
+  const userFullName = useSelector(getUserFullName);
 
   const handleOpen = (): void => {
     setOpen(true);
@@ -61,7 +63,7 @@ export const Account: FC = () => {
         <Avatar alt="User" className={classes.avatar} src={user.avatar} />
         <Hidden smDown>
           <Typography variant="h6" color="inherit">
-            {user.firstname}
+            {userFullName}
           </Typography>
         </Hidden>
       </Box>

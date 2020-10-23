@@ -5,6 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
+import { getUserFullName } from 'store/auth/selector';
 import {
   Avatar,
   Box,
@@ -383,6 +384,7 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
   const user = useSelector((state: RootState) => state.auth.user);
+  const userFullName = useSelector(getUserFullName);
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -414,7 +416,7 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
               color="textPrimary"
               underline="none"
             >
-              {user.firstname}
+              {userFullName}
             </Link>
           </Box>
         </Box>
