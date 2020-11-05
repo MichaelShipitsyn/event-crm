@@ -1,4 +1,4 @@
-import { colors, createMuiTheme, responsiveFontSizes } from '@material-ui/core';
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core';
 import { Theme as MuiTheme } from '@material-ui/core/styles/createMuiTheme';
 import { Shadows as MuiShadows } from '@material-ui/core/styles/shadows';
 import {
@@ -7,6 +7,8 @@ import {
 } from '@material-ui/core/styles/createPalette';
 import { softShadows } from './shadows';
 import typography from './typography';
+import palette from './palette';
+import overrides from './overrides';
 
 interface TypeBackground extends MuiTypeBackground {
   dark: string;
@@ -21,11 +23,9 @@ export interface Theme extends MuiTheme {
   palette: Palette;
 }
 
-type Direction = 'ltr' | 'rtl';
-
 interface ThemeOptions {
   name?: string;
-  direction?: Direction;
+  props?: Record<string, any>;
   typography?: Record<string, any>;
   overrides?: Record<string, any>;
   palette?: Record<string, any>;
@@ -33,55 +33,19 @@ interface ThemeOptions {
 }
 
 const themeOptions: ThemeOptions = {
-  direction: 'ltr',
+  props: {
+    MuiTextField: {
+      InputProps: {
+        notched: false
+      },
+      InputLabelProps: {
+        shrink: true
+      }
+    }
+  },
   typography,
-  overrides: {
-    MuiLinearProgress: {
-      root: {
-        borderRadius: 3,
-        overflow: 'hidden'
-      }
-    },
-    MuiListItemIcon: {
-      root: {
-        minWidth: 32
-      }
-    },
-    MuiChip: {
-      root: {
-        backgroundColor: 'rgba(0,0,0,0.075)'
-      }
-    },
-    MuiInputBase: {
-      input: {
-        '&::placeholder': {
-          opacity: 1,
-          color: colors.blueGrey[600]
-        }
-      }
-    }
-  },
-  palette: {
-    type: 'light',
-    action: {
-      active: colors.blueGrey[600]
-    },
-    background: {
-      default: colors.common.white,
-      dark: '#f4f6f8',
-      paper: colors.common.white
-    },
-    primary: {
-      main: colors.indigo[600]
-    },
-    secondary: {
-      main: '#5850EC'
-    },
-    text: {
-      primary: colors.blueGrey[900],
-      secondary: colors.blueGrey[600]
-    }
-  },
+  overrides,
+  palette,
   shadows: softShadows
 };
 
