@@ -52,11 +52,11 @@ export const Header: FC<HeaderProps> = ({ className, ...rest }) => {
         <Button
           color="secondary"
           variant="contained"
-          startIcon={
+          startIcon={(
             <SvgIcon fontSize="small">
               <PlusCircleIcon />
             </SvgIcon>
-          }
+          )}
         >
           Добавить сотрудника
         </Button>

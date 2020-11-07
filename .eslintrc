@@ -8,6 +8,8 @@
   "plugins": ["prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": "./tsconfig.json",
+    "createDefaultProgram": true,
     "ecmaVersion": 2018,
     "sourceType": "module",
     "ecmaFeatures": {
@@ -27,7 +29,9 @@
     "react/forbid-prop-types": "off",
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "import/prefer-default-export": "off",
+    "react/prop-types": "off"
   },
   "settings": {
     "import/parsers": {

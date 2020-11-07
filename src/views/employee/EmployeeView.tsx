@@ -4,9 +4,9 @@ import { Box, Container, makeStyles } from '@material-ui/core';
 import type { Theme } from 'theme';
 import { Page } from 'components/Page';
 import type { Employee } from 'types/employee';
+import moment from 'moment';
 import { Header } from './Header';
 import { Results } from './Results';
-import moment from 'moment';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
