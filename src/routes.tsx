@@ -80,8 +80,8 @@ const routes: Routes = [
         exact: true,
         path: '/app/employees',
         component: lazy(() =>
-          import('views/employee/EmployeeList').then((m) => ({
-            default: m.EmployeeList
+          import('views/employee/EmployeeView').then((m) => ({
+            default: m.EmployeeView
           }))
         )
       },

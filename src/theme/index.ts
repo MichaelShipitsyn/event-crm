@@ -9,6 +9,7 @@ import { softShadows } from './shadows';
 import typography from './typography';
 import palette from './palette';
 import overrides from './overrides';
+import props from './props';
 
 interface TypeBackground extends MuiTypeBackground {
   dark: string;
@@ -33,16 +34,7 @@ interface ThemeOptions {
 }
 
 const themeOptions: ThemeOptions = {
-  props: {
-    MuiTextField: {
-      InputProps: {
-        notched: false
-      },
-      InputLabelProps: {
-        shrink: true
-      }
-    }
-  },
+  props,
   typography,
   overrides,
   palette,

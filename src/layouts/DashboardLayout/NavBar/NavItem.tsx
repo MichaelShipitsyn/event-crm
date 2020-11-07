@@ -88,10 +88,10 @@ export const NavItem: FC<NavItemProps> = ({
     setOpen((prevOpen) => !prevOpen);
   };
 
-  let paddingLeft = 8;
+  let paddingLeft = 15;
 
   if (depth > 0) {
-    paddingLeft = 32 + 8 * depth;
+    paddingLeft = 32 + 15 * depth;
   }
 
   const style = { paddingLeft };

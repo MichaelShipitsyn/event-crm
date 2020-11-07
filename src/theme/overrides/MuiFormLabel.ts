@@ -9,6 +9,6 @@ export default {
     color: palette.text.primary,
     '&.Mui-error': {
       color: palette.text.primary
-    },
+    }
   }
 };

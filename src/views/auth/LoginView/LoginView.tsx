@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) => {
       minHeight: '100vh'
     },
     cardContainer: {
+      maxWidth: '500px',
       paddingBottom: 80,
       paddingTop: 80
     },
