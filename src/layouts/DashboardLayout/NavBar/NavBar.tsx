@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import type { FC, ReactNode } from 'react';
-import { useLocation, matchPath } from 'react-router-dom';
-import { Link as RouterLink } from 'react-router-dom';
+import { useLocation, matchPath, Link as RouterLink } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
@@ -9,35 +8,14 @@ import { getUserFullName } from 'store/auth/selector';
 import {
   Avatar,
   Box,
-  Chip,
   Divider,
   Drawer,
   Hidden,
   Link,
   List,
-  ListSubheader,
-  Typography,
   makeStyles
 } from '@material-ui/core';
-import ReceiptIcon from '@material-ui/icons/ReceiptOutlined';
 import {
-  Briefcase as BriefcaseIcon,
-  Calendar as CalendarIcon,
-  ShoppingCart as ShoppingCartIcon,
-  Folder as FolderIcon,
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
-  UserPlus as UserPlusIcon,
-  AlertCircle as AlertCircleIcon,
-  Trello as TrelloIcon,
-  User as UserIcon,
-  Layout as LayoutIcon,
-  Edit as EditIcon,
-  DollarSign as DollarSignIcon,
-  Mail as MailIcon,
-  MessageCircle as MessageCircleIcon,
-  PieChart as PieChartIcon,
-  Share2 as ShareIcon,
   Users as UsersIcon
 } from 'react-feather';
 import { Logo } from 'components/Logo';

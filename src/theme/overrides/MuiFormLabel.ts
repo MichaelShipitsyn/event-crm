@@ -1,7 +1,5 @@
 import palette from '../palette';
 
-console.log(palette)
-
 export default {
   root: {
     fontSize: '12px',

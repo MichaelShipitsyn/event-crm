@@ -2,7 +2,6 @@ import React from 'react';
 import type { FC } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Box,
@@ -11,9 +10,8 @@ import {
   TextField,
   CircularProgress
 } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch , useSelector } from 'react-redux';
 import { loginRequest } from 'store/auth/thunks';
-import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 
 const useStyles = makeStyles((theme) => {

@@ -46,7 +46,7 @@ export const Search: FC = () => {
   };
 
   const handleSearch = () => {
-    console.log(handleSearch);
+    console.log('handleSearch');
   };
 
   return (

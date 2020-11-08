@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { Box, Container, makeStyles } from '@material-ui/core';
 import type { Theme } from 'theme';
 import { Page } from 'components/Page';
-import type { Employee } from 'types/employee';
-import moment from 'moment';
+import { User } from 'types/users';
+import { request } from 'libs/request';
 import { Header } from './Header';
 import { Results } from './Results';
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -19,56 +20,27 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const EmployeeView: FC = () => {
   const classes = useStyles();
+  const [employees, setEmployees] = useState<User[]>([]);
 
-  const customers: Employee[] = [
-    {
-      id: '5e887ac47eed253091be10cb',
-      avatar: '/static/images/avatars/avatar_3.png',
-      city: 'Cleveland',
-      country: 'USA',
-      currency: '$',
-      email: 'cao.yu@devias.io',
-      hasAcceptedMarketing: true,
-      isProspect: false,
-      isReturning: true,
-      name: 'Cao Yu',
-      state: 'Ohio',
-      totalAmountSpent: 300.0,
-      totalOrders: 3,
-      updatedAt: moment()
-        .subtract(1, 'days')
-        .subtract(7, 'hours')
-        .toDate()
-        .getTime()
-    },
-    {
-      id: '5e887b209c28ac3dd97f6db5',
-      avatar: '/static/images/avatars/avatar_4.png',
-      city: 'Atlanta',
-      country: 'USA',
-      currency: '$',
-      email: 'alex.richardson@devias.io',
-      hasAcceptedMarketing: true,
-      isProspect: true,
-      isReturning: false,
-      name: 'Alex Richardson',
-      state: 'Georgia',
-      totalAmountSpent: 0.0,
-      totalOrders: 0,
-      updatedAt: moment()
-        .subtract(2, 'days')
-        .subtract(1, 'hours')
-        .toDate()
-        .getTime()
+  const getEmployees = async () => {
+    try {
+      const response = await request.get<{ employees: User[] }>('/employees');
+      setEmployees(response.data.employees);
+    } catch (err) {
+      console.error(err);
     }
-  ];
+  };
+
+  useEffect(() => {
+    getEmployees();
+  }, []);
 
   return (
     <Page className={classes.root} title="Сотрудники">
       <Container maxWidth={false}>
         <Header />
         <Box mt={3}>
-          <Results customers={customers} />
+          <Results employees={employees} />
         </Box>
       </Container>
     </Page>

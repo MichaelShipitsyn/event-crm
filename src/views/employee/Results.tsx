@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { FC, ChangeEvent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import numeral from 'numeral';
+import { getUserFullName } from 'utils/getUserFullName';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
@@ -14,16 +14,14 @@ import {
   InputAdornment,
   Link,
   SvgIcon,
-  Tab,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
-  Tabs,
   TextField,
-  Typography,
+  LinearProgress,
   makeStyles
 } from '@material-ui/core';
 import {
@@ -32,11 +30,11 @@ import {
   Search as SearchIcon
 } from 'react-feather';
 import type { Theme } from 'theme';
-import type { Employee } from 'types/employee';
+import { User } from 'types/users';
 
 interface ResultsProps {
   className?: string;
-  customers: Employee[];
+  employees: User[];
 }
 
 type Sort = 'updatedAt|desc' | 'updatedAt|asc' | 'orders|desc' | 'orders|asc';
@@ -65,88 +63,12 @@ const sortOptions: SortOption[] = [
   }
 ];
 
-const applyFilters = (
-  customers: Employee[],
-  query: string,
-  filters: any
-): Employee[] => {
-  return customers.filter((customer) => {
-    let matches = true;
-
-    if (query) {
-      const properties = ['email', 'name'];
-      let containsQuery = false;
-
-      properties.forEach((property) => {
-        if (customer[property].toLowerCase().includes(query.toLowerCase())) {
-          containsQuery = true;
-        }
-      });
-
-      if (!containsQuery) {
-        matches = false;
-      }
-    }
-
-    Object.keys(filters).forEach((key) => {
-      const value = filters[key];
-
-      if (value && customer[key] !== value) {
-        matches = false;
-      }
-    });
-
-    return matches;
-  });
-};
-
 const applyPagination = (
-  customers: Employee[],
+  employees: User[],
   page: number,
   limit: number
-): Employee[] => {
-  return customers.slice(page * limit, page * limit + limit);
-};
-
-const descendingComparator = (
-  a: Employee,
-  b: Employee,
-  orderBy: string
-): number => {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-
-  return 0;
-};
-
-const getComparator = (order: 'asc' | 'desc', orderBy: string) => {
-  return order === 'desc'
-    ? (a: Employee, b: Employee) => descendingComparator(a, b, orderBy)
-    : (a: Employee, b: Employee) => -descendingComparator(a, b, orderBy);
-};
-
-const applySort = (customers: Employee[], sort: Sort): Employee[] => {
-  const [orderBy, order] = sort.split('|') as [string, 'asc' | 'desc'];
-  const comparator = getComparator(order, orderBy);
-  const stabilizedThis = customers.map((el, index) => [el, index]);
-
-  stabilizedThis.sort((a, b) => {
-    // @ts-ignore
-    const order = comparator(a[0], b[0]);
-
-    if (order !== 0) return order;
-
-    // @ts-ignore
-    return a[1] - b[1];
-  });
-
-  // @ts-ignore
-  return stabilizedThis.map((el) => el[0]);
+): User[] => {
+  return employees.slice(page * limit, page * limit + limit);
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -181,20 +103,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const Results: FC<ResultsProps> = ({
   className,
-  customers,
-  ...rest
+  employees
 }) => {
   const classes = useStyles();
-  const [selectedCustomers, setSelectedCustomers] = useState<string[]>([]);
+  const [selectedEmployees, setSelectedEmployees] = useState<number[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
   const [query, setQuery] = useState<string>('');
   const [sort, setSort] = useState<Sort>(sortOptions[0].value);
-  const [filters, setFilters] = useState<any>({
-    hasAcceptedMarketing: null,
-    isProspect: null,
-    isReturning: null
-  });
 
   const handleQueryChange = (event: ChangeEvent<HTMLInputElement>): void => {
     event.persist();
@@ -206,23 +122,27 @@ export const Results: FC<ResultsProps> = ({
     setSort(event.target.value as Sort);
   };
 
-  const handleSelectAllCustomers = (
+  const handleSelectAllEmployees = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedCustomers(
-      event.target.checked ? customers.map((customer) => customer.id) : []
+    setSelectedEmployees(
+      event.target.checked ? employees.map((employee) => employee.id) : []
     );
   };
 
-  const handleSelectOneCustomer = (
+  const handleSearch = (): void => {
+    console.log(query);
+  };
+
+  const handleSelectOneEmployee = (
     event: ChangeEvent<HTMLInputElement>,
-    customerId: string
+    employeeId: number
   ): void => {
-    if (!selectedCustomers.includes(customerId)) {
-      setSelectedCustomers((prevSelected) => [...prevSelected, customerId]);
+    if (!selectedEmployees.includes(employeeId)) {
+      setSelectedEmployees((prevSelected) => [...prevSelected, employeeId]);
     } else {
-      setSelectedCustomers((prevSelected) =>
-        prevSelected.filter((id) => id !== customerId)
+      setSelectedEmployees((prevSelected) =>
+        prevSelected.filter((id) => id !== employeeId)
       );
     }
   };
@@ -235,16 +155,14 @@ export const Results: FC<ResultsProps> = ({
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredCustomers = applyFilters(customers, query, filters);
-  const sortedCustomers = applySort(filteredCustomers, sort);
-  const paginatedCustomers = applyPagination(sortedCustomers, page, limit);
-  const enableBulkOperations = selectedCustomers.length > 0;
-  const selectedSomeCustomers =
-    selectedCustomers.length > 0 && selectedCustomers.length < customers.length;
-  const selectedAllCustomers = selectedCustomers.length === customers.length;
+  const paginatedEmployees = applyPagination(employees, page, limit);
+  const enableBulkOperations = selectedEmployees.length > 0;
+  const selectedSomeEmployees =
+    selectedEmployees.length > 0 && selectedEmployees.length < employees.length;
+  const selectedAllEmployees = selectedEmployees.length === employees.length;
 
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card className={clsx(classes.root, className)}>
       <Box p={2} minHeight={56} display="flex" alignItems="center">
         <TextField
           label="Выбрать:"
@@ -278,7 +196,7 @@ export const Results: FC<ResultsProps> = ({
           value={query}
           variant="outlined"
         />
-        <Button className={classes.searchButton} variant="outlined">
+        <Button className={classes.searchButton} variant="outlined" onClick={handleSearch}>
           Поиск
         </Button>
       </Box>
@@ -286,9 +204,9 @@ export const Results: FC<ResultsProps> = ({
         <div className={classes.bulkOperations}>
           <div className={classes.bulkActions}>
             <Checkbox
-              checked={selectedAllCustomers}
-              indeterminate={selectedSomeCustomers}
-              onChange={handleSelectAllCustomers}
+              checked={selectedAllEmployees}
+              indeterminate={selectedSomeEmployees}
+              onChange={handleSelectAllEmployees}
             />
             <Button variant="outlined" className={classes.bulkAction}>
               Удалить
@@ -298,80 +216,74 @@ export const Results: FC<ResultsProps> = ({
       )}
       <PerfectScrollbar>
         <Box minWidth={700}>
+          <LinearProgress />
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedAllCustomers}
-                    indeterminate={selectedSomeCustomers}
-                    onChange={handleSelectAllCustomers}
+                    checked={selectedAllEmployees}
+                    indeterminate={selectedSomeEmployees}
+                    onChange={handleSelectAllEmployees}
                   />
                 </TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Location</TableCell>
-                <TableCell>Orders</TableCell>
-                <TableCell>Spent</TableCell>
-                <TableCell align="right">Actions</TableCell>
+                <TableCell>Имя</TableCell>
+                <TableCell>Электронная почта</TableCell>
+                <TableCell>Телефон</TableCell>
+                <TableCell>Уровень доступа</TableCell>
+                <TableCell align="right">Действия</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedCustomers.map((customer) => {
-                const isCustomerSelected = selectedCustomers.includes(
-                  customer.id
+              {paginatedEmployees.map((employee) => {
+                const isEmployeeSelected = selectedEmployees.includes(
+                  employee.id
                 );
 
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
-                    selected={isCustomerSelected}
+                    key={employee.id}
+                    selected={isEmployeeSelected}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
-                        checked={isCustomerSelected}
+                        checked={isEmployeeSelected}
                         onChange={(event) =>
-                          handleSelectOneCustomer(event, customer.id)
-                        }
-                        value={isCustomerSelected}
+                          handleSelectOneEmployee(event, employee.id)}
+                        value={isEmployeeSelected}
                       />
                     </TableCell>
                     <TableCell>
                       <Box display="flex" alignItems="center">
                         <Avatar
                           className={classes.avatar}
-                          src={customer.avatar}
-                        >
-                          {customer.name}
-                        </Avatar>
+                          src={employee.avatar}
+                          alt={employee.firstname}
+                        />
                         <div>
                           <Link
                             color="inherit"
                             component={RouterLink}
-                            to="/app/management/customers/1"
+                            to="/app/management/employees/1"
                             variant="h6"
                           >
-                            {customer.name}
+                            {getUserFullName(employee)}
                           </Link>
-                          <Typography variant="body2" color="textSecondary">
-                            {customer.email}
-                          </Typography>
                         </div>
                       </Box>
                     </TableCell>
                     <TableCell>
-                      {`${customer.city}, ${customer.state}, ${customer.country}`}
+                      {employee.email}
                     </TableCell>
-                    <TableCell>{customer.totalOrders}</TableCell>
+                    <TableCell>{employee.phone}</TableCell>
                     <TableCell>
-                      {numeral(customer.totalAmountSpent).format(
-                        `${customer.currency}0,0.00`
-                      )}
+                      {employee.is_admin ? 'Администратор' : 'Сотрудник'}
                     </TableCell>
                     <TableCell align="right">
                       <IconButton
                         component={RouterLink}
-                        to="/app/management/customers/1/edit"
+                        to="/app/management/employees/1/edit"
                       >
                         <SvgIcon fontSize="small">
                           <EditIcon />
@@ -379,7 +291,7 @@ export const Results: FC<ResultsProps> = ({
                       </IconButton>
                       <IconButton
                         component={RouterLink}
-                        to="/app/management/customers/1"
+                        to="/app/management/employees/1"
                       >
                         <SvgIcon fontSize="small">
                           <ArrowRightIcon />
@@ -395,7 +307,7 @@ export const Results: FC<ResultsProps> = ({
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={filteredCustomers.length}
+        count={employees.length}
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handleLimitChange}
         page={page}
