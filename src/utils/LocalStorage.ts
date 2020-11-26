@@ -1,5 +1,5 @@
 export const LocalStorage = {
-  getItem: (key) => {
+  getItem: (key: string) => {
     try {
       const serializedState = localStorage.getItem(key);
       if (serializedState === null) {
@@ -11,7 +11,7 @@ export const LocalStorage = {
     }
   },
 
-  setItem: (keyName, keyValue) => {
+  setItem: (keyName: string, keyValue: string) => {
     try {
       localStorage.setItem(keyName, JSON.stringify(keyValue));
       return true;
@@ -20,7 +20,7 @@ export const LocalStorage = {
     }
   },
 
-  removeItem: (key) => {
+  removeItem: (key: string) => {
     localStorage.removeItem(key);
   }
 };

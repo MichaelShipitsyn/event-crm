@@ -46,7 +46,7 @@ const sections: Section[] = [
       {
         title: 'Сотрудники',
         icon: UsersIcon,
-        href: '/app/reports/dashboard'
+        href: '/app/employees'
       }
     ]
   }
@@ -168,7 +168,7 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
         <Box p={2}>
           <Box display="flex" justifyContent="center">
             <RouterLink to="/app/account">
-              <Avatar alt="User" className={classes.avatar} src={user.avatar} />
+              <Avatar alt="User" className={classes.avatar} src={user?.avatar} />
             </RouterLink>
           </Box>
           <Box mt={2} textAlign="center">

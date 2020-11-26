@@ -8,7 +8,7 @@ type InitialState = {
   requestError: string | null;
 };
 
-let initialState: InitialState = {
+const initialState: InitialState = {
   requestError: null
 };
 

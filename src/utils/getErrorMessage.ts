@@ -1,4 +1,4 @@
-export const getErrorMessage = (error) => {
+export const getErrorMessage = (error: any) => {
   if(!error.response || error.response.status === 500) {
     return 'Ошибка сервера. Свяжитесь с администрацией сайта';
   }

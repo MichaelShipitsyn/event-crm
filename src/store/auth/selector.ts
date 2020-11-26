@@ -1,3 +1,5 @@
-export const getUserFullName = (state) => {
-  return `${state.auth.user.firstname} ${state.auth.user.lastname}`;
+import { RootState } from 'store/rootReducer';
+
+export const getUserFullName = (state: RootState) => {
+  return `${state.auth.user?.firstname} ${state.auth.user?.lastname}`;
 };

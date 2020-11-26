@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import type { FC } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { logoutUser } from 'store/auth/thunks';
 import { RootState } from 'store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -60,7 +59,7 @@ export const Account: FC = () => {
         // @ts-ignore
         ref={ref}
       >
-        <Avatar alt="User" className={classes.avatar} src={user.avatar} />
+        <Avatar alt="User" className={classes.avatar} src={user?.avatar} />
         <Hidden smDown>
           <Typography variant="h6" color="inherit">
             {userFullName}

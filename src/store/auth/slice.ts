@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'types/users';
 
-type AuthState = {
+export type AuthState = {
   isAuthChecked: boolean;
   isAuthenticated: boolean;
   user: User | null;
@@ -30,6 +30,7 @@ const authSlice = createSlice({
       state.user = null;
     },
     setAuthChecked(state) {
+      // eslint-disable-next-line no-param-reassign
       state.isAuthChecked = true;
     },
     setLoginRequestLoader(state, action) {

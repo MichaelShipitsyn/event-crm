@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { FC, ReactNode } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink, LinkProps as RouterLinkProps} from 'react-router-dom';
 import clsx from 'clsx';
 import { Button, Collapse, ListItem, makeStyles } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -82,7 +82,7 @@ export const NavItem: FC<NavItemProps> = ({
   ...rest
 }) => {
   const classes = useStyles();
-  const [open, setOpen] = useState<boolean>(openProp);
+  const [open, setOpen] = useState<boolean>(!!openProp);
 
   const handleToggle = (): void => {
     setOpen((prevOpen) => !prevOpen);
@@ -114,6 +114,10 @@ export const NavItem: FC<NavItemProps> = ({
     );
   }
 
+  const LinkBehavior = React.forwardRef<any, Omit<RouterLinkProps, 'to'>>((props, ref) => (
+    <RouterLink ref={ref} exact to={href || ''} activeClassName={classes.active} {...props} />
+  ));
+
   return (
     <ListItem
       className={clsx(classes.itemLeaf, className)}
@@ -122,12 +126,9 @@ export const NavItem: FC<NavItemProps> = ({
       {...rest}
     >
       <Button
-        activeClassName={classes.active}
+        component={LinkBehavior}
         className={clsx(classes.buttonLeaf, `depth-${depth}`)}
-        component={RouterLink}
-        exact
         style={style}
-        to={href}
       >
         {Icon && <Icon className={classes.icon} size="20" />}
         <span className={classes.title}>{title}</span>

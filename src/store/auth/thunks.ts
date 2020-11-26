@@ -3,12 +3,12 @@ import { authApi } from 'api/auth';
 import { history } from 'libs/history';
 import { LocalStorage } from 'utils/LocalStorage';
 import { getErrorMessage } from 'utils/getErrorMessage';
-import { setCurrentUser, removeCurrentUser, setAuthChecked } from './slice';
 import { setRequestError, resetRequestError } from 'store/global/slice';
 import {
   setLoginRequestLoader,
   setRegisterRequestLoader
 } from 'store/auth/slice';
+import { setCurrentUser, removeCurrentUser, setAuthChecked } from './slice';
 
 type LoginRequestPayload = {
   email: string;
