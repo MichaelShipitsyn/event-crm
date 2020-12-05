@@ -3,11 +3,12 @@ import type { FC } from 'react';
 import { Box, Container, makeStyles } from '@material-ui/core';
 import type { Theme } from 'theme';
 import { Page } from 'components/Page';
-import { User } from 'types/users';
-import { request } from 'libs/request';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchEmployees } from 'store/employee/thunks';
+import { RootState } from 'store/rootReducer';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { Header } from './Header';
 import { Results } from './Results';
-
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -20,20 +21,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const EmployeeView: FC = () => {
   const classes = useStyles();
-  const [employees, setEmployees] = useState<User[]>([]);
 
-  const getEmployees = async () => {
-    try {
-      const response = await request.get<{ employees: User[] }>('/employees');
-      setEmployees(response.data.employees);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const dispatch = useDispatch();
+  const employees = useSelector(
+    (state: RootState) => state.employee.employees
+  );
 
-  useEffect(() => {
-    getEmployees();
-  }, []);
+  useEffect( () => {
+    dispatch(fetchEmployees());
+  }, [dispatch]);
 
   return (
     <Page className={classes.root} title="Сотрудники">
