@@ -11,6 +11,4 @@ const rootReducer = combineReducers({
   employee: employeeSliceReducer
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
-
 export default rootReducer;

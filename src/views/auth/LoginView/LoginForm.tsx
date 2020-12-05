@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from 'store/auth/thunks';
-import { RootState } from 'store/rootReducer';
+import { RootState } from 'store';
 
 const useStyles = makeStyles((theme) => {
   return {

@@ -6,7 +6,7 @@ import { Box, Button, FormHelperText, TextField } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { registerRequest } from 'store/auth/thunks';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store/rootReducer';
+import { RootState } from 'store';
 
 export const RegisterForm: FC = () => {
   const requestError = useSelector(

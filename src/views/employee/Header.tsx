@@ -1,22 +1,13 @@
 import React from 'react';
 import type { FC } from 'react';
-import {
-  Button,
-  Grid,
-  SvgIcon,
-  Typography,
-} from '@material-ui/core';
-import {
-  PlusCircle as PlusCircleIcon
-} from 'react-feather';
+import { Button, Grid, SvgIcon, Typography } from '@material-ui/core';
+import { PlusCircle as PlusCircleIcon } from 'react-feather';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 export const Header: FC = () => {
   return (
-    <Grid
-      container
-      justify="space-between"
-      spacing={3}
-    >
+    <Grid container justify="space-between" spacing={3}>
       <Grid item>
         <Typography variant="h3" color="textPrimary">
           Сотрудники
@@ -26,11 +17,11 @@ export const Header: FC = () => {
         <Button
           color="secondary"
           variant="contained"
-          startIcon={(
+          startIcon={
             <SvgIcon fontSize="small">
               <PlusCircleIcon />
             </SvgIcon>
-          )}
+          }
         >
           Добавить сотрудника
         </Button>

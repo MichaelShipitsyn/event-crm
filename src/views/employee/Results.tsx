@@ -31,6 +31,8 @@ import {
 } from 'react-feather';
 import type { Theme } from 'theme';
 import { User } from 'types/users';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 interface ResultsProps {
   className?: string;
@@ -101,16 +103,17 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export const Results: FC<ResultsProps> = ({
-  className,
-  employees
-}) => {
+export const Results: FC<ResultsProps> = ({ className, employees }) => {
   const classes = useStyles();
   const [selectedEmployees, setSelectedEmployees] = useState<number[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
   const [query, setQuery] = useState<string>('');
   const [sort, setSort] = useState<Sort>(sortOptions[0].value);
+
+  const statusEmployeesFetch = useSelector(
+    (state: RootState) => state.employee.status
+  );
 
   const handleQueryChange = (event: ChangeEvent<HTMLInputElement>): void => {
     event.persist();
@@ -152,7 +155,7 @@ export const Results: FC<ResultsProps> = ({
   };
 
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLimit(parseInt(event.target.value));
+    setLimit(Number(event.target.value));
   };
 
   const paginatedEmployees = applyPagination(employees, page, limit);
@@ -196,7 +199,11 @@ export const Results: FC<ResultsProps> = ({
           value={query}
           variant="outlined"
         />
-        <Button className={classes.searchButton} variant="outlined" onClick={handleSearch}>
+        <Button
+          className={classes.searchButton}
+          variant="outlined"
+          onClick={handleSearch}
+        >
           Поиск
         </Button>
       </Box>
@@ -216,7 +223,7 @@ export const Results: FC<ResultsProps> = ({
       )}
       <PerfectScrollbar>
         <Box minWidth={700}>
-          <LinearProgress />
+          {statusEmployeesFetch === 'loading' && <LinearProgress />}
           <Table>
             <TableHead>
               <TableRow>
@@ -250,7 +257,8 @@ export const Results: FC<ResultsProps> = ({
                       <Checkbox
                         checked={isEmployeeSelected}
                         onChange={(event) =>
-                          handleSelectOneEmployee(event, employee.id)}
+                          handleSelectOneEmployee(event, employee.id)
+                        }
                         value={isEmployeeSelected}
                       />
                     </TableCell>
@@ -273,9 +281,7 @@ export const Results: FC<ResultsProps> = ({
                         </div>
                       </Box>
                     </TableCell>
-                    <TableCell>
-                      {employee.email}
-                    </TableCell>
+                    <TableCell>{employee.email}</TableCell>
                     <TableCell>{employee.phone}</TableCell>
                     <TableCell>
                       {employee.is_admin ? 'Администратор' : 'Сотрудник'}

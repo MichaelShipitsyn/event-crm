@@ -1,8 +1,11 @@
-import type { AppThunk } from 'store';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { employeeApi } from 'api/employee';
-import { setEmployees } from './slice';
+import { getCache } from 'store/cache/selector';
 
-export const fetchEmployees = (): AppThunk => async (dispatch) => {
-  const employees = await employeeApi.getEmployees();
-  dispatch(setEmployees(employees));
-};
+export const fetchEmployees = createAsyncThunk(
+  'employee/fetchEmployees',
+  async (dispatch, { getState }) => {
+    const cache: string[] = getCache(getState());
+    return await employeeApi.getEmployees({ cache });
+  }
+);

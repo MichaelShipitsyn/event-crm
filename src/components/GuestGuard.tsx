@@ -1,7 +1,7 @@
 import React from 'react';
 import type { FC, ReactNode } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store/rootReducer';
+import { RootState } from 'store';
 import { Redirect } from 'react-router-dom';
 
 interface GuestGuardProps {

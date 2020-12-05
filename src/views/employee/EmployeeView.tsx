@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import type { FC } from 'react';
 import { Box, Container, makeStyles } from '@material-ui/core';
 import type { Theme } from 'theme';
 import { Page } from 'components/Page';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEmployees } from 'store/employee/thunks';
-import { RootState } from 'store/rootReducer';
-import { unwrapResult } from '@reduxjs/toolkit';
+import { RootState } from 'store';
 import { Header } from './Header';
 import { Results } from './Results';
 
@@ -23,11 +22,9 @@ export const EmployeeView: FC = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const employees = useSelector(
-    (state: RootState) => state.employee.employees
-  );
+  const employees = useSelector((state: RootState) => state.employee.employees);
 
-  useEffect( () => {
+  useEffect(() => {
     dispatch(fetchEmployees());
   }, [dispatch]);
 

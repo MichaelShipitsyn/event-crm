@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import type { FC } from 'react';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { logoutUser } from 'store/auth/thunks';
-import { RootState } from 'store/rootReducer';
+import { RootState } from 'store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserFullName } from 'store/auth/selector';
 import {

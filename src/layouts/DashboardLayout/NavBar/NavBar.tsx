@@ -3,7 +3,7 @@ import type { FC, ReactNode } from 'react';
 import { useLocation, matchPath, Link as RouterLink } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store/rootReducer';
+import { RootState } from 'store';
 import { getUserFullName } from 'store/auth/selector';
 import {
   Avatar,
@@ -15,9 +15,7 @@ import {
   List,
   makeStyles
 } from '@material-ui/core';
-import {
-  Users as UsersIcon
-} from 'react-feather';
+import { Users as UsersIcon } from 'react-feather';
 import { Logo } from 'components/Logo';
 import { NavItem } from './NavItem';
 
@@ -168,7 +166,11 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
         <Box p={2}>
           <Box display="flex" justifyContent="center">
             <RouterLink to="/app/account">
-              <Avatar alt="User" className={classes.avatar} src={user?.avatar} />
+              <Avatar
+                alt="User"
+                className={classes.avatar}
+                src={user?.avatar}
+              />
             </RouterLink>
           </Box>
           <Box mt={2} textAlign="center">
