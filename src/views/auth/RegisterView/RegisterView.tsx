@@ -12,8 +12,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import type { Theme } from 'theme';
-import { Page } from 'components/Page';
-import { Logo } from 'components/Logo';
+import { Page, Logo } from 'components';
 import { RegisterForm } from './RegisterForm';
 
 const useStyles = makeStyles((theme: Theme) => {
