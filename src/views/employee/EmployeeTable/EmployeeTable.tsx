@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import type { FC, ChangeEvent } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { fetchEmployees } from 'store/employee/thunks';
-import { SkeletonWrap } from 'components';
 import {
-  Avatar,
-  Box,
   Button,
   Card,
   Checkbox,
-  IconButton,
-  Link,
-  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -25,9 +18,8 @@ import {
   makeStyles,
   TableContainer
 } from '@material-ui/core';
-import { Edit as EditIcon, ArrowRight as ArrowRightIcon } from 'react-feather';
 import type { Theme } from 'theme';
-import { getUserFullName } from 'utils/getUserFullName';
+import { EmployeesList } from './EmployeesList';
 import { TableFilters } from './TableFilters';
 
 interface EmployeeTableProps {
@@ -70,10 +62,6 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
 
-  const isEmployeesFetchLoading = useSelector(
-    (state: RootState) => state.employee.isEmployeesFetchLoading
-  );
-
   const dispatch = useDispatch();
   const { employees, totalEmployeesPages } = useSelector(
     (state: RootState) => state.employee
@@ -99,6 +87,7 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
     event: ChangeEvent<HTMLInputElement>,
     employeeId: number
   ): void => {
+    console.log(employeeId);
     if (!selectedEmployees.includes(employeeId)) {
       setSelectedEmployees((prevSelected) => [...prevSelected, employeeId]);
     } else {
@@ -154,85 +143,11 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {employees.map((employee) => {
-              const isEmployeeSelected = selectedEmployees.includes(
-                employee.id
-              );
-
-              return (
-                <TableRow hover key={employee.id} selected={isEmployeeSelected}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={isEmployeeSelected}
-                      onChange={(event) =>
-                        handleSelectOneEmployee(event, employee.id)
-                      }
-                      value={isEmployeeSelected}
-                    />
-                  </TableCell>
-                  <TableCell
-                    classes={{
-                      root: classes.tableCell
-                    }}
-                  >
-                    <SkeletonWrap isLoading={isEmployeesFetchLoading}>
-                      <Box display="flex" alignItems="center">
-                        <Avatar
-                          className={classes.avatar}
-                          src={employee.avatar}
-                          alt={employee.firstname}
-                        />
-                        <div>
-                          <Link
-                            color="inherit"
-                            component={RouterLink}
-                            to="/app/management/employees/1"
-                            variant="h6"
-                          >
-                            {getUserFullName(employee)}
-                          </Link>
-                        </div>
-                      </Box>
-                    </SkeletonWrap>
-                  </TableCell>
-                  <TableCell>
-                    <SkeletonWrap isLoading={isEmployeesFetchLoading}>
-                      {employee.email}
-                    </SkeletonWrap>
-                  </TableCell>
-                  <TableCell>
-                    <SkeletonWrap isLoading={isEmployeesFetchLoading}>
-                      {employee.phone}
-                    </SkeletonWrap>
-                  </TableCell>
-                  <TableCell>
-                    <SkeletonWrap isLoading={isEmployeesFetchLoading}>
-                      {employee.is_admin ? 'Администратор' : 'Сотрудник'}
-                    </SkeletonWrap>
-                  </TableCell>
-                  <TableCell align="right">
-                    <SkeletonWrap isLoading={isEmployeesFetchLoading}>
-                      <IconButton
-                        component={RouterLink}
-                        to="/app/management/employees/1/edit"
-                      >
-                        <SvgIcon fontSize="small">
-                          <EditIcon />
-                        </SvgIcon>
-                      </IconButton>
-                      <IconButton
-                        component={RouterLink}
-                        to="/app/management/employees/1"
-                      >
-                        <SvgIcon fontSize="small">
-                          <ArrowRightIcon />
-                        </SvgIcon>
-                      </IconButton>
-                    </SkeletonWrap>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            <EmployeesList
+              selectedEmployees={selectedEmployees}
+              employees={employees}
+              handleSelectOneEmployee={handleSelectOneEmployee}
+            />
           </TableBody>
         </Table>
       </TableContainer>
