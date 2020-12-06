@@ -3,6 +3,7 @@ import { User } from 'types/users';
 
 type GetEmployeesParams = {
   page: number;
+  limit: number;
 };
 
 export type GetEmployeesResult = {
@@ -11,10 +12,11 @@ export type GetEmployeesResult = {
 };
 
 const getEmployees = async ({
-  page
+  page,
+  limit
 }: GetEmployeesParams): Promise<GetEmployeesResult> => {
   const employeesResponse = await request.get<GetEmployeesResult>(
-    `/employees?page=${page}`
+    `/employees?page=${page}&limit=${limit}`
   );
   return {
     employees: employeesResponse.data.employees,

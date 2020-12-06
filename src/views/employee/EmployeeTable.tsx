@@ -110,8 +110,8 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
 
   useEffect(() => {
     console.log(page);
-    dispatch(fetchEmployees(page + 1));
-  }, [dispatch, page]);
+    dispatch(fetchEmployees({ page: page + 1, limit }));
+  }, [dispatch, page, limit]);
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
@@ -318,7 +318,7 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handleLimitChange}
         page={page}
-        rowsPerPage={10}
+        rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
     </Card>
