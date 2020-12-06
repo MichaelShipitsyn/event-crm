@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import type { FC, ChangeEvent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import { getUserFullName } from 'utils/getUserFullName';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { fetchEmployees } from 'store/employee/thunks';
+import { SkeletonWrap } from 'components';
 import {
   Avatar,
   Box,
@@ -34,7 +33,7 @@ import {
   Search as SearchIcon
 } from 'react-feather';
 import type { Theme } from 'theme';
-import { User } from 'types/users';
+import { getUserFullName } from 'utils/getUserFullName';
 
 interface EmployeeTableProps {
   className?: string;
@@ -263,46 +262,70 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
                     />
                   </TableCell>
                   <TableCell>
-                    <Box display="flex" alignItems="center">
-                      <Avatar
-                        className={classes.avatar}
-                        src={employee.avatar}
-                        alt={employee.firstname}
-                      />
-                      <div>
-                        <Link
-                          color="inherit"
-                          component={RouterLink}
-                          to="/app/management/employees/1"
-                          variant="h6"
-                        >
-                          {getUserFullName(employee)}
-                        </Link>
-                      </div>
-                    </Box>
+                    <SkeletonWrap
+                      isLoading={statusEmployeesFetch === 'loading'}
+                    >
+                      <Box display="flex" alignItems="center">
+                        <Avatar
+                          className={classes.avatar}
+                          src={employee.avatar}
+                          alt={employee.firstname}
+                        />
+                        <div>
+                          <Link
+                            color="inherit"
+                            component={RouterLink}
+                            to="/app/management/employees/1"
+                            variant="h6"
+                          >
+                            {getUserFullName(employee)}
+                          </Link>
+                        </div>
+                      </Box>
+                    </SkeletonWrap>
                   </TableCell>
-                  <TableCell>{employee.email}</TableCell>
-                  <TableCell>{employee.phone}</TableCell>
                   <TableCell>
-                    {employee.is_admin ? 'Администратор' : 'Сотрудник'}
+                    <SkeletonWrap
+                      isLoading={statusEmployeesFetch === 'loading'}
+                    >
+                      {employee.email}
+                    </SkeletonWrap>
+                  </TableCell>
+                  <TableCell>
+                    <SkeletonWrap
+                      isLoading={statusEmployeesFetch === 'loading'}
+                    >
+                      {employee.phone}
+                    </SkeletonWrap>
+                  </TableCell>
+                  <TableCell>
+                    <SkeletonWrap
+                      isLoading={statusEmployeesFetch === 'loading'}
+                    >
+                      {employee.is_admin ? 'Администратор' : 'Сотрудник'}
+                    </SkeletonWrap>
                   </TableCell>
                   <TableCell align="right">
-                    <IconButton
-                      component={RouterLink}
-                      to="/app/management/employees/1/edit"
+                    <SkeletonWrap
+                      isLoading={statusEmployeesFetch === 'loading'}
                     >
-                      <SvgIcon fontSize="small">
-                        <EditIcon />
-                      </SvgIcon>
-                    </IconButton>
-                    <IconButton
-                      component={RouterLink}
-                      to="/app/management/employees/1"
-                    >
-                      <SvgIcon fontSize="small">
-                        <ArrowRightIcon />
-                      </SvgIcon>
-                    </IconButton>
+                      <IconButton
+                        component={RouterLink}
+                        to="/app/management/employees/1/edit"
+                      >
+                        <SvgIcon fontSize="small">
+                          <EditIcon />
+                        </SvgIcon>
+                      </IconButton>
+                      <IconButton
+                        component={RouterLink}
+                        to="/app/management/employees/1"
+                      >
+                        <SvgIcon fontSize="small">
+                          <ArrowRightIcon />
+                        </SvgIcon>
+                      </IconButton>
+                    </SkeletonWrap>
                   </TableCell>
                 </TableRow>
               );
