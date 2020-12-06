@@ -4,3 +4,4 @@ export { Logo } from './Logo';
 export { Page } from './Page';
 export { ScrollReset } from './ScrollReset';
 export { SkeletonWrap } from './SkeletonWrap';
+export { TableSelectedBar } from './TableSelectedBar';
