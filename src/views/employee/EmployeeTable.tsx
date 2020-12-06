@@ -25,7 +25,8 @@ import {
   TableRow,
   TextField,
   LinearProgress,
-  makeStyles
+  makeStyles,
+  TableContainer
 } from '@material-ui/core';
 import {
   Edit as EditIcon,
@@ -92,6 +93,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   searchButton: {
     marginLeft: '10px'
+  },
+  container: {
+    maxHeight: 440
   }
 }));
 
@@ -222,96 +226,90 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
           </div>
         </div>
       )}
-      <PerfectScrollbar>
-        <Box minWidth={700}>
-          {statusEmployeesFetch === 'loading' && <LinearProgress />}
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedAllEmployees}
-                    indeterminate={selectedSomeEmployees}
-                    onChange={handleSelectAllEmployees}
-                  />
-                </TableCell>
-                <TableCell>Имя</TableCell>
-                <TableCell>Электронная почта</TableCell>
-                <TableCell>Телефон</TableCell>
-                <TableCell>Уровень доступа</TableCell>
-                <TableCell align="right">Действия</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {employees.map((employee) => {
-                const isEmployeeSelected = selectedEmployees.includes(
-                  employee.id
-                );
+      <TableContainer className={classes.container}>
+        {statusEmployeesFetch === 'loading' && <LinearProgress />}
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell padding="checkbox">
+                <Checkbox
+                  checked={selectedAllEmployees}
+                  indeterminate={selectedSomeEmployees}
+                  onChange={handleSelectAllEmployees}
+                />
+              </TableCell>
+              <TableCell>Имя</TableCell>
+              <TableCell>Электронная почта</TableCell>
+              <TableCell>Телефон</TableCell>
+              <TableCell>Уровень доступа</TableCell>
+              <TableCell align="right">Действия</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {employees.map((employee) => {
+              const isEmployeeSelected = selectedEmployees.includes(
+                employee.id
+              );
 
-                return (
-                  <TableRow
-                    hover
-                    key={employee.id}
-                    selected={isEmployeeSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isEmployeeSelected}
-                        onChange={(event) =>
-                          handleSelectOneEmployee(event, employee.id)
-                        }
-                        value={isEmployeeSelected}
+              return (
+                <TableRow hover key={employee.id} selected={isEmployeeSelected}>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={isEmployeeSelected}
+                      onChange={(event) =>
+                        handleSelectOneEmployee(event, employee.id)
+                      }
+                      value={isEmployeeSelected}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Box display="flex" alignItems="center">
+                      <Avatar
+                        className={classes.avatar}
+                        src={employee.avatar}
+                        alt={employee.firstname}
                       />
-                    </TableCell>
-                    <TableCell>
-                      <Box display="flex" alignItems="center">
-                        <Avatar
-                          className={classes.avatar}
-                          src={employee.avatar}
-                          alt={employee.firstname}
-                        />
-                        <div>
-                          <Link
-                            color="inherit"
-                            component={RouterLink}
-                            to="/app/management/employees/1"
-                            variant="h6"
-                          >
-                            {getUserFullName(employee)}
-                          </Link>
-                        </div>
-                      </Box>
-                    </TableCell>
-                    <TableCell>{employee.email}</TableCell>
-                    <TableCell>{employee.phone}</TableCell>
-                    <TableCell>
-                      {employee.is_admin ? 'Администратор' : 'Сотрудник'}
-                    </TableCell>
-                    <TableCell align="right">
-                      <IconButton
-                        component={RouterLink}
-                        to="/app/management/employees/1/edit"
-                      >
-                        <SvgIcon fontSize="small">
-                          <EditIcon />
-                        </SvgIcon>
-                      </IconButton>
-                      <IconButton
-                        component={RouterLink}
-                        to="/app/management/employees/1"
-                      >
-                        <SvgIcon fontSize="small">
-                          <ArrowRightIcon />
-                        </SvgIcon>
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
+                      <div>
+                        <Link
+                          color="inherit"
+                          component={RouterLink}
+                          to="/app/management/employees/1"
+                          variant="h6"
+                        >
+                          {getUserFullName(employee)}
+                        </Link>
+                      </div>
+                    </Box>
+                  </TableCell>
+                  <TableCell>{employee.email}</TableCell>
+                  <TableCell>{employee.phone}</TableCell>
+                  <TableCell>
+                    {employee.is_admin ? 'Администратор' : 'Сотрудник'}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      component={RouterLink}
+                      to="/app/management/employees/1/edit"
+                    >
+                      <SvgIcon fontSize="small">
+                        <EditIcon />
+                      </SvgIcon>
+                    </IconButton>
+                    <IconButton
+                      component={RouterLink}
+                      to="/app/management/employees/1"
+                    >
+                      <SvgIcon fontSize="small">
+                        <ArrowRightIcon />
+                      </SvgIcon>
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <TablePagination
         component="div"
         count={totalEmployeesPages}
