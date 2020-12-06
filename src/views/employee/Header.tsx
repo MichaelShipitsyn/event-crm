@@ -2,8 +2,6 @@ import React from 'react';
 import type { FC } from 'react';
 import { Button, Grid, SvgIcon, Typography } from '@material-ui/core';
 import { PlusCircle as PlusCircleIcon } from 'react-feather';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
 
 export const Header: FC = () => {
   return (

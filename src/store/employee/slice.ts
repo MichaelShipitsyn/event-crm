@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'types/users';
-import { fetchEmployees } from './thunks';
 import { GetEmployeesResult } from 'api/employee';
+import { fetchEmployees } from './thunks';
 
 type InitialState = {
   employees: User[];
   totalEmployeesPages: number;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  isEmployeesFetchLoading: boolean;
   error: unknown;
 };
 
 const initialState: InitialState = {
   employees: [],
   totalEmployeesPages: 0,
-  status: 'idle',
+  isEmployeesFetchLoading: false,
   error: null
 };
 
@@ -23,24 +23,24 @@ const employeeSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchEmployees.pending, (state) => {
-      state.status = 'loading';
+      state.isEmployeesFetchLoading = true;
       state.error = null;
     });
 
     builder.addCase(
       fetchEmployees.fulfilled,
       (state, { payload }: PayloadAction<GetEmployeesResult>) => {
-        if (state.status === 'loading') {
+        if (state.isEmployeesFetchLoading) {
           state.employees = payload.employees;
           state.totalEmployeesPages = payload.total;
-          state.status = 'succeeded';
+          state.isEmployeesFetchLoading = false;
         }
       }
     );
 
     builder.addCase(fetchEmployees.rejected, (state, action) => {
-      if (state.status === 'loading') {
-        state.status = 'failed';
+      if (state.isEmployeesFetchLoading) {
+        state.isEmployeesFetchLoading = false;
         state.error = action.payload;
       }
     });

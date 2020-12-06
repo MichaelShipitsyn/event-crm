@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { fetchEmployees } from 'store/employee/thunks';
 import { SkeletonWrap } from 'components';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
   Box,
@@ -14,7 +13,6 @@ import {
   Card,
   Checkbox,
   IconButton,
-  InputAdornment,
   Link,
   SvgIcon,
   Table,
@@ -23,54 +21,21 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TextField,
   LinearProgress,
   makeStyles,
   TableContainer
 } from '@material-ui/core';
-import {
-  Edit as EditIcon,
-  ArrowRight as ArrowRightIcon,
-  Search as SearchIcon
-} from 'react-feather';
+import { Edit as EditIcon, ArrowRight as ArrowRightIcon } from 'react-feather';
 import type { Theme } from 'theme';
 import { getUserFullName } from 'utils/getUserFullName';
+import { TableFilters } from './TableFilters';
 
 interface EmployeeTableProps {
   className?: string;
 }
 
-type Sort = 'updatedAt|desc' | 'updatedAt|asc' | 'orders|desc' | 'orders|asc';
-
-interface SortOption {
-  value: Sort;
-  label: string;
-}
-
-const sortOptions: SortOption[] = [
-  {
-    value: 'updatedAt|desc',
-    label: 'Last update (newest first)'
-  },
-  {
-    value: 'updatedAt|asc',
-    label: 'Last update (oldest first)'
-  },
-  {
-    value: 'orders|desc',
-    label: 'Total orders (high to low)'
-  },
-  {
-    value: 'orders|asc',
-    label: 'Total orders (low to high)'
-  }
-];
-
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
-  queryField: {
-    width: 300
-  },
   bulkOperations: {
     position: 'relative'
   },
@@ -91,11 +56,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: 42,
     marginRight: theme.spacing(1)
   },
-  searchButton: {
-    marginLeft: '10px'
-  },
   container: {
-    maxHeight: 440
+    height: 440
   },
   tableCell: {
     height: '77px'
@@ -107,8 +69,10 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
   const [selectedEmployees, setSelectedEmployees] = useState<number[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
-  const [query, setQuery] = useState<string>('');
-  const [sort, setSort] = useState<Sort>(sortOptions[0].value);
+
+  const isEmployeesFetchLoading = useSelector(
+    (state: RootState) => state.employee.isEmployeesFetchLoading
+  );
 
   const dispatch = useDispatch();
   const { employees, totalEmployeesPages } = useSelector(
@@ -116,26 +80,11 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
   );
 
   useEffect(() => {
-    console.log(page);
     dispatch(fetchEmployees({ page: page + 1, limit }));
-  }, [dispatch, page, limit]);
+  }, [page, limit, dispatch]);
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
-  };
-
-  const statusEmployeesFetch = useSelector(
-    (state: RootState) => state.employee.status
-  );
-
-  const handleQueryChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    event.persist();
-    setQuery(event.target.value);
-  };
-
-  const handleSortChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    event.persist();
-    setSort(event.target.value as Sort);
   };
 
   const handleSelectAllEmployees = (
@@ -144,10 +93,6 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
     setSelectedEmployees(
       event.target.checked ? employees.map((employee) => employee.id) : []
     );
-  };
-
-  const handleSearch = (): void => {
-    console.log(query);
   };
 
   const handleSelectOneEmployee = (
@@ -174,47 +119,7 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
 
   return (
     <Card className={clsx(classes.root, className)}>
-      <Box p={2} minHeight={56} display="flex" alignItems="center">
-        <TextField
-          label="Выбрать:"
-          name="sort"
-          onChange={handleSortChange}
-          select
-          SelectProps={{ native: true }}
-          value={sort}
-          variant="outlined"
-        >
-          {sortOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </TextField>
-        <Box flexGrow={1} />
-        <TextField
-          className={classes.queryField}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SvgIcon fontSize="small" color="action">
-                  <SearchIcon />
-                </SvgIcon>
-              </InputAdornment>
-            )
-          }}
-          onChange={handleQueryChange}
-          placeholder="Поиск..."
-          value={query}
-          variant="outlined"
-        />
-        <Button
-          className={classes.searchButton}
-          variant="outlined"
-          onClick={handleSearch}
-        >
-          Поиск
-        </Button>
-      </Box>
+      <TableFilters />
       {enableBulkOperations && (
         <div className={classes.bulkOperations}>
           <div className={classes.bulkActions}>
@@ -270,9 +175,7 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
                       root: classes.tableCell
                     }}
                   >
-                    <SkeletonWrap
-                      isLoading={statusEmployeesFetch === 'loading'}
-                    >
+                    <SkeletonWrap isLoading={isEmployeesFetchLoading}>
                       <Box display="flex" alignItems="center">
                         <Avatar
                           className={classes.avatar}
@@ -293,30 +196,22 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
                     </SkeletonWrap>
                   </TableCell>
                   <TableCell>
-                    <SkeletonWrap
-                      isLoading={statusEmployeesFetch === 'loading'}
-                    >
+                    <SkeletonWrap isLoading={isEmployeesFetchLoading}>
                       {employee.email}
                     </SkeletonWrap>
                   </TableCell>
                   <TableCell>
-                    <SkeletonWrap
-                      isLoading={statusEmployeesFetch === 'loading'}
-                    >
+                    <SkeletonWrap isLoading={isEmployeesFetchLoading}>
                       {employee.phone}
                     </SkeletonWrap>
                   </TableCell>
                   <TableCell>
-                    <SkeletonWrap
-                      isLoading={statusEmployeesFetch === 'loading'}
-                    >
+                    <SkeletonWrap isLoading={isEmployeesFetchLoading}>
                       {employee.is_admin ? 'Администратор' : 'Сотрудник'}
                     </SkeletonWrap>
                   </TableCell>
                   <TableCell align="right">
-                    <SkeletonWrap
-                      isLoading={statusEmployeesFetch === 'loading'}
-                    >
+                    <SkeletonWrap isLoading={isEmployeesFetchLoading}>
                       <IconButton
                         component={RouterLink}
                         to="/app/management/employees/1/edit"

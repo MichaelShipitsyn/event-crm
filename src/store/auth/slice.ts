@@ -30,7 +30,6 @@ const authSlice = createSlice({
       state.user = null;
     },
     setAuthChecked(state) {
-      // eslint-disable-next-line no-param-reassign
       state.isAuthChecked = true;
     },
     setLoginRequestLoader(state, action) {
