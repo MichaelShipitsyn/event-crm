@@ -6,6 +6,7 @@ import MuiOutlinedInput from './MuiOutlinedInput';
 import MuiInputLabel from './MuiInputLabel';
 import MuiFormLabel from './MuiFormLabel';
 import MuiButton from './MuiButton';
+import MuiTableCell from './MuiTableCell';
 
 export default {
   MuiChip,
@@ -15,5 +16,6 @@ export default {
   MuiOutlinedInput,
   MuiInputLabel,
   MuiFormLabel,
-  MuiButton
+  MuiButton,
+  MuiTableCell
 };

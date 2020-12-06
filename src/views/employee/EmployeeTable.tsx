@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { fetchEmployees } from 'store/employee/thunks';
 import { SkeletonWrap } from 'components';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
   Box,
@@ -95,6 +96,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   container: {
     maxHeight: 440
+  },
+  tableCell: {
+    height: '77px'
   }
 }));
 
@@ -226,7 +230,7 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
         </div>
       )}
       <TableContainer className={classes.container}>
-        {statusEmployeesFetch === 'loading' && <LinearProgress />}
+        {employees.length === 0 && <LinearProgress />}
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -261,7 +265,11 @@ export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
                       value={isEmployeeSelected}
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell
+                    classes={{
+                      root: classes.tableCell
+                    }}
+                  >
                     <SkeletonWrap
                       isLoading={statusEmployeesFetch === 'loading'}
                     >
