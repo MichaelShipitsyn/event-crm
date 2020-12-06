@@ -2,14 +2,24 @@ import { request } from 'libs/request';
 import { User } from 'types/users';
 
 type GetEmployeesParams = {
-  cache: string[];
+  page: number;
 };
 
-const getEmployees = async ({ cache }: GetEmployeesParams) => {
-  const employeesResponse = await request.get<{ employees: User[] }>(
-    '/employees'
+export type GetEmployeesResult = {
+  employees: User[];
+  total: number;
+};
+
+const getEmployees = async ({
+  page
+}: GetEmployeesParams): Promise<GetEmployeesResult> => {
+  const employeesResponse = await request.get<GetEmployeesResult>(
+    `/employees?page=${page}`
   );
-  return employeesResponse.data.employees;
+  return {
+    employees: employeesResponse.data.employees,
+    total: employeesResponse.data.total
+  };
 };
 
 export const employeeApi = {

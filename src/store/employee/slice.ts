@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'types/users';
 import { fetchEmployees } from './thunks';
+import { GetEmployeesResult } from 'api/employee';
 
 type InitialState = {
   employees: User[];
+  totalEmployeesPages: number;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: unknown;
 };
 
 const initialState: InitialState = {
   employees: [],
+  totalEmployeesPages: 0,
   status: 'idle',
   error: null
 };
@@ -26,10 +29,11 @@ const employeeSlice = createSlice({
 
     builder.addCase(
       fetchEmployees.fulfilled,
-      (state, { payload }: PayloadAction<User[]>) => {
+      (state, { payload }: PayloadAction<GetEmployeesResult>) => {
         if (state.status === 'loading') {
+          state.employees = payload.employees;
+          state.totalEmployeesPages = payload.total;
           state.status = 'succeeded';
-          state.employees = payload;
         }
       }
     );

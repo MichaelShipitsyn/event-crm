@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import type { FC } from 'react';
 import { Box, Container, makeStyles } from '@material-ui/core';
 import type { Theme } from 'theme';
 import { Page } from 'components/Page';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchEmployees } from 'store/employee/thunks';
-import { RootState } from 'store';
 import { Header } from './Header';
-import { Results } from './Results';
+import { EmployeeTable } from './EmployeeTable';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -21,19 +18,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const EmployeeView: FC = () => {
   const classes = useStyles();
 
-  const dispatch = useDispatch();
-  const employees = useSelector((state: RootState) => state.employee.employees);
-
-  useEffect(() => {
-    dispatch(fetchEmployees());
-  }, [dispatch]);
-
   return (
     <Page className={classes.root} title="Сотрудники">
       <Container maxWidth={false}>
         <Header />
         <Box mt={3}>
-          <Results employees={employees} />
+          <EmployeeTable />
         </Box>
       </Container>
     </Page>

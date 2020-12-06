@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { FC, ChangeEvent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import { getUserFullName } from 'utils/getUserFullName';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { fetchEmployees } from 'store/employee/thunks';
 import {
   Avatar,
   Box,
@@ -31,12 +34,9 @@ import {
 } from 'react-feather';
 import type { Theme } from 'theme';
 import { User } from 'types/users';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 
-interface ResultsProps {
+interface EmployeeTableProps {
   className?: string;
-  employees: User[];
 }
 
 type Sort = 'updatedAt|desc' | 'updatedAt|asc' | 'orders|desc' | 'orders|asc';
@@ -64,14 +64,6 @@ const sortOptions: SortOption[] = [
     label: 'Total orders (low to high)'
   }
 ];
-
-const applyPagination = (
-  employees: User[],
-  page: number,
-  limit: number
-): User[] => {
-  return employees.slice(page * limit, page * limit + limit);
-};
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -103,13 +95,27 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export const Results: FC<ResultsProps> = ({ className, employees }) => {
+export const EmployeeTable: FC<EmployeeTableProps> = ({ className }) => {
   const classes = useStyles();
   const [selectedEmployees, setSelectedEmployees] = useState<number[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
   const [query, setQuery] = useState<string>('');
   const [sort, setSort] = useState<Sort>(sortOptions[0].value);
+
+  const dispatch = useDispatch();
+  const { employees, totalEmployeesPages } = useSelector(
+    (state: RootState) => state.employee
+  );
+
+  useEffect(() => {
+    console.log(page);
+    dispatch(fetchEmployees(page + 1));
+  }, [dispatch, page]);
+
+  const handlePageChange = (event: any, newPage: number): void => {
+    setPage(newPage);
+  };
 
   const statusEmployeesFetch = useSelector(
     (state: RootState) => state.employee.status
@@ -150,15 +156,10 @@ export const Results: FC<ResultsProps> = ({ className, employees }) => {
     }
   };
 
-  const handlePageChange = (event: any, newPage: number): void => {
-    setPage(newPage);
-  };
-
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setLimit(Number(event.target.value));
   };
 
-  const paginatedEmployees = applyPagination(employees, page, limit);
   const enableBulkOperations = selectedEmployees.length > 0;
   const selectedSomeEmployees =
     selectedEmployees.length > 0 && selectedEmployees.length < employees.length;
@@ -242,7 +243,7 @@ export const Results: FC<ResultsProps> = ({ className, employees }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedEmployees.map((employee) => {
+              {employees.map((employee) => {
                 const isEmployeeSelected = selectedEmployees.includes(
                   employee.id
                 );
@@ -313,11 +314,11 @@ export const Results: FC<ResultsProps> = ({ className, employees }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={employees.length}
+        count={totalEmployeesPages}
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handleLimitChange}
         page={page}
-        rowsPerPage={limit}
+        rowsPerPage={10}
         rowsPerPageOptions={[5, 10, 25]}
       />
     </Card>
