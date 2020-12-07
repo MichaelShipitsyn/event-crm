@@ -45,7 +45,7 @@ export const EmployeeTable: FC = () => {
   const classes = useStyles();
   const [selectedEmployees, setSelectedEmployees] = useState<number[]>([]);
   const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(10);
+  const [limit, setLimit] = useState<number>(25);
   const [deleteWarningOpen, setDeleteWarningOpen] = useState<boolean>(false);
 
   const dispatch = useDispatch();
@@ -65,8 +65,7 @@ export const EmployeeTable: FC = () => {
 
   const deleteEmployees = async (): Promise<void> => {
     setDeleteWarningOpen(false);
-    await dispatch(deleteEmployeesThunk(selectedEmployees));
-    dispatch(fetchEmployeesThunk({ page: page + 1, limit }));
+    dispatch(deleteEmployeesThunk(selectedEmployees));
   };
 
   const cancelDeleteWarningOpen = (): void => {
@@ -151,7 +150,7 @@ export const EmployeeTable: FC = () => {
           onChangeRowsPerPage={handleLimitChange}
           page={page}
           rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[25, 50, 100]}
         />
       </Card>
       <TableSelectedBar

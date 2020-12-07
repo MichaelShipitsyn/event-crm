@@ -1,7 +1,6 @@
 import React from 'react';
 import type { FC } from 'react';
-import { TableCell, TableRow } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core';
+import { TableCell, TableRow, makeStyles } from '@material-ui/core';
 
 type NoTableDataProps = {
   numberColumns: number;

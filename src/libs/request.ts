@@ -1,6 +1,7 @@
 import axios from 'axios';
 import store from 'store';
 import { logoutUser } from 'store/auth/thunks';
+import { setServerError } from 'store/global/slice';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -11,10 +12,18 @@ const request = axios.create({
 request.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response.status === 401 && store.getState().auth.isAuthenticated) {
+    if (
+      error.response.status === 401 &&
+      store.getState().auth.isAuthenticated
+    ) {
       store.dispatch(logoutUser());
       window.location.href = '/';
     }
+
+    if (error.response.status >= 500) {
+      store.dispatch(setServerError(true));
+    }
+
     return Promise.reject(error);
   }
 );

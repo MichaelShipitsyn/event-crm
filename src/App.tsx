@@ -6,9 +6,12 @@ import { create } from 'jss';
 import MomentUtils from '@date-io/moment';
 import { jssPreset, StylesProvider, ThemeProvider } from '@material-ui/core';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { GlobalStyles } from 'components/GlobalStyles';
-import { ScrollReset } from 'components/ScrollReset';
-import { AuthProvider } from 'components/AuthProvider';
+import {
+  GlobalStyles,
+  ScrollReset,
+  AuthProvider,
+  Notification
+} from 'components';
 import { createTheme } from 'theme';
 import routes, { renderRoutes } from 'routes';
 
@@ -25,6 +28,7 @@ const App: FC = () => {
             <Router history={history}>
               <GlobalStyles />
               <ScrollReset />
+              <Notification />
               {renderRoutes(routes)}
             </Router>
           </AuthProvider>

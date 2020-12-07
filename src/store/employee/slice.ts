@@ -8,13 +8,17 @@ type InitialState = {
   totalEmployeesPages: number;
   isEmployeesFetchLoading: boolean;
   error: unknown;
+  currentPage: number | null;
+  currentRowsPerPage: number | null;
 };
 
 const initialState: InitialState = {
   employees: [],
   totalEmployeesPages: 0,
   isEmployeesFetchLoading: false,
-  error: null
+  error: null,
+  currentPage: null,
+  currentRowsPerPage: null
 };
 
 const employeeSlice = createSlice({
