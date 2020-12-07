@@ -6,9 +6,16 @@ type FetchEmployeesParams = {
   limit: number;
 };
 
-export const fetchEmployees = createAsyncThunk(
+export const fetchEmployeesThunk = createAsyncThunk(
   'employee/fetchEmployees',
   async ({ page, limit }: FetchEmployeesParams) => {
     return await employeeApi.getEmployees({ page, limit });
+  }
+);
+
+export const deleteEmployeesThunk = createAsyncThunk(
+  'employee/deleteEmployees',
+  async (employees: number[]) => {
+    return employeeApi.deleteEmployees(employees);
   }
 );

@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import type { FC, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { fetchEmployees } from 'store/employee/thunks';
+import {
+  fetchEmployeesThunk,
+  deleteEmployeesThunk
+} from 'store/employee/thunks';
 import {
   Card,
   Checkbox,
@@ -53,20 +56,17 @@ export const EmployeeTable: FC = () => {
   } = useSelector((state: RootState) => state.employee);
 
   useEffect(() => {
-    dispatch(fetchEmployees({ page: page + 1, limit }));
+    dispatch(fetchEmployeesThunk({ page: page + 1, limit }));
   }, [page, limit, dispatch]);
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
   };
 
-  const onDeleteHandle = (): void => {
-    setDeleteWarningOpen(true);
-  };
-
-  const deleteEmployees = (): void => {
-    console.log(selectedEmployees);
+  const deleteEmployees = async (): Promise<void> => {
     setDeleteWarningOpen(false);
+    await dispatch(deleteEmployeesThunk(selectedEmployees));
+    dispatch(fetchEmployeesThunk({ page: page + 1, limit }));
   };
 
   const cancelDeleteWarningOpen = (): void => {
@@ -157,7 +157,7 @@ export const EmployeeTable: FC = () => {
       <TableSelectedBar
         open={enableBulkOperations}
         selected={selectedEmployees}
-        onDelete={onDeleteHandle}
+        onDelete={() => setDeleteWarningOpen(true)}
       />
       <DeleteWarning
         deleteWarningOpen={deleteWarningOpen}
