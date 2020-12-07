@@ -6,3 +6,4 @@ export { ScrollReset } from './ScrollReset';
 export { SkeletonWrap } from './SkeletonWrap';
 export { TableSelectedBar } from './TableSelectedBar';
 export { DeleteWarning } from './DeleteWarning';
+export { NoTableData } from './NoTableData';

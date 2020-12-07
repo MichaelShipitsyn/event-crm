@@ -17,7 +17,7 @@ import {
   TableContainer
 } from '@material-ui/core';
 import type { Theme } from 'theme';
-import { TableSelectedBar, DeleteWarning } from 'components';
+import { TableSelectedBar, DeleteWarning, NoTableData } from 'components';
 import { EmployeesList } from './EmployeesList';
 import { TableFilters } from './TableFilters';
 
@@ -43,9 +43,11 @@ export const EmployeeTable: FC = () => {
   const [deleteWarningOpen, setDeleteWarningOpen] = useState<boolean>(false);
 
   const dispatch = useDispatch();
-  const { employees, totalEmployeesPages } = useSelector(
-    (state: RootState) => state.employee
-  );
+  const {
+    employees,
+    totalEmployeesPages,
+    isEmployeesFetchLoading
+  } = useSelector((state: RootState) => state.employee);
 
   useEffect(() => {
     dispatch(fetchEmployees({ page: page + 1, limit }));
@@ -96,23 +98,28 @@ export const EmployeeTable: FC = () => {
   const enableBulkOperations = selectedEmployees.length > 0;
   const selectedSomeEmployees =
     selectedEmployees.length > 0 && selectedEmployees.length < employees.length;
-  const selectedAllEmployees = selectedEmployees.length === employees.length;
+  const selectedAllEmployees =
+    employees.length > 0 && selectedEmployees.length === employees.length;
 
   return (
     <div>
       <Card>
         <TableFilters />
         <TableContainer className={classes.container}>
-          {employees.length === 0 && <LinearProgress />}
+          {employees.length === 0 && isEmployeesFetchLoading && (
+            <LinearProgress />
+          )}
           <Table stickyHeader>
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedAllEmployees}
-                    indeterminate={selectedSomeEmployees}
-                    onChange={handleSelectAllEmployees}
-                  />
+                  {employees.length !== 0 && (
+                    <Checkbox
+                      checked={selectedAllEmployees}
+                      indeterminate={selectedSomeEmployees}
+                      onChange={handleSelectAllEmployees}
+                    />
+                  )}
                 </TableCell>
                 <TableCell>Имя</TableCell>
                 <TableCell>Электронная почта</TableCell>
@@ -122,11 +129,15 @@ export const EmployeeTable: FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <EmployeesList
-                selectedEmployees={selectedEmployees}
-                employees={employees}
-                handleSelectOneEmployee={handleSelectOneEmployee}
-              />
+              {employees.length === 0 && !isEmployeesFetchLoading ? (
+                <NoTableData numberColumns={6} />
+              ) : (
+                <EmployeesList
+                  selectedEmployees={selectedEmployees}
+                  employees={employees}
+                  handleSelectOneEmployee={handleSelectOneEmployee}
+                />
+              )}
             </TableBody>
           </Table>
         </TableContainer>

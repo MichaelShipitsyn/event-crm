@@ -61,7 +61,6 @@ export const Search: FC = () => {
       <Drawer
         anchor="right"
         classes={{ paper: classes.drawer }}
-        ModalProps={{ BackdropProps: { invisible: true } }}
         onClose={handleClose}
         open={isOpen}
         variant="temporary"
