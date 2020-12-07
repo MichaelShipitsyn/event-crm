@@ -21,19 +21,22 @@ import { TableSelectedBar, DeleteWarning, NoTableData } from 'components';
 import { EmployeesList } from './EmployeesList';
 import { TableFilters } from './TableFilters';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  avatar: {
-    height: 42,
-    width: 42,
-    marginRight: theme.spacing(1)
-  },
-  container: {
-    height: 440
-  },
-  tableCell: {
-    height: '77px'
-  }
-}));
+const useStyles = makeStyles((theme: Theme) => {
+  console.log(theme);
+  return {
+    avatar: {
+      height: 42,
+      width: 42,
+      marginRight: theme.spacing(1)
+    },
+    container: {
+      height: 440
+    },
+    tableCell: {
+      height: '77px'
+    }
+  };
+});
 
 export const EmployeeTable: FC = () => {
   const classes = useStyles();

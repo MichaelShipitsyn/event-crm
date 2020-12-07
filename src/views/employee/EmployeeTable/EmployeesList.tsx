@@ -13,7 +13,8 @@ import {
   SvgIcon,
   TableCell,
   TableRow,
-  makeStyles
+  makeStyles,
+  Hidden
 } from '@material-ui/core';
 import { Edit as EditIcon, ArrowRight as ArrowRightIcon } from 'react-feather';
 import type { Theme } from 'theme';
@@ -74,21 +75,14 @@ export const EmployeesList: FC<EmployeeListProps> = ({
             >
               <SkeletonWrap isLoading={isEmployeesFetchLoading}>
                 <Box display="flex" alignItems="center">
-                  <Avatar
-                    className={classes.avatar}
-                    src={employee.avatar}
-                    alt={employee.firstname}
-                  />
-                  <div>
-                    <Link
-                      color="inherit"
-                      component={RouterLink}
-                      to="/app/management/employees/1"
-                      variant="h6"
-                    >
-                      {getUserFullName(employee)}
-                    </Link>
-                  </div>
+                  <Hidden smDown>
+                    <Avatar
+                      className={classes.avatar}
+                      src={employee.avatar}
+                      alt={employee.firstname}
+                    />
+                  </Hidden>
+                  <div>{getUserFullName(employee)}</div>
                 </Box>
               </SkeletonWrap>
             </TableCell>

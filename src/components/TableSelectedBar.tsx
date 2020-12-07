@@ -51,7 +51,7 @@ export const TableSelectedBar: FC<BulkOperationsProps> = ({
           <Hidden smDown>
             <Grid item md={3}>
               <Typography color="textSecondary" variant="subtitle1">
-                {selected.length} selected
+                Кол-во выбранных: {selected.length}
               </Typography>
             </Grid>
           </Hidden>
