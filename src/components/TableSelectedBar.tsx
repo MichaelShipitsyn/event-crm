@@ -13,7 +13,7 @@ import { Trash as TrashIcon } from 'react-feather';
 import type { Theme } from 'theme';
 
 interface BulkOperationsProps {
-  onDelete?: () => void;
+  onDelete: () => void;
   open: boolean;
   selected: number[];
 }
@@ -65,7 +65,7 @@ export const TableSelectedBar: FC<BulkOperationsProps> = ({
                   </SvgIcon>
                 }
               >
-                Удалить
+                Отправить в архив
               </Button>
             </div>
           </Grid>

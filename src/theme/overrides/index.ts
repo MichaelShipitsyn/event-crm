@@ -7,6 +7,8 @@ import MuiInputLabel from './MuiInputLabel';
 import MuiFormLabel from './MuiFormLabel';
 import MuiButton from './MuiButton';
 import MuiTableCell from './MuiTableCell';
+import MuiBackdrop from './MuiBackdrop';
+import MuiDialogTitle from './MuiDialogTitle';
 
 export default {
   MuiChip,
@@ -17,5 +19,7 @@ export default {
   MuiInputLabel,
   MuiFormLabel,
   MuiButton,
-  MuiTableCell
+  MuiTableCell,
+  MuiBackdrop,
+  MuiDialogTitle
 };

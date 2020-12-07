@@ -15,8 +15,8 @@ export default {
     letterSpacing: '-0.06px'
   },
   h4: {
-    fontWeight: 500,
-    fontSize: 20,
+    fontWeight: 600,
+    fontSize: 18,
     letterSpacing: '-0.06px'
   },
   h5: {
@@ -31,5 +31,8 @@ export default {
   },
   overline: {
     fontWeight: 500
+  },
+  body2: {
+    fontSize: 14
   }
 };

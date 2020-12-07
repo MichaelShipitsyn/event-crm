@@ -17,7 +17,7 @@ import {
   TableContainer
 } from '@material-ui/core';
 import type { Theme } from 'theme';
-import { TableSelectedBar } from 'components/TableSelectedBar';
+import { TableSelectedBar, DeleteWarning } from 'components';
 import { EmployeesList } from './EmployeesList';
 import { TableFilters } from './TableFilters';
 
@@ -40,6 +40,7 @@ export const EmployeeTable: FC = () => {
   const [selectedEmployees, setSelectedEmployees] = useState<number[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
+  const [deleteWarningOpen, setDeleteWarningOpen] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const { employees, totalEmployeesPages } = useSelector(
@@ -54,6 +55,19 @@ export const EmployeeTable: FC = () => {
     setPage(newPage);
   };
 
+  const onDeleteHandle = (): void => {
+    setDeleteWarningOpen(true);
+  };
+
+  const deleteEmployees = (): void => {
+    console.log(selectedEmployees);
+    setDeleteWarningOpen(false);
+  };
+
+  const cancelDeleteWarningOpen = (): void => {
+    setDeleteWarningOpen(false);
+  };
+
   const handleSelectAllEmployees = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
@@ -66,7 +80,6 @@ export const EmployeeTable: FC = () => {
     event: ChangeEvent<HTMLInputElement>,
     employeeId: number
   ): void => {
-    console.log(employeeId);
     if (!selectedEmployees.includes(employeeId)) {
       setSelectedEmployees((prevSelected) => [...prevSelected, employeeId]);
     } else {
@@ -130,6 +143,12 @@ export const EmployeeTable: FC = () => {
       <TableSelectedBar
         open={enableBulkOperations}
         selected={selectedEmployees}
+        onDelete={onDeleteHandle}
+      />
+      <DeleteWarning
+        deleteWarningOpen={deleteWarningOpen}
+        onCancel={cancelDeleteWarningOpen}
+        onDelete={deleteEmployees}
       />
     </div>
   );

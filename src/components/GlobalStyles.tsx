@@ -22,6 +22,17 @@ const useStyles = makeStyles(() =>
       '#root': {
         height: '100%',
         width: '100%'
+      },
+      '.actionButton': {
+        height: '26px',
+        fontSize: '13px'
+      },
+      '.deleteButton': {
+        backgroundColor: '#ee5454',
+        color: '#fff',
+        '&:hover': {
+          backgroundColor: '#e92626'
+        }
       }
     }
   })
