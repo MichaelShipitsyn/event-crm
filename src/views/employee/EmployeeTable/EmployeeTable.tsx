@@ -22,7 +22,7 @@ import {
 import type { Theme } from 'theme';
 import { TableSelectedBar, DeleteWarning, NoTableData } from 'components';
 import { isRequestFulfilled } from 'utils/isRequestFulfilled';
-import { EmployeesList } from './EmployeesList';
+import { EmployeeItem } from './EmployeeItem';
 import { TableFilters } from './TableFilters';
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -129,7 +129,6 @@ export const EmployeeTable: FC = () => {
 
   return (
     <div>
-      {isDeleteEmployeesStatus}
       <Card>
         <TableFilters />
         <TableContainer className={classes.container}>
@@ -159,11 +158,21 @@ export const EmployeeTable: FC = () => {
               {employees.length === 0 && !isEmployeesFetchLoading ? (
                 <NoTableData numberColumns={6} />
               ) : (
-                <EmployeesList
-                  selectedEmployees={selectedEmployees}
-                  employees={employees}
-                  handleSelectOneEmployee={handleSelectOneEmployee}
-                />
+                <>
+                  {employees.map((employee) => {
+                    const isEmployeeSelected = selectedEmployees.includes(
+                      employee.id
+                    );
+                    return (
+                      <EmployeeItem
+                        key={employee.id}
+                        isSelected={isEmployeeSelected}
+                        employee={employee}
+                        handleSelectOneEmployee={handleSelectOneEmployee}
+                      />
+                    );
+                  })}
+                </>
               )}
             </TableBody>
           </Table>
