@@ -1,10 +1,12 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import { employeeApi } from 'api/employee';
 import type { AppThunk } from 'store';
 import {
   fetchEmployeesStart,
   fetchEmployeesSuccess,
-  fetchEmployeesFail
+  fetchEmployeesFail,
+  deleteEmployeesStart,
+  deleteEmployeesSuccess,
+  deleteEmployeesFail
 } from './slice';
 
 type FetchEmployeesParams = {
@@ -17,7 +19,7 @@ export const fetchEmployeesThunk = ({
   limit
 }: FetchEmployeesParams): AppThunk => async (dispatch) => {
   try {
-    dispatch(fetchEmployeesStart());
+    dispatch(fetchEmployeesStart({ page, limit }));
     const employees = await employeeApi.getEmployees({ page, limit });
     dispatch(fetchEmployeesSuccess(employees));
   } catch (err) {
@@ -25,9 +27,19 @@ export const fetchEmployeesThunk = ({
   }
 };
 
-export const deleteEmployeesThunk = createAsyncThunk(
-  'employee/deleteEmployees',
-  async (employees: number[]) => {
-    return employeeApi.deleteEmployees(employees);
+export const deleteEmployeesThunk = (employees: number[]): AppThunk => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch(deleteEmployeesStart());
+    await employeeApi.deleteEmployees(employees);
+    dispatch(deleteEmployeesSuccess());
+
+    const page = getState().employee.currentPage;
+    const limit = getState().employee.currentRowsPerPage;
+    dispatch(fetchEmployeesThunk({ page, limit }));
+  } catch (err) {
+    dispatch(deleteEmployeesFail());
   }
-);
+};

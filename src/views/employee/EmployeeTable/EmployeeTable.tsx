@@ -25,7 +25,6 @@ import { EmployeesList } from './EmployeesList';
 import { TableFilters } from './TableFilters';
 
 const useStyles = makeStyles((theme: Theme) => {
-  console.log(theme);
   return {
     avatar: {
       height: 42,
@@ -44,26 +43,46 @@ const useStyles = makeStyles((theme: Theme) => {
 export const EmployeeTable: FC = () => {
   const classes = useStyles();
   const [selectedEmployees, setSelectedEmployees] = useState<number[]>([]);
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(25);
   const [deleteWarningOpen, setDeleteWarningOpen] = useState<boolean>(false);
 
   const dispatch = useDispatch();
-  const {
-    employees,
-    totalEmployeesPages,
-    isEmployeesFetchLoading
-  } = useSelector((state: RootState) => state.employee);
+
+  const employees = useSelector((state: RootState) => state.employee.employees);
+  const totalEmployeesPages = useSelector(
+    (state: RootState) => state.employee.totalEmployeesPages
+  );
+  const isEmployeesFetchLoading = useSelector(
+    (state: RootState) => state.employee.isEmployeesFetchLoading
+  );
+  const currentPage =
+    useSelector((state: RootState) => state.employee.currentPage) - 1;
+  const currentRowsPerPage = useSelector(
+    (state: RootState) => state.employee.currentRowsPerPage
+  );
 
   useEffect(() => {
-    dispatch(fetchEmployeesThunk({ page: page + 1, limit }));
-  }, [page, limit, dispatch]);
+    dispatch(
+      fetchEmployeesThunk({ page: currentPage + 1, limit: currentRowsPerPage })
+    );
+  }, [dispatch]);
 
   const handlePageChange = (event: any, newPage: number): void => {
-    setPage(newPage);
+    dispatch(
+      fetchEmployeesThunk({ page: newPage + 1, limit: currentRowsPerPage })
+    );
+  };
+
+  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    dispatch(
+      fetchEmployeesThunk({
+        page: currentPage + 1,
+        limit: Number(event.target.value)
+      })
+    );
   };
 
   const deleteEmployees = async (): Promise<void> => {
+    setSelectedEmployees([]);
     setDeleteWarningOpen(false);
     dispatch(deleteEmployeesThunk(selectedEmployees));
   };
@@ -91,10 +110,6 @@ export const EmployeeTable: FC = () => {
         prevSelected.filter((id) => id !== employeeId)
       );
     }
-  };
-
-  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLimit(Number(event.target.value));
   };
 
   const enableBulkOperations = selectedEmployees.length > 0;
@@ -148,9 +163,9 @@ export const EmployeeTable: FC = () => {
           count={totalEmployeesPages}
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleLimitChange}
-          page={page}
-          rowsPerPage={limit}
-          rowsPerPageOptions={[25, 50, 100]}
+          page={currentPage}
+          rowsPerPage={currentRowsPerPage}
+          rowsPerPageOptions={[15, 50, 100]}
         />
       </Card>
       <TableSelectedBar

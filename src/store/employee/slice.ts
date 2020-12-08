@@ -6,24 +6,34 @@ type InitialState = {
   employees: User[];
   totalEmployeesPages: number;
   isEmployeesFetchLoading: boolean;
-  currentPage: number | null;
-  currentRowsPerPage: number | null;
+  currentPage: number;
+  currentRowsPerPage: number;
+};
+
+type FetchEmployeesStartPayload = {
+  page: number;
+  limit: number;
 };
 
 const initialState: InitialState = {
   employees: [],
   totalEmployeesPages: 0,
   isEmployeesFetchLoading: false,
-  currentPage: null,
-  currentRowsPerPage: null
+  currentPage: 1,
+  currentRowsPerPage: 15
 };
 
 const employeeSlice = createSlice({
   name: 'employee',
   initialState,
   reducers: {
-    fetchEmployeesStart(state) {
+    fetchEmployeesStart(
+      state,
+      { payload }: PayloadAction<FetchEmployeesStartPayload>
+    ) {
       state.isEmployeesFetchLoading = true;
+      state.currentPage = payload.page;
+      state.currentRowsPerPage = payload.limit;
     },
     fetchEmployeesSuccess(
       state,
@@ -35,7 +45,10 @@ const employeeSlice = createSlice({
     },
     fetchEmployeesFail(state) {
       state.isEmployeesFetchLoading = false;
-    }
+    },
+    deleteEmployeesStart(state) {},
+    deleteEmployeesSuccess(state) {},
+    deleteEmployeesFail(state) {}
   }
 });
 
@@ -44,5 +57,8 @@ export const employeeSliceReducer = employeeSlice.reducer;
 export const {
   fetchEmployeesStart,
   fetchEmployeesSuccess,
-  fetchEmployeesFail
+  fetchEmployeesFail,
+  deleteEmployeesStart,
+  deleteEmployeesSuccess,
+  deleteEmployeesFail
 } = employeeSlice.actions;
