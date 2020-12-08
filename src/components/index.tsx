@@ -9,3 +9,4 @@ export { DeleteWarning } from './DeleteWarning';
 export { NoTableData } from './NoTableData';
 export { Notification } from './Notification';
 export { AuthProvider } from './AuthProvider';
+export { ButtonWithLoader } from './ButtonWithLoader';

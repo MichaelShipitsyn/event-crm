@@ -21,6 +21,7 @@ import {
 } from '@material-ui/core';
 import type { Theme } from 'theme';
 import { TableSelectedBar, DeleteWarning, NoTableData } from 'components';
+import { isRequestFulfilled } from 'utils/isRequestFulfilled';
 import { EmployeesList } from './EmployeesList';
 import { TableFilters } from './TableFilters';
 
@@ -59,12 +60,22 @@ export const EmployeeTable: FC = () => {
   const currentRowsPerPage = useSelector(
     (state: RootState) => state.employee.currentRowsPerPage
   );
+  const isDeleteEmployeesStatus = useSelector(
+    (state: RootState) => state.employee.isDeleteEmployeesStatus
+  );
 
   useEffect(() => {
     dispatch(
       fetchEmployeesThunk({ page: currentPage + 1, limit: currentRowsPerPage })
     );
   }, [dispatch]);
+
+  useEffect(() => {
+    if (isRequestFulfilled(isDeleteEmployeesStatus)) {
+      setSelectedEmployees([]);
+      setDeleteWarningOpen(false);
+    }
+  }, [isDeleteEmployeesStatus]);
 
   const handlePageChange = (event: any, newPage: number): void => {
     dispatch(
@@ -82,8 +93,6 @@ export const EmployeeTable: FC = () => {
   };
 
   const deleteEmployees = async (): Promise<void> => {
-    setSelectedEmployees([]);
-    setDeleteWarningOpen(false);
     dispatch(deleteEmployeesThunk(selectedEmployees));
   };
 
@@ -120,6 +129,7 @@ export const EmployeeTable: FC = () => {
 
   return (
     <div>
+      {isDeleteEmployeesStatus}
       <Card>
         <TableFilters />
         <TableContainer className={classes.container}>
@@ -174,6 +184,7 @@ export const EmployeeTable: FC = () => {
         onDelete={() => setDeleteWarningOpen(true)}
       />
       <DeleteWarning
+        isLoading={isDeleteEmployeesStatus === 'loading'}
         deleteWarningOpen={deleteWarningOpen}
         onCancel={cancelDeleteWarningOpen}
         onDelete={deleteEmployees}

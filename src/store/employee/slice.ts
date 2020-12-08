@@ -6,6 +6,7 @@ type InitialState = {
   employees: User[];
   totalEmployeesPages: number;
   isEmployeesFetchLoading: boolean;
+  isDeleteEmployeesStatus: 'idle' | 'loading' | 'success' | 'fail';
   currentPage: number;
   currentRowsPerPage: number;
 };
@@ -19,6 +20,7 @@ const initialState: InitialState = {
   employees: [],
   totalEmployeesPages: 0,
   isEmployeesFetchLoading: false,
+  isDeleteEmployeesStatus: 'idle',
   currentPage: 1,
   currentRowsPerPage: 15
 };
@@ -46,9 +48,15 @@ const employeeSlice = createSlice({
     fetchEmployeesFail(state) {
       state.isEmployeesFetchLoading = false;
     },
-    deleteEmployeesStart(state) {},
-    deleteEmployeesSuccess(state) {},
-    deleteEmployeesFail(state) {}
+    deleteEmployeesStart(state) {
+      state.isDeleteEmployeesStatus = 'loading';
+    },
+    deleteEmployeesSuccess(state) {
+      state.isDeleteEmployeesStatus = 'success';
+    },
+    deleteEmployeesFail(state) {
+      state.isDeleteEmployeesStatus = 'fail';
+    }
   }
 });
 

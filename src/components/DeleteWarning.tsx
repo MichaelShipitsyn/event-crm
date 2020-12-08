@@ -9,14 +9,17 @@ import {
   Button,
   Typography
 } from '@material-ui/core';
+import { ButtonWithLoader } from './ButtonWithLoader';
 
 type AuthProviderProps = {
+  isLoading: boolean;
   deleteWarningOpen: boolean;
   onCancel: () => void;
   onDelete: () => void;
 };
 
 export const DeleteWarning: FC<AuthProviderProps> = ({
+  isLoading,
   deleteWarningOpen,
   onCancel,
   onDelete
@@ -49,14 +52,14 @@ export const DeleteWarning: FC<AuthProviderProps> = ({
         >
           Отменить
         </Button>
-        <Button
+        <ButtonWithLoader
+          isLoading={isLoading}
+          label="Отправить в архив"
           className="deleteButton actionButton"
           onClick={() => onDelete()}
           color="primary"
           autoFocus
-        >
-          Отправить в архив
-        </Button>
+        />
       </DialogActions>
     </Dialog>
   );

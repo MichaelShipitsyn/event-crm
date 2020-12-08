@@ -2,7 +2,6 @@ import React from 'react';
 import type { FC } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Box,
   Button,
@@ -13,22 +12,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from 'store/auth/thunks';
 import { RootState } from 'store';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    buttonProgress: {
-      color: theme.palette.success.main,
-      position: 'absolute',
-      top: '50%',
-      right: '15px',
-      marginTop: -12,
-      marginLeft: -12
-    }
-  };
-});
+import { ButtonWithLoader } from 'components';
 
 export const LoginForm: FC = () => {
-  const classes = useStyles();
   const requestError = useSelector(
     (state: RootState) => state.global.requestError
   );
@@ -98,19 +84,15 @@ export const LoginForm: FC = () => {
             </Box>
           )}
           <Box mt={2} position="relative">
-            <Button
+            <ButtonWithLoader
+              label="Вход"
+              isLoading={isLoginRequestLoading}
               color="secondary"
-              disabled={isLoginRequestLoading}
               fullWidth
               size="large"
               type="submit"
               variant="contained"
-            >
-              Войти
-            </Button>
-            {isLoginRequestLoading && (
-              <CircularProgress size={24} className={classes.buttonProgress} />
-            )}
+            />
           </Box>
         </form>
       )}
