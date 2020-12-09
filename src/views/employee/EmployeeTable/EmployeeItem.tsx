@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FC, ChangeEvent } from 'react';
+import type { FC } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { RootState } from 'store';
 import { SkeletonWrap } from 'components';
@@ -7,7 +7,6 @@ import { User } from 'types/users';
 import {
   Avatar,
   Box,
-  Checkbox,
   IconButton,
   SvgIcon,
   TableCell,
@@ -22,11 +21,6 @@ import { useSelector } from 'react-redux';
 
 type EmployeeItemProps = {
   employee: User;
-  isSelected: boolean;
-  handleSelectOneEmployee: (
-    event: ChangeEvent<HTMLInputElement>,
-    employeeId: number
-  ) => void;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -35,9 +29,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: 42,
     marginRight: theme.spacing(1)
   },
-  tableCell: {
-    height: '60px'
-  },
   stickyTableCell: {
     position: 'sticky',
     right: 0,
@@ -45,11 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export const EmployeeItem: FC<EmployeeItemProps> = ({
-  employee,
-  isSelected,
-  handleSelectOneEmployee
-}) => {
+export const EmployeeItem: FC<EmployeeItemProps> = ({ employee }) => {
   const classes = useStyles();
 
   const isEmployeesFetchLoading = useSelector(
@@ -57,19 +44,8 @@ export const EmployeeItem: FC<EmployeeItemProps> = ({
   );
 
   return (
-    <TableRow hover key={employee.id} selected={isSelected}>
-      <TableCell padding="checkbox">
-        <Checkbox
-          checked={isSelected}
-          onChange={(event) => handleSelectOneEmployee(event, employee.id)}
-          value={isSelected}
-        />
-      </TableCell>
-      <TableCell
-        classes={{
-          root: classes.tableCell
-        }}
-      >
+    <TableRow key={employee.id}>
+      <TableCell>
         <SkeletonWrap isLoading={isEmployeesFetchLoading}>
           <Box display="flex" alignItems="center">
             <Hidden smDown>

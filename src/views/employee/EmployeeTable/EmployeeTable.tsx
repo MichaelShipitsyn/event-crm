@@ -20,7 +20,7 @@ import {
   TableContainer
 } from '@material-ui/core';
 import type { Theme } from 'theme';
-import { TableSelectedBar, DeleteWarning, NoTableData } from 'components';
+import { DeleteWarning, NoTableData } from 'components';
 import { isRequestFulfilled } from 'utils/isRequestFulfilled';
 import { EmployeeItem } from './EmployeeItem';
 import { TableFilters } from './TableFilters';
@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme: Theme) => {
 
 export const EmployeeTable: FC = () => {
   const classes = useStyles();
-  const [selectedEmployees, setSelectedEmployees] = useState<number[]>([]);
   const [deleteWarningOpen, setDeleteWarningOpen] = useState<boolean>(false);
 
   const dispatch = useDispatch();
@@ -74,7 +73,6 @@ export const EmployeeTable: FC = () => {
 
   useEffect(() => {
     if (isRequestFulfilled(isDeleteEmployeesStatus)) {
-      setSelectedEmployees([]);
       setDeleteWarningOpen(false);
     }
   }, [isDeleteEmployeesStatus]);
@@ -95,39 +93,12 @@ export const EmployeeTable: FC = () => {
   };
 
   const deleteEmployees = async (): Promise<void> => {
-    dispatch(deleteEmployeesThunk(selectedEmployees));
+    // dispatch(deleteEmployeesThunk(selectedEmployees));
   };
 
   const cancelDeleteWarningOpen = (): void => {
     setDeleteWarningOpen(false);
   };
-
-  const handleSelectAllEmployees = (
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    setSelectedEmployees(
-      event.target.checked ? employees.map((employee) => employee.id) : []
-    );
-  };
-
-  const handleSelectOneEmployee = (
-    event: ChangeEvent<HTMLInputElement>,
-    employeeId: number
-  ): void => {
-    if (!selectedEmployees.includes(employeeId)) {
-      setSelectedEmployees((prevSelected) => [...prevSelected, employeeId]);
-    } else {
-      setSelectedEmployees((prevSelected) =>
-        prevSelected.filter((id) => id !== employeeId)
-      );
-    }
-  };
-
-  const enableBulkOperations = selectedEmployees.length > 0;
-  const selectedSomeEmployees =
-    selectedEmployees.length > 0 && selectedEmployees.length < employees.length;
-  const selectedAllEmployees =
-    employees.length > 0 && selectedEmployees.length === employees.length;
 
   return (
     <div>
@@ -140,15 +111,6 @@ export const EmployeeTable: FC = () => {
           <Table stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  {employees.length !== 0 && (
-                    <Checkbox
-                      checked={selectedAllEmployees}
-                      indeterminate={selectedSomeEmployees}
-                      onChange={handleSelectAllEmployees}
-                    />
-                  )}
-                </TableCell>
                 <TableCell>Имя</TableCell>
                 <TableCell>Электронная почта</TableCell>
                 <TableCell>Телефон</TableCell>
@@ -164,16 +126,8 @@ export const EmployeeTable: FC = () => {
               ) : (
                 <>
                   {employees.map((employee) => {
-                    const isEmployeeSelected = selectedEmployees.includes(
-                      employee.id
-                    );
                     return (
-                      <EmployeeItem
-                        key={employee.id}
-                        isSelected={isEmployeeSelected}
-                        employee={employee}
-                        handleSelectOneEmployee={handleSelectOneEmployee}
-                      />
+                      <EmployeeItem key={employee.id} employee={employee} />
                     );
                   })}
                 </>
@@ -191,11 +145,6 @@ export const EmployeeTable: FC = () => {
           rowsPerPageOptions={[15, 50, 100]}
         />
       </Card>
-      <TableSelectedBar
-        open={enableBulkOperations}
-        selected={selectedEmployees}
-        onDelete={() => setDeleteWarningOpen(true)}
-      />
       <DeleteWarning
         isLoading={isDeleteEmployeesStatus === 'loading'}
         deleteWarningOpen={deleteWarningOpen}
