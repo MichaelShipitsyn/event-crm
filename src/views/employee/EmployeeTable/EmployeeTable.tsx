@@ -34,6 +34,11 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     container: {
       maxHeight: '50vh'
+    },
+    stickyTableCell: {
+      position: 'sticky',
+      right: 0,
+      background: '#fff'
     }
   };
 });
@@ -148,7 +153,9 @@ export const EmployeeTable: FC = () => {
                 <TableCell>Электронная почта</TableCell>
                 <TableCell>Телефон</TableCell>
                 <TableCell>Уровень доступа</TableCell>
-                <TableCell align="right">Действия</TableCell>
+                <TableCell align="right" className={classes.stickyTableCell}>
+                  Действия
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

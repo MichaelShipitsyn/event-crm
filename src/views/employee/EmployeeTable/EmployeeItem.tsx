@@ -37,6 +37,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tableCell: {
     height: '60px'
+  },
+  stickyTableCell: {
+    position: 'sticky',
+    right: 0,
+    background: '#fff'
   }
 }));
 
@@ -93,7 +98,7 @@ export const EmployeeItem: FC<EmployeeItemProps> = ({
           {employee.is_admin ? 'Администратор' : 'Сотрудник'}
         </SkeletonWrap>
       </TableCell>
-      <TableCell align="right">
+      <TableCell align="right" className={classes.stickyTableCell}>
         <SkeletonWrap isLoading={isEmployeesFetchLoading}>
           <IconButton
             component={RouterLink}
