@@ -33,10 +33,7 @@ const useStyles = makeStyles((theme: Theme) => {
       marginRight: theme.spacing(1)
     },
     container: {
-      height: 440
-    },
-    tableCell: {
-      height: '77px'
+      maxHeight: '50vh'
     }
   };
 });

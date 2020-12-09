@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginRight: theme.spacing(1)
   },
   tableCell: {
-    height: '77px'
+    height: '60px'
   }
 }));
 
