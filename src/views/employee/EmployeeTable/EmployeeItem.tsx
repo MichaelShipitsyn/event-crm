@@ -14,7 +14,7 @@ import {
   makeStyles,
   Hidden
 } from '@material-ui/core';
-import { Edit as EditIcon, ArrowRight as ArrowRightIcon } from 'react-feather';
+import { User as UserIcon, Trash2 as TrashIcon } from 'react-feather';
 import type { Theme } from 'theme';
 import { getUserFullName } from 'utils/getUserFullName';
 import { useSelector } from 'react-redux';
@@ -33,6 +33,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'sticky',
     right: 0,
     background: '#fff'
+  },
+  iconButton: {
+    border: '1px solid rgba(84, 110, 122, 0.3)',
+    padding: '5px',
+    '&:hover': {
+      backgroundColor: 'rgba(84, 110, 122, 0.15)'
+    }
   }
 }));
 
@@ -76,17 +83,16 @@ export const EmployeeItem: FC<EmployeeItemProps> = ({ employee }) => {
       </TableCell>
       <TableCell align="right" className={classes.stickyTableCell}>
         <SkeletonWrap isLoading={isEmployeesFetchLoading}>
-          <IconButton
-            component={RouterLink}
-            to="/app/management/employees/1/edit"
-          >
+          <Box mr="5px" clone>
+            <IconButton classes={{ root: classes.iconButton }}>
+              <SvgIcon fontSize="small">
+                <UserIcon />
+              </SvgIcon>
+            </IconButton>
+          </Box>
+          <IconButton classes={{ root: classes.iconButton }}>
             <SvgIcon fontSize="small">
-              <EditIcon />
-            </SvgIcon>
-          </IconButton>
-          <IconButton component={RouterLink} to="/app/management/employees/1">
-            <SvgIcon fontSize="small">
-              <ArrowRightIcon />
+              <TrashIcon />
             </SvgIcon>
           </IconButton>
         </SkeletonWrap>
