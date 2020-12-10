@@ -4,7 +4,7 @@ export default {
   },
   outlined: {
     '&.MuiInputLabel-shrink': {
-      transform: 'translate(14px, -6px)',
-    },
+      transform: 'translate(0, -6px)'
+    }
   }
 };

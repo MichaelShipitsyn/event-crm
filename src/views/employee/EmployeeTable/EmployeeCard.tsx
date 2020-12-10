@@ -8,93 +8,63 @@ import {
   Button,
   Drawer,
   IconButton,
-  InputAdornment,
   SvgIcon,
   TextField,
   Typography,
   Divider,
   makeStyles
 } from '@material-ui/core';
-import { Search as SearchIcon, XCircle as XIcon } from 'react-feather';
+import { XCircle as XIcon } from 'react-feather';
 
 type Props = {
-  isOpen: boolean;
-  editableEmployee: User | null;
+  initialEmployee: User;
   onClose: () => void;
 };
 
 const useStyles = makeStyles(() => ({}));
 
-export const EmployeeCard: FC<Props> = ({
-  isOpen,
-  editableEmployee,
-  onClose
-}) => {
-  const classes = useStyles();
-
-  const [employee, setEmployee] = useState<{ [p: string]: any }>({});
-
-  useEffect(() => {
-    if (editableEmployee) {
-      setEmployee(editableEmployee);
-    }
-  }, [editableEmployee]);
+export const EmployeeCard: FC<Props> = ({ initialEmployee, onClose }) => {
+  const [employee, setEmployee] = useState(initialEmployee);
 
   const handleEmployeeChange = (field: string, value: any) => {
-    const newEmployee: { [p: string]: any } = { ...employee, [field]: value };
+    const newEmployee: User = { ...employee, [field]: value };
     setEmployee(newEmployee);
   };
 
   return (
-    <>
-      {!!editableEmployee && (
-        <Drawer
-          anchor="right"
-          onClose={onClose}
-          open={isOpen}
-          variant="temporary"
+    <Drawer anchor="right" open onClose={onClose} variant="temporary">
+      <PerfectScrollbar options={{ suppressScrollX: true }}>
+        <Box
+          p={3}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
         >
-          <PerfectScrollbar options={{ suppressScrollX: true }}>
-            <Box
-              px={3}
-              py={1}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography variant="h4" color="textPrimary">
-                {getUserFullName(editableEmployee)}
-              </Typography>
-              <IconButton onClick={onClose}>
-                <SvgIcon fontSize="small">
-                  <XIcon />
-                </SvgIcon>
-              </IconButton>
-            </Box>
-            <Divider light variant="fullWidth" />
-            <Box mt={2} px={3} py={1}>
-              <TextField
-                fullWidth
-                label="Имя"
-                margin="normal"
-                name="firstname"
-                type="text"
-                onChange={(event) =>
-                  handleEmployeeChange('firstname', event.target.value)
-                }
-                value={employee.firstname}
-                variant="outlined"
-              />
-            </Box>
-            <Box mt={2} display="flex" justifyContent="flex-end">
-              <Button color="secondary" variant="contained">
-                Search
-              </Button>
-            </Box>
-            <Box mt={4}>123</Box>
-          </PerfectScrollbar>
-        </Drawer>
-      )}
-    </>
+          <Typography variant="h4" color="textPrimary">
+            {getUserFullName(initialEmployee)}
+          </Typography>
+          <IconButton onClick={onClose}>
+            <SvgIcon fontSize="small">
+              <XIcon />
+            </SvgIcon>
+          </IconButton>
+        </Box>
+        <Divider light variant="fullWidth" />
+        <Box mt={2} px={3} py={1}>
+          <TextField
+            fullWidth
+            label="Имя"
+            margin="normal"
+            name="firstname"
+            type="text"
+            onChange={(event) =>
+              handleEmployeeChange('firstname', event.target.value)
+            }
+            value={employee.firstname}
+            variant="outlined"
+          />
+        </Box>
+      </PerfectScrollbar>
+    </Drawer>
   );
 };

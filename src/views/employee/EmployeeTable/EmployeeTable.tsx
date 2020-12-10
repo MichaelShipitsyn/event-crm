@@ -51,7 +51,6 @@ export const EmployeeTable: FC = () => {
   const [removableEmployeeID, setRemovableEmployeeID] = useState<number | null>(
     null
   );
-  const [isEmployeeCardOpen, setEmployeeCardOpen] = useState<boolean>(true);
   const [editableEmployee, setEditableEmployee] = useState<User | null>(null);
 
   const dispatch = useDispatch();
@@ -96,13 +95,7 @@ export const EmployeeTable: FC = () => {
   };
 
   const handleEditEmployee = async (employee: User) => {
-    setEmployeeCardOpen(true);
     setEditableEmployee(employee);
-  };
-
-  const closeEmployeeCard = () => {
-    setEmployeeCardOpen(false);
-    setEditableEmployee(null);
   };
 
   return (
@@ -165,11 +158,12 @@ export const EmployeeTable: FC = () => {
           </Box>
         </Hidden>
       </Card>
-      <EmployeeCard
-        isOpen={isEmployeeCardOpen}
-        onClose={() => closeEmployeeCard()}
-        editableEmployee={editableEmployee}
-      />
+      {editableEmployee && (
+        <EmployeeCard
+          onClose={() => setEditableEmployee(null)}
+          initialEmployee={editableEmployee}
+        />
+      )}
       <DeleteWarning
         isLoading={isDeleteEmployeesStatus === 'loading'}
         isOpen={removableEmployeeID !== null}
