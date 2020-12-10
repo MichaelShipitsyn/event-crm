@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux';
 
 type EmployeeItemProps = {
   employee: User;
+  onDelete: (id: number) => void;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export const EmployeeItem: FC<EmployeeItemProps> = ({ employee }) => {
+export const EmployeeItem: FC<EmployeeItemProps> = ({ employee, onDelete }) => {
   const classes = useStyles();
 
   const isEmployeesFetchLoading = useSelector(
@@ -90,7 +91,10 @@ export const EmployeeItem: FC<EmployeeItemProps> = ({ employee }) => {
               </SvgIcon>
             </IconButton>
           </Box>
-          <IconButton classes={{ root: classes.iconButton }}>
+          <IconButton
+            classes={{ root: classes.iconButton }}
+            onClick={() => onDelete(employee.id)}
+          >
             <SvgIcon fontSize="small">
               <TrashIcon />
             </SvgIcon>

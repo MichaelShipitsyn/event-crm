@@ -46,7 +46,9 @@ const useStyles = makeStyles((theme: Theme) => {
 
 export const EmployeeTable: FC = () => {
   const classes = useStyles();
-  const [deleteWarningOpen, setDeleteWarningOpen] = useState<boolean>(false);
+  const [removableEmployeeID, setRemovableEmployeeID] = useState<number | null>(
+    null
+  );
 
   const dispatch = useDispatch();
 
@@ -75,20 +77,18 @@ export const EmployeeTable: FC = () => {
 
   useEffect(() => {
     if (isRequestFulfilled(isDeleteEmployeesStatus)) {
-      setDeleteWarningOpen(false);
+      setRemovableEmployeeID(null);
     }
   }, [isDeleteEmployeesStatus]);
 
-  const handlePageChange = (event: any, newPage: number): void => {
+  const handlePageChange = (event: never, newPage: number): void => {
     dispatch(fetchEmployeesThunk({ page: newPage, limit: currentRowsPerPage }));
   };
 
-  const deleteEmployees = async (): Promise<void> => {
-    // dispatch(deleteEmployeesThunk(selectedEmployees));
-  };
-
-  const cancelDeleteWarningOpen = (): void => {
-    setDeleteWarningOpen(false);
+  const deleteEmployee = async (): Promise<void> => {
+    if (removableEmployeeID) {
+      dispatch(deleteEmployeesThunk(removableEmployeeID));
+    }
   };
 
   return (
@@ -118,7 +118,13 @@ export const EmployeeTable: FC = () => {
                 <>
                   {employees.map((employee) => {
                     return (
-                      <EmployeeItem key={employee.id} employee={employee} />
+                      <EmployeeItem
+                        key={employee.id}
+                        employee={employee}
+                        onDelete={(employeeID) =>
+                          setRemovableEmployeeID(employeeID)
+                        }
+                      />
                     );
                   })}
                 </>
@@ -148,9 +154,9 @@ export const EmployeeTable: FC = () => {
       </Card>
       <DeleteWarning
         isLoading={isDeleteEmployeesStatus === 'loading'}
-        deleteWarningOpen={deleteWarningOpen}
-        onCancel={cancelDeleteWarningOpen}
-        onDelete={deleteEmployees}
+        isOpen={removableEmployeeID !== null}
+        onCancel={() => setRemovableEmployeeID(null)}
+        onDelete={deleteEmployee}
       />
     </div>
   );

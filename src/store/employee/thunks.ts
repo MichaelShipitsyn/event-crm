@@ -27,13 +27,13 @@ export const fetchEmployeesThunk = ({
   }
 };
 
-export const deleteEmployeesThunk = (employees: number[]): AppThunk => async (
+export const deleteEmployeesThunk = (employeeID: number): AppThunk => async (
   dispatch,
   getState
 ) => {
   try {
     dispatch(deleteEmployeesStart());
-    await employeeApi.deleteEmployees(employees);
+    await employeeApi.deleteEmployee(employeeID);
     dispatch(deleteEmployeesSuccess());
 
     const page = getState().employee.currentPage;

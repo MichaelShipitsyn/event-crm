@@ -24,11 +24,11 @@ const getEmployees = async ({
   };
 };
 
-const deleteEmployees = async (employees: number[]): Promise<void> => {
-  await request.delete(`/employees?employees=${employees}`);
+const deleteEmployee = async (employeeID: number): Promise<void> => {
+  await request.delete(`/employees/${employeeID}`);
 };
 
 export const employeeApi = {
   getEmployees,
-  deleteEmployees
+  deleteEmployee
 };

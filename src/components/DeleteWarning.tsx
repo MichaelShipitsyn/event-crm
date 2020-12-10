@@ -13,20 +13,20 @@ import { ButtonWithLoader } from './ButtonWithLoader';
 
 type AuthProviderProps = {
   isLoading: boolean;
-  deleteWarningOpen: boolean;
+  isOpen: boolean;
   onCancel: () => void;
   onDelete: () => void;
 };
 
 export const DeleteWarning: FC<AuthProviderProps> = ({
   isLoading,
-  deleteWarningOpen,
+  isOpen,
   onCancel,
   onDelete
 }) => {
   return (
     <Dialog
-      open={deleteWarningOpen}
+      open={isOpen}
       onClose={() => onCancel()}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
