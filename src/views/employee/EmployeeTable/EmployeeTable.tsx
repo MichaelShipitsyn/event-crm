@@ -8,17 +8,18 @@ import {
 } from 'store/employee/thunks';
 import {
   Card,
-  Checkbox,
+  Box,
   Table,
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
   LinearProgress,
   makeStyles,
-  TableContainer
+  TableContainer,
+  Hidden
 } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
 import type { Theme } from 'theme';
 import { DeleteWarning, NoTableData } from 'components';
 import { isRequestFulfilled } from 'utils/isRequestFulfilled';
@@ -56,8 +57,9 @@ export const EmployeeTable: FC = () => {
   const isEmployeesFetchLoading = useSelector(
     (state: RootState) => state.employee.isEmployeesFetchLoading
   );
-  const currentPage =
-    useSelector((state: RootState) => state.employee.currentPage) - 1;
+  const currentPage = useSelector(
+    (state: RootState) => state.employee.currentPage
+  );
   const currentRowsPerPage = useSelector(
     (state: RootState) => state.employee.currentRowsPerPage
   );
@@ -67,7 +69,7 @@ export const EmployeeTable: FC = () => {
 
   useEffect(() => {
     dispatch(
-      fetchEmployeesThunk({ page: currentPage + 1, limit: currentRowsPerPage })
+      fetchEmployeesThunk({ page: currentPage, limit: currentRowsPerPage })
     );
   }, [dispatch]);
 
@@ -78,18 +80,7 @@ export const EmployeeTable: FC = () => {
   }, [isDeleteEmployeesStatus]);
 
   const handlePageChange = (event: any, newPage: number): void => {
-    dispatch(
-      fetchEmployeesThunk({ page: newPage + 1, limit: currentRowsPerPage })
-    );
-  };
-
-  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(
-      fetchEmployeesThunk({
-        page: currentPage + 1,
-        limit: Number(event.target.value)
-      })
-    );
+    dispatch(fetchEmployeesThunk({ page: newPage, limit: currentRowsPerPage }));
   };
 
   const deleteEmployees = async (): Promise<void> => {
@@ -135,15 +126,25 @@ export const EmployeeTable: FC = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          component="div"
-          count={totalEmployeesPages}
-          onChangePage={handlePageChange}
-          onChangeRowsPerPage={handleLimitChange}
-          page={currentPage}
-          rowsPerPage={currentRowsPerPage}
-          rowsPerPageOptions={[15, 50, 100]}
-        />
+        <Hidden smDown>
+          <Box display="flex" justifyContent="center" p="10px">
+            <Pagination
+              variant="outlined"
+              count={Math.floor(totalEmployeesPages / currentRowsPerPage)}
+              page={currentPage}
+              onChange={handlePageChange}
+            />
+          </Box>
+        </Hidden>
+        <Hidden smUp>
+          <Box pt="10px" pb="10px">
+            <Pagination
+              count={Math.floor(totalEmployeesPages / currentRowsPerPage)}
+              page={currentPage}
+              onChange={handlePageChange}
+            />
+          </Box>
+        </Hidden>
       </Card>
       <DeleteWarning
         isLoading={isDeleteEmployeesStatus === 'loading'}
