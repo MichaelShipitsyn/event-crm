@@ -13,8 +13,7 @@ import {
   SvgIcon,
   TextField,
   Tooltip,
-  Typography,
-  makeStyles
+  Typography
 } from '@material-ui/core';
 import { Search as SearchIcon, XCircle as XIcon } from 'react-feather';
 
@@ -23,15 +22,7 @@ interface Result {
   title: string;
 }
 
-const useStyles = makeStyles(() => ({
-  drawer: {
-    width: 500,
-    maxWidth: '100%'
-  }
-}));
-
 export const Search: FC = () => {
-  const classes = useStyles();
   const [value, setValue] = useState<string>('');
   const [isOpen, setOpen] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -60,7 +51,6 @@ export const Search: FC = () => {
       </Tooltip>
       <Drawer
         anchor="right"
-        classes={{ paper: classes.drawer }}
         onClose={handleClose}
         open={isOpen}
         variant="temporary"

@@ -23,8 +23,10 @@ import Pagination from '@material-ui/lab/Pagination';
 import type { Theme } from 'theme';
 import { DeleteWarning, NoTableData } from 'components';
 import { isRequestFulfilled } from 'utils/isRequestFulfilled';
+import { User } from 'types/users';
 import { EmployeeItem } from './EmployeeItem';
 import { TableFilters } from './TableFilters';
+import { EmployeeCard } from './EmployeeCard';
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
@@ -49,6 +51,8 @@ export const EmployeeTable: FC = () => {
   const [removableEmployeeID, setRemovableEmployeeID] = useState<number | null>(
     null
   );
+  const [isEmployeeCardOpen, setEmployeeCardOpen] = useState<boolean>(true);
+  const [editableEmployee, setEditableEmployee] = useState<User | null>(null);
 
   const dispatch = useDispatch();
 
@@ -85,10 +89,20 @@ export const EmployeeTable: FC = () => {
     dispatch(fetchEmployeesThunk({ page: newPage, limit: currentRowsPerPage }));
   };
 
-  const deleteEmployee = async (): Promise<void> => {
+  const handleDeleteEmployee = async (): Promise<void> => {
     if (removableEmployeeID) {
       dispatch(deleteEmployeesThunk(removableEmployeeID));
     }
+  };
+
+  const handleEditEmployee = async (employee: User) => {
+    setEmployeeCardOpen(true);
+    setEditableEmployee(employee);
+  };
+
+  const closeEmployeeCard = () => {
+    setEmployeeCardOpen(false);
+    setEditableEmployee(null);
   };
 
   return (
@@ -121,9 +135,8 @@ export const EmployeeTable: FC = () => {
                       <EmployeeItem
                         key={employee.id}
                         employee={employee}
-                        onDelete={(employeeID) =>
-                          setRemovableEmployeeID(employeeID)
-                        }
+                        onEdit={() => handleEditEmployee(employee)}
+                        onDelete={() => setRemovableEmployeeID(employee.id)}
                       />
                     );
                   })}
@@ -152,11 +165,16 @@ export const EmployeeTable: FC = () => {
           </Box>
         </Hidden>
       </Card>
+      <EmployeeCard
+        isOpen={isEmployeeCardOpen}
+        onClose={() => closeEmployeeCard()}
+        editableEmployee={editableEmployee}
+      />
       <DeleteWarning
         isLoading={isDeleteEmployeesStatus === 'loading'}
         isOpen={removableEmployeeID !== null}
         onCancel={() => setRemovableEmployeeID(null)}
-        onDelete={deleteEmployee}
+        onDelete={handleDeleteEmployee}
       />
     </div>
   );

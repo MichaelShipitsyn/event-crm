@@ -9,6 +9,7 @@ import MuiButton from './MuiButton';
 import MuiTableCell from './MuiTableCell';
 import MuiBackdrop from './MuiBackdrop';
 import MuiDialogTitle from './MuiDialogTitle';
+import MuiDrawer from './MuiDrawer';
 
 export default {
   MuiChip,
@@ -21,5 +22,6 @@ export default {
   MuiButton,
   MuiTableCell,
   MuiBackdrop,
-  MuiDialogTitle
+  MuiDialogTitle,
+  MuiDrawer
 };
