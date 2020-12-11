@@ -1,39 +1,39 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import type { FC } from 'react';
 import { Snackbar } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { setServerError } from 'store/global/slice';
+import { closeAlert } from 'store/global/slice';
 
 export const Notification: FC = () => {
   const dispatch = useDispatch();
-  const isServerError = useSelector(
-    (state: RootState) => state.global.isServerError
+  const alertMessage = useSelector(
+    (state: RootState) => state.global.alertMessage
   );
+  const alertType = useSelector((state: RootState) => state.global.alertType);
 
   const handleClose = (
     event: React.SyntheticEvent | React.MouseEvent,
     reason?: string
   ) => {
-    console.log('close');
     if (reason === 'clickaway') {
       return;
     }
 
-    if (isServerError) {
-      dispatch(setServerError(false));
+    if (alertMessage) {
+      dispatch(closeAlert());
     }
   };
 
   return (
     <Snackbar
-      open={isServerError}
+      open={!!alertMessage}
       autoHideDuration={6000}
       onClose={handleClose}
     >
-      <Alert onClose={handleClose} severity="error">
-        Ошибка сервера. Обратитесь к администрации.
+      <Alert onClose={handleClose} severity={alertType}>
+        {alertMessage}
       </Alert>
     </Snackbar>
   );

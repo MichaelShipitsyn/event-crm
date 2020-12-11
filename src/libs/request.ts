@@ -1,7 +1,7 @@
 import axios from 'axios';
 import store from 'store';
 import { logoutUser } from 'store/auth/thunks';
-import { setServerError } from 'store/global/slice';
+import { showAlert } from 'store/global/slice';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -21,7 +21,12 @@ request.interceptors.response.use(
     }
 
     if (error.response.status >= 500) {
-      store.dispatch(setServerError(true));
+      store.dispatch(
+        showAlert({
+          alertMessage: 'Ошибка сервера. Обратитесь к администрации',
+          alertType: 'error'
+        })
+      );
     }
 
     return Promise.reject(error);

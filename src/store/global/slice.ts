@@ -1,23 +1,34 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type InitialState = {
-  isServerError: boolean;
+  alertMessage: string | null;
+  alertType: 'success' | 'info' | 'warning' | 'error';
+};
+
+type ShowAlertPayload = {
+  alertMessage: string | null;
+  alertType: 'success' | 'info' | 'warning' | 'error';
 };
 
 const initialState: InitialState = {
-  isServerError: false
+  alertMessage: null,
+  alertType: 'error'
 };
 
 const globalSlice = createSlice({
   name: 'global',
   initialState,
   reducers: {
-    setServerError(state, { payload }: PayloadAction<boolean>) {
-      state.isServerError = payload;
+    showAlert(state, { payload }: PayloadAction<ShowAlertPayload>) {
+      state.alertMessage = payload.alertMessage;
+      state.alertType = payload.alertType;
+    },
+    closeAlert(state) {
+      state.alertMessage = null;
     }
   }
 });
 
-export const { setServerError } = globalSlice.actions;
+export const { showAlert, closeAlert } = globalSlice.actions;
 
 export const globalSliceReducer = globalSlice.reducer;
