@@ -1,6 +1,5 @@
 import React from 'react';
 import type { FC } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { RootState } from 'store';
 import { SkeletonWrap } from 'components';
 import { User } from 'types/users';

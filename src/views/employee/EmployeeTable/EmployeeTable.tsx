@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import type { FC, ChangeEvent } from 'react';
+import React, { useEffect } from 'react';
+import type { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import {
-  fetchEmployeesThunk,
-  deleteEmployeesThunk
-} from 'store/employee/thunks';
+import { fetchEmployeesThunk } from 'store/employee/thunks';
 import {
   Card,
   Box,
@@ -19,11 +16,10 @@ import {
   TableContainer,
   Hidden
 } from '@material-ui/core';
+import { useEditEmployee, useDeleteEmployee } from 'hooks/employee';
 import Pagination from '@material-ui/lab/Pagination';
 import type { Theme } from 'theme';
 import { DeleteWarning, NoTableData } from 'components';
-import { isRequestFulfilled } from 'utils/isRequestFulfilled';
-import { User } from 'types/users';
 import { EmployeeItem } from './EmployeeItem';
 import { TableFilters } from './TableFilters';
 import { EmployeeCard } from './EmployeeCard';
@@ -48,12 +44,19 @@ const useStyles = makeStyles((theme: Theme) => {
 
 export const EmployeeTable: FC = () => {
   const classes = useStyles();
-  const [removableEmployeeID, setRemovableEmployeeID] = useState<number | null>(
-    null
-  );
-  const [editableEmployee, setEditableEmployee] = useState<User | null>(null);
-
   const dispatch = useDispatch();
+
+  const {
+    editableEmployee,
+    setEditableEmployee,
+    handleEmployeeSave
+  } = useEditEmployee();
+  const {
+    removableEmployeeID,
+    setRemovableEmployeeID,
+    isDeleteEmployeesStatus,
+    handleDeleteEmployee
+  } = useDeleteEmployee();
 
   const employees = useSelector((state: RootState) => state.employee.employees);
   const totalEmployeesPages = useSelector(
@@ -68,38 +71,15 @@ export const EmployeeTable: FC = () => {
   const currentRowsPerPage = useSelector(
     (state: RootState) => state.employee.currentRowsPerPage
   );
-  const isDeleteEmployeesStatus = useSelector(
-    (state: RootState) => state.employee.isDeleteEmployeesStatus
-  );
 
   useEffect(() => {
     dispatch(
       fetchEmployeesThunk({ page: currentPage, limit: currentRowsPerPage })
     );
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isRequestFulfilled(isDeleteEmployeesStatus)) {
-      setRemovableEmployeeID(null);
-    }
-  }, [isDeleteEmployeesStatus]);
+  }, [dispatch, currentPage, currentRowsPerPage]);
 
   const handlePageChange = (event: never, newPage: number): void => {
     dispatch(fetchEmployeesThunk({ page: newPage, limit: currentRowsPerPage }));
-  };
-
-  const handleDeleteEmployee = async (): Promise<void> => {
-    if (removableEmployeeID) {
-      dispatch(deleteEmployeesThunk(removableEmployeeID));
-    }
-  };
-
-  const handleEditEmployee = async (employee: User) => {
-    setEditableEmployee(employee);
-  };
-
-  const handleEmployeeSave = async (employee: User) => {
-    console.log(employee);
   };
 
   return (
@@ -132,7 +112,7 @@ export const EmployeeTable: FC = () => {
                       <EmployeeItem
                         key={employee.id}
                         employee={employee}
-                        onEdit={() => handleEditEmployee(employee)}
+                        onEdit={() => setEditableEmployee(employee)}
                         onDelete={() => setRemovableEmployeeID(employee.id)}
                       />
                     );

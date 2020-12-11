@@ -2,13 +2,7 @@ import React from 'react';
 import type { FC } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import {
-  Box,
-  Button,
-  FormHelperText,
-  TextField,
-  CircularProgress
-} from '@material-ui/core';
+import { Box, FormHelperText, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from 'store/auth/thunks';
 import { RootState } from 'store';

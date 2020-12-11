@@ -1,6 +1,5 @@
-import React, { useEffect, useState, SyntheticEvent } from 'react';
+import React, { useState } from 'react';
 import type { FC } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { User } from 'types/users';
 import { getUserFullName } from 'utils/getUserFullName';
 import {
