@@ -34,5 +34,8 @@ export default {
   },
   body2: {
     fontSize: 14
+  },
+  caption: {
+    fontWeight: 500
   }
 };
