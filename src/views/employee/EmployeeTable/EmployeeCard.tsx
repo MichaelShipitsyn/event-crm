@@ -15,10 +15,11 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { Check as CheckIcon, XCircle as XIcon } from 'react-feather';
+import { Check as CheckIcon, X as XIcon } from 'react-feather';
 
 type Props = {
   initialEmployee: User;
+  handleEmployeeSave: (employee: User) => void;
   onClose: () => void;
 };
 
@@ -36,7 +37,11 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const EmployeeCard: FC<Props> = ({ initialEmployee, onClose }) => {
+export const EmployeeCard: FC<Props> = ({
+  initialEmployee,
+  handleEmployeeSave,
+  onClose
+}) => {
   const classes = useStyles();
   const [employee, setEmployee] = useState(initialEmployee);
 
@@ -143,6 +148,7 @@ export const EmployeeCard: FC<Props> = ({ initialEmployee, onClose }) => {
       <Box p={3} display="flex" justifyContent="space-between">
         <Button variant="contained">Отменить</Button>
         <Button
+          onClick={() => handleEmployeeSave(employee)}
           color="secondary"
           variant="contained"
           startIcon={

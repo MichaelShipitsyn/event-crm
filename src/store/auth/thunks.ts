@@ -3,10 +3,10 @@ import { authApi } from 'api/auth';
 import { history } from 'libs/history';
 import { LocalStorage } from 'utils/LocalStorage';
 import { getErrorMessage } from 'utils/getErrorMessage';
-import { setRequestError, resetRequestError } from 'store/global/slice';
 import {
   setLoginRequestLoader,
-  setRegisterRequestLoader
+  setRegisterRequestLoader,
+  setAuthMessageError
 } from 'store/auth/slice';
 import { setCurrentUser, removeCurrentUser, setAuthChecked } from './slice';
 
@@ -31,13 +31,13 @@ export const loginRequest = (payload: LoginRequestPayload): AppThunk => async (
     LocalStorage.setItem('token', response.data.access_token);
     authApi.setHeaderAuthorization(response.data.access_token);
     dispatch(setCurrentUser(response.data.user));
-    dispatch(resetRequestError());
+    dispatch(setAuthMessageError(null));
     dispatch(setLoginRequestLoader(false));
     history.push('/app/employees');
   } catch (error) {
-    const requestError = getErrorMessage(error);
+    const errorMessage = getErrorMessage(error);
     dispatch(setLoginRequestLoader(false));
-    dispatch(setRequestError({ error: requestError }));
+    dispatch(setAuthMessageError(errorMessage));
   }
 };
 
@@ -55,13 +55,13 @@ export const registerRequest = (
     LocalStorage.setItem('token', response.data.access_token);
     authApi.setHeaderAuthorization(response.data.access_token);
     dispatch(setCurrentUser(response.data.user));
-    dispatch(resetRequestError());
+    dispatch(setAuthMessageError(null));
     dispatch(setRegisterRequestLoader(false));
     history.push('/app/employees');
   } catch (error) {
-    const requestError = getErrorMessage(error);
+    const errorMessage = getErrorMessage(error);
     dispatch(setRegisterRequestLoader(false));
-    dispatch(setRequestError({ error: requestError }));
+    dispatch(setAuthMessageError(errorMessage));
   }
 };
 

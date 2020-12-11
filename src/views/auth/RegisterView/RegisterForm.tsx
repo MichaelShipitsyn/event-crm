@@ -3,14 +3,14 @@ import type { FC } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, FormHelperText, TextField } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerRequest } from 'store/auth/thunks';
-import { useSelector } from 'react-redux';
+
 import { RootState } from 'store';
 
 export const RegisterForm: FC = () => {
-  const requestError = useSelector(
-    (state: RootState) => state.global.requestError
+  const authMessageError = useSelector(
+    (state: RootState) => state.auth.authMessageError
   );
   const dispatch = useDispatch();
 
@@ -108,9 +108,9 @@ export const RegisterForm: FC = () => {
             value={values.password}
             variant="outlined"
           />
-          {requestError && (
+          {authMessageError && (
             <Box mt={3}>
-              <FormHelperText error>{requestError}</FormHelperText>
+              <FormHelperText error>{authMessageError}</FormHelperText>
             </Box>
           )}
           <Box mt={2}>

@@ -7,6 +7,7 @@ export type AuthState = {
   user: User | null;
   isLoginRequestLoading: boolean;
   isRegisterRequestLoading: boolean;
+  authMessageError: string | null;
 };
 
 const initialState: AuthState = {
@@ -14,7 +15,8 @@ const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
   isLoginRequestLoading: false,
-  isRegisterRequestLoading: false
+  isRegisterRequestLoading: false,
+  authMessageError: null
 };
 
 const authSlice = createSlice({
@@ -37,6 +39,9 @@ const authSlice = createSlice({
     },
     setRegisterRequestLoader(state, action) {
       state.isRegisterRequestLoading = action.payload;
+    },
+    setAuthMessageError(state, { payload }: PayloadAction<string | null>) {
+      state.authMessageError = payload;
     }
   }
 });
@@ -48,5 +53,6 @@ export const {
   removeCurrentUser,
   setAuthChecked,
   setLoginRequestLoader,
-  setRegisterRequestLoader
+  setRegisterRequestLoader,
+  setAuthMessageError
 } = authSlice.actions;

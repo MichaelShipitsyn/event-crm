@@ -98,6 +98,10 @@ export const EmployeeTable: FC = () => {
     setEditableEmployee(employee);
   };
 
+  const handleEmployeeSave = async (employee: User) => {
+    console.log(employee);
+  };
+
   return (
     <div>
       <Card>
@@ -162,6 +166,7 @@ export const EmployeeTable: FC = () => {
         <EmployeeCard
           onClose={() => setEditableEmployee(null)}
           initialEmployee={editableEmployee}
+          handleEmployeeSave={(employee) => handleEmployeeSave(employee)}
         />
       )}
       <DeleteWarning

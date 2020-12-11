@@ -15,8 +15,8 @@ import { RootState } from 'store';
 import { ButtonWithLoader } from 'components';
 
 export const LoginForm: FC = () => {
-  const requestError = useSelector(
-    (state: RootState) => state.global.requestError
+  const authMessageError = useSelector(
+    (state: RootState) => state.auth.authMessageError
   );
   const isLoginRequestLoading = useSelector(
     (state: RootState) => state.auth.isLoginRequestLoading
@@ -78,9 +78,9 @@ export const LoginForm: FC = () => {
             value={values.password}
             variant="outlined"
           />
-          {requestError && (
+          {authMessageError && (
             <Box mt={3}>
-              <FormHelperText error>{requestError}</FormHelperText>
+              <FormHelperText error>{authMessageError}</FormHelperText>
             </Box>
           )}
           <Box mt={2} position="relative">
