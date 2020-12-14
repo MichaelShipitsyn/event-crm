@@ -3,6 +3,8 @@ import type { FC } from 'react';
 import { User } from 'types/users';
 import { getUserFullName } from 'utils/getUserFullName';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import {
   Box,
   Button,
@@ -16,6 +18,14 @@ import {
 } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
+
+type FormData = {
+  firstname: string;
+  lastname: string;
+  phone: string;
+  email: string;
+  is_admin: boolean;
+};
 
 type Props = {
   initialEmployee: User;
@@ -37,6 +47,13 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+const schema = yup.object().shape({
+  firstname: yup.string().required('Обязательное поле'),
+  lastname: yup.string().required('Обязательное поле'),
+  phone: yup.string().required('Обязательное поле'),
+  email: yup.string().email('Невалидный Email').required('Обязательное поле')
+});
+
 export const EmployeeCard: FC<Props> = ({
   initialEmployee,
   handleEmployeeSave,
@@ -44,7 +61,8 @@ export const EmployeeCard: FC<Props> = ({
 }) => {
   const { register, errors, handleSubmit, setValue } = useForm({
     mode: 'onChange',
-    defaultValues: initialEmployee
+    defaultValues: initialEmployee,
+    resolver: yupResolver(schema)
   });
   const classes = useStyles();
   const [isAdmin, setIsAdmin] = useState(initialEmployee.is_admin);
@@ -76,9 +94,7 @@ export const EmployeeCard: FC<Props> = ({
           <TextField
             error={!!errors?.firstname}
             helperText={errors?.firstname && errors?.firstname.message}
-            inputRef={register({
-              required: 'Обязательное поле'
-            })}
+            inputRef={register}
             fullWidth
             label="Имя"
             margin="normal"
@@ -89,9 +105,7 @@ export const EmployeeCard: FC<Props> = ({
           <TextField
             error={!!errors?.lastname}
             helperText={errors?.lastname && errors?.lastname.message}
-            inputRef={register({
-              required: 'Обязательное поле'
-            })}
+            inputRef={register}
             fullWidth
             label="Фамилия"
             margin="normal"
@@ -102,9 +116,7 @@ export const EmployeeCard: FC<Props> = ({
           <TextField
             error={!!errors?.phone}
             helperText={errors?.phone && errors?.phone.message}
-            inputRef={register({
-              required: 'Обязательное поле'
-            })}
+            inputRef={register}
             fullWidth
             label="Телефон"
             margin="normal"
@@ -115,9 +127,7 @@ export const EmployeeCard: FC<Props> = ({
           <TextField
             error={!!errors?.email}
             helperText={errors?.email && errors?.email.message}
-            inputRef={register({
-              required: 'Обязательное поле'
-            })}
+            inputRef={register}
             fullWidth
             label="Электронная почта"
             margin="normal"
