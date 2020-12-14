@@ -1,5 +1,6 @@
 export default {
   MuiTextField: {
+    autoComplete: 'off',
     InputProps: {
       notched: false
     },
@@ -9,5 +10,5 @@ export default {
   },
   MuiButtonBase: {
     disableRipple: true
-  },
-}
+  }
+};

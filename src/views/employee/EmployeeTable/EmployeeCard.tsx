@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { User } from 'types/users';
 import { getUserFullName } from 'utils/getUserFullName';
+import { useForm } from 'react-hook-form';
 import {
   Box,
   Button,
@@ -41,13 +42,16 @@ export const EmployeeCard: FC<Props> = ({
   handleEmployeeSave,
   onClose
 }) => {
+  const { register, errors, handleSubmit, setValue } = useForm({
+    mode: 'onChange',
+    defaultValues: initialEmployee
+  });
   const classes = useStyles();
-  const [employee, setEmployee] = useState(initialEmployee);
+  const [isAdmin, setIsAdmin] = useState(initialEmployee.is_admin);
 
-  const handleEmployeeChange = (field: string, value: any) => {
-    const newEmployee: User = { ...employee, [field]: value };
-    setEmployee(newEmployee);
-  };
+  useEffect(() => {
+    register('is_admin');
+  }, [register]);
 
   return (
     <Drawer anchor="right" open onClose={onClose} variant="temporary">
@@ -70,51 +74,55 @@ export const EmployeeCard: FC<Props> = ({
       <div className={classes.drawerContent}>
         <Box px={3} py={1}>
           <TextField
+            error={!!errors?.firstname}
+            helperText={errors?.firstname && errors?.firstname.message}
+            inputRef={register({
+              required: 'Обязательное поле'
+            })}
             fullWidth
             label="Имя"
             margin="normal"
             name="firstname"
             type="text"
-            onChange={(event) =>
-              handleEmployeeChange('firstname', event.target.value)
-            }
-            value={employee.firstname}
             variant="outlined"
           />
           <TextField
+            error={!!errors?.lastname}
+            helperText={errors?.lastname && errors?.lastname.message}
+            inputRef={register({
+              required: 'Обязательное поле'
+            })}
             fullWidth
             label="Фамилия"
             margin="normal"
             name="lastname"
             type="text"
-            onChange={(event) =>
-              handleEmployeeChange('lastname', event.target.value)
-            }
-            value={employee.lastname}
             variant="outlined"
           />
           <TextField
+            error={!!errors?.phone}
+            helperText={errors?.phone && errors?.phone.message}
+            inputRef={register({
+              required: 'Обязательное поле'
+            })}
             fullWidth
             label="Телефон"
             margin="normal"
             name="phone"
             type="text"
-            onChange={(event) =>
-              handleEmployeeChange('phone', event.target.value)
-            }
-            value={employee.phone}
             variant="outlined"
           />
           <TextField
+            error={!!errors?.email}
+            helperText={errors?.email && errors?.email.message}
+            inputRef={register({
+              required: 'Обязательное поле'
+            })}
             fullWidth
             label="Электронная почта"
             margin="normal"
             name="email"
             type="text"
-            onChange={(event) =>
-              handleEmployeeChange('email', event.target.value)
-            }
-            value={employee.email}
             variant="outlined"
           />
           <Box mt={1}>
@@ -125,10 +133,11 @@ export const EmployeeCard: FC<Props> = ({
               classes={{ root: classes.toggleButtonGroup }}
               exclusive
               size="small"
-              value={employee.is_admin}
-              onChange={(event, value) =>
-                handleEmployeeChange('is_admin', value)
-              }
+              value={isAdmin}
+              onChange={(event, value) => {
+                setIsAdmin(!!value);
+                setValue('is_admin', value);
+              }}
             >
               <ToggleButton
                 color="primary"
@@ -147,7 +156,9 @@ export const EmployeeCard: FC<Props> = ({
       <Box p={3} display="flex" justifyContent="space-between">
         <Button variant="contained">Отменить</Button>
         <Button
-          onClick={() => handleEmployeeSave(employee)}
+          onClick={handleSubmit((editedEmployee) =>
+            handleEmployeeSave({ ...initialEmployee, ...editedEmployee })
+          )}
           color="secondary"
           variant="contained"
           startIcon={
