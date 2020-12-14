@@ -166,7 +166,8 @@ export const EmployeeCard: FC<Props> = ({
       <Box p={3} display="flex" justifyContent="space-between">
         <Button variant="contained">Отменить</Button>
         <Button
-          onClick={handleSubmit((editedEmployee) =>
+          disabled={Object.keys(errors).length !== 0}
+          onClick={handleSubmit((editedEmployee: FormData) =>
             handleEmployeeSave({ ...initialEmployee, ...editedEmployee })
           )}
           color="secondary"
