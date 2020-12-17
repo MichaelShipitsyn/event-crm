@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import type { FC } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -9,7 +8,6 @@ import {
   Drawer,
   IconButton,
   InputAdornment,
-  Link,
   SvgIcon,
   TextField,
   Tooltip,
@@ -105,21 +103,7 @@ export const Search: FC = () => {
                 </Box>
               ) : (
                 <>
-                  {results.map((result, i) => (
-                    <Box key={i} mb={2}>
-                      <Link
-                        variant="h4"
-                        color="textPrimary"
-                        component={RouterLink}
-                        to="/app"
-                      >
-                        {result.title}
-                      </Link>
-                      <Typography variant="body2" color="textPrimary">
-                        {result.description}
-                      </Typography>
-                    </Box>
-                  ))}
+                  <p>Results</p>
                 </>
               )}
             </Box>

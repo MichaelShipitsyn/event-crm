@@ -4,9 +4,12 @@ import type { MutableRefObject } from 'react';
 const useIsMountedRef = (): MutableRefObject<boolean> => {
   const isMounted = useRef(true);
 
-  useEffect(() => () => {
-    isMounted.current = false;
-  }, []);
+  useEffect(
+    () => () => {
+      isMounted.current = false;
+    },
+    []
+  );
 
   return isMounted;
 };

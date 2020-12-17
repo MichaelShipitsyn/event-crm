@@ -34,12 +34,18 @@
     "react/require-default-props": "off",
     "react/jsx-curly-newline": "off",
     "react/jsx-boolean-value": "off",
+    "react/jsx-one-expression-per-line": "off",
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
     "no-return-await": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
+    "react/no-array-index-key": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/comma-dangle": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   },
   "settings": {
     "import/parsers": {

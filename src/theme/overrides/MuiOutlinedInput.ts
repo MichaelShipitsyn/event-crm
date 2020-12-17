@@ -5,6 +5,6 @@ export default {
   root: {
     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderWidth: '1px'
-    },
+    }
   }
 };

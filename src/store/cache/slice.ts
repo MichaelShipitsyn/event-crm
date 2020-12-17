@@ -19,8 +19,6 @@ const cacheSlice = createSlice({
   }
 });
 
-export const {
-  setCached
-} = cacheSlice.actions;
+export const { setCached } = cacheSlice.actions;
 
 export const cacheSliceReducer = cacheSlice.reducer;
