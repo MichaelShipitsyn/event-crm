@@ -38,6 +38,7 @@
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
     "no-return-await": "off",
+    "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
     "react/no-array-index-key": "off",
     "@typescript-eslint/no-explicit-any": "off",
