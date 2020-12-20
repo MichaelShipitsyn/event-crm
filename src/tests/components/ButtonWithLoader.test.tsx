@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { ButtonWithLoader } from './ButtonWithLoader';
+import { ButtonWithLoader } from 'components/ButtonWithLoader';
 
 test('check render with isLoading=false', async () => {
   render(<ButtonWithLoader label="test-label" isLoading={false} />);

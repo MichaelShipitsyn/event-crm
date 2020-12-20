@@ -2,11 +2,13 @@ import * as React from 'react';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { Store, AnyAction } from 'redux';
+import { Store } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from 'store/rootReducer';
 
-export const renderWithStoreAndRouter = (
+export const renderWithProviders = (
   ui: React.ReactElement,
-  store: Store<any, AnyAction>,
+  store: Store,
   { ...renderOptions } = {}
 ) => {
   const Wrapper: React.FC = ({ children }) => (
@@ -21,4 +23,11 @@ export const renderWithStoreAndRouter = (
       ...renderOptions
     })
   };
+};
+
+export const createStoreTest = (state: any) => {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState: state
+  });
 };
