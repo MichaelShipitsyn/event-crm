@@ -10,7 +10,7 @@ export type AuthState = {
   authMessageError: string | null;
 };
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   isAuthChecked: false,
   isAuthenticated: false,
   user: null,
