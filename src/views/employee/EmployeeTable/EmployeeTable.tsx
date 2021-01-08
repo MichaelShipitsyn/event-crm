@@ -22,7 +22,7 @@ import type { Theme } from 'theme';
 import { DeleteWarning, NoTableData } from 'components';
 import { EmployeeItem } from './EmployeeItem';
 import { TableFilters } from './TableFilters';
-import { EmployeeCard } from './EmployeeCard';
+import { EmployeeCard } from '../EmployeeCard';
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
@@ -54,7 +54,7 @@ export const EmployeeTable: FC = () => {
   const {
     removableEmployeeID,
     setRemovableEmployeeID,
-    isDeleteEmployeesStatus,
+    deleteEmployeeRequestStatus,
     handleDeleteEmployee
   } = useDeleteEmployee();
 
@@ -146,11 +146,11 @@ export const EmployeeTable: FC = () => {
         <EmployeeCard
           onClose={() => setEditableEmployee(null)}
           initialEmployee={editableEmployee}
-          handleEmployeeSave={(employee) => handleEmployeeSave(employee)}
+          onSave={(employee) => handleEmployeeSave(employee)}
         />
       )}
       <DeleteWarning
-        isLoading={isDeleteEmployeesStatus === 'loading'}
+        isLoading={deleteEmployeeRequestStatus === 'loading'}
         isOpen={removableEmployeeID !== null}
         onCancel={() => setRemovableEmployeeID(null)}
         onDelete={handleDeleteEmployee}

@@ -10,15 +10,15 @@ export const useDeleteEmployee = () => {
   const [removableEmployeeID, setRemovableEmployeeID] = useState<number | null>(
     null
   );
-  const isDeleteEmployeesStatus = useSelector(
-    (state: RootState) => state.employee.isDeleteEmployeesStatus
+  const deleteEmployeeRequestStatus = useSelector(
+    (state: RootState) => state.employee.deleteEmployeeRequestStatus
   );
 
   useEffect(() => {
-    if (isRequestFulfilled(isDeleteEmployeesStatus)) {
+    if (isRequestFulfilled(deleteEmployeeRequestStatus)) {
       setRemovableEmployeeID(null);
     }
-  }, [isDeleteEmployeesStatus]);
+  }, [deleteEmployeeRequestStatus]);
 
   const handleDeleteEmployee = () => {
     if (removableEmployeeID) {
@@ -29,7 +29,7 @@ export const useDeleteEmployee = () => {
   return {
     removableEmployeeID,
     setRemovableEmployeeID,
-    isDeleteEmployeesStatus,
+    deleteEmployeeRequestStatus,
     handleDeleteEmployee
   };
 };

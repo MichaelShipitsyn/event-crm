@@ -1,12 +1,16 @@
 import { employeeApi } from 'api/employee';
 import type { AppThunk } from 'store';
+import { User } from 'types/users';
 import {
-  fetchEmployeesStart,
-  fetchEmployeesSuccess,
-  fetchEmployeesFail,
-  deleteEmployeesStart,
-  deleteEmployeesSuccess,
-  deleteEmployeesFail
+  fetchEmployeesRequestStart,
+  fetchEmployeesRequestSuccess,
+  fetchEmployeesRequestFail,
+  deleteEmployeeStart,
+  deleteEmployeeSuccess,
+  deleteEmployeeFail,
+  updateEmployeeRequestStart,
+  updateEmployeeRequestSuccess,
+  updateEmployeeRequestFail
 } from './slice';
 
 type FetchEmployeesParams = {
@@ -19,11 +23,28 @@ export const fetchEmployeesThunk = ({
   limit
 }: FetchEmployeesParams): AppThunk => async (dispatch) => {
   try {
-    dispatch(fetchEmployeesStart({ page, limit }));
+    dispatch(fetchEmployeesRequestStart({ page, limit }));
     const employees = await employeeApi.getEmployees({ page, limit });
-    dispatch(fetchEmployeesSuccess(employees));
+    dispatch(fetchEmployeesRequestSuccess(employees));
   } catch (err) {
-    dispatch(fetchEmployeesFail());
+    dispatch(fetchEmployeesRequestFail());
+  }
+};
+
+export const updateEmployeesThunk = (employee: User): AppThunk => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch(updateEmployeeRequestStart());
+    await employeeApi.updateEmployee(employee);
+    dispatch(updateEmployeeRequestSuccess());
+
+    const page = getState().employee.currentPage;
+    const limit = getState().employee.currentRowsPerPage;
+    dispatch(fetchEmployeesThunk({ page, limit }));
+  } catch (err) {
+    dispatch(updateEmployeeRequestFail());
   }
 };
 
@@ -32,14 +53,14 @@ export const deleteEmployeesThunk = (employeeID: number): AppThunk => async (
   getState
 ) => {
   try {
-    dispatch(deleteEmployeesStart());
+    dispatch(deleteEmployeeStart());
     await employeeApi.deleteEmployee(employeeID);
-    dispatch(deleteEmployeesSuccess());
+    dispatch(deleteEmployeeSuccess());
 
     const page = getState().employee.currentPage;
     const limit = getState().employee.currentRowsPerPage;
     dispatch(fetchEmployeesThunk({ page, limit }));
   } catch (err) {
-    dispatch(deleteEmployeesFail());
+    dispatch(deleteEmployeeFail());
   }
 };

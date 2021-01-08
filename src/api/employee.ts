@@ -28,7 +28,12 @@ const deleteEmployee = async (employeeID: number): Promise<void> => {
   await request.delete(`/employees/${employeeID}`);
 };
 
+const updateEmployee = async (employee: User): Promise<void> => {
+  await request.put(`/employees/${employee.id}`, { employee });
+};
+
 export const employeeApi = {
   getEmployees,
+  updateEmployee,
   deleteEmployee
 };

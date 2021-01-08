@@ -6,7 +6,8 @@ type InitialState = {
   employees: User[];
   totalEmployeesPages: number;
   isEmployeesFetchLoading: boolean;
-  isDeleteEmployeesStatus: 'idle' | 'loading' | 'success' | 'fail';
+  deleteEmployeeRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
+  updateEmployeeRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   currentPage: number;
   currentRowsPerPage: number;
 };
@@ -20,7 +21,8 @@ const initialState: InitialState = {
   employees: [],
   totalEmployeesPages: 0,
   isEmployeesFetchLoading: false,
-  isDeleteEmployeesStatus: 'idle',
+  deleteEmployeeRequestStatus: 'idle',
+  updateEmployeeRequestStatus: 'idle',
   currentPage: 1,
   currentRowsPerPage: 15
 };
@@ -29,7 +31,7 @@ const employeeSlice = createSlice({
   name: 'employee',
   initialState,
   reducers: {
-    fetchEmployeesStart(
+    fetchEmployeesRequestStart(
       state,
       { payload }: PayloadAction<FetchEmployeesStartPayload>
     ) {
@@ -37,7 +39,7 @@ const employeeSlice = createSlice({
       state.currentPage = payload.page;
       state.currentRowsPerPage = payload.limit;
     },
-    fetchEmployeesSuccess(
+    fetchEmployeesRequestSuccess(
       state,
       { payload }: PayloadAction<GetEmployeesResult>
     ) {
@@ -45,17 +47,26 @@ const employeeSlice = createSlice({
       state.totalEmployeesPages = payload.total;
       state.isEmployeesFetchLoading = false;
     },
-    fetchEmployeesFail(state) {
+    fetchEmployeesRequestFail(state) {
       state.isEmployeesFetchLoading = false;
     },
-    deleteEmployeesStart(state) {
-      state.isDeleteEmployeesStatus = 'loading';
+    deleteEmployeeStart(state) {
+      state.deleteEmployeeRequestStatus = 'loading';
     },
-    deleteEmployeesSuccess(state) {
-      state.isDeleteEmployeesStatus = 'success';
+    deleteEmployeeSuccess(state) {
+      state.deleteEmployeeRequestStatus = 'success';
     },
-    deleteEmployeesFail(state) {
-      state.isDeleteEmployeesStatus = 'fail';
+    deleteEmployeeFail(state) {
+      state.deleteEmployeeRequestStatus = 'fail';
+    },
+    updateEmployeeRequestStart(state) {
+      state.updateEmployeeRequestStatus = 'loading';
+    },
+    updateEmployeeRequestSuccess(state) {
+      state.updateEmployeeRequestStatus = 'success';
+    },
+    updateEmployeeRequestFail(state) {
+      state.updateEmployeeRequestStatus = 'fail';
     }
   }
 });
@@ -63,10 +74,13 @@ const employeeSlice = createSlice({
 export const employeeSliceReducer = employeeSlice.reducer;
 
 export const {
-  fetchEmployeesStart,
-  fetchEmployeesSuccess,
-  fetchEmployeesFail,
-  deleteEmployeesStart,
-  deleteEmployeesSuccess,
-  deleteEmployeesFail
+  fetchEmployeesRequestStart,
+  fetchEmployeesRequestSuccess,
+  fetchEmployeesRequestFail,
+  deleteEmployeeStart,
+  deleteEmployeeSuccess,
+  deleteEmployeeFail,
+  updateEmployeeRequestStart,
+  updateEmployeeRequestSuccess,
+  updateEmployeeRequestFail
 } = employeeSlice.actions;

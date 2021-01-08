@@ -18,6 +18,9 @@ import {
 } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
+import { ButtonWithLoader } from 'components';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 type FormData = {
   firstname: string;
@@ -29,7 +32,7 @@ type FormData = {
 
 type Props = {
   initialEmployee: User;
-  handleEmployeeSave: (employee: User) => void;
+  onSave: (employee: User) => void;
   onClose: () => void;
 };
 
@@ -56,7 +59,7 @@ const schema = yup.object().shape({
 
 export const EmployeeCard: FC<Props> = ({
   initialEmployee,
-  handleEmployeeSave,
+  onSave,
   onClose
 }) => {
   const { register, errors, handleSubmit, setValue } = useForm({
@@ -66,6 +69,9 @@ export const EmployeeCard: FC<Props> = ({
   });
   const classes = useStyles();
   const [isAdmin, setIsAdmin] = useState(initialEmployee.is_admin);
+  const updateEmployeeRequestStatus = useSelector(
+    (state: RootState) => state.employee.updateEmployeeRequestStatus
+  );
 
   useEffect(() => {
     register('is_admin');
@@ -165,10 +171,12 @@ export const EmployeeCard: FC<Props> = ({
       </div>
       <Box p={3} display="flex" justifyContent="space-between">
         <Button variant="contained">Отменить</Button>
-        <Button
+        <ButtonWithLoader
+          isLoading={updateEmployeeRequestStatus === 'loading'}
+          label="Сохранить"
           disabled={Object.keys(errors).length !== 0}
           onClick={handleSubmit((editedEmployee: FormData) =>
-            handleEmployeeSave({ ...initialEmployee, ...editedEmployee })
+            onSave({ ...initialEmployee, ...editedEmployee })
           )}
           color="secondary"
           variant="contained"
@@ -177,9 +185,7 @@ export const EmployeeCard: FC<Props> = ({
               <CheckIcon />
             </SvgIcon>
           }
-        >
-          Сохранить
-        </Button>
+        />
       </Box>
     </Drawer>
   );
