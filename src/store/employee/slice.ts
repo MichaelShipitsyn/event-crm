@@ -67,6 +67,12 @@ const employeeSlice = createSlice({
     },
     updateEmployeeRequestFail(state) {
       state.updateEmployeeRequestStatus = 'fail';
+    },
+    updateEmployee(state, { payload }: PayloadAction<User>) {
+      const index = state.employees.findIndex(
+        (employee) => employee.id === payload.id
+      );
+      state.employees.splice(index, 1, payload);
     }
   }
 });
@@ -82,5 +88,6 @@ export const {
   deleteEmployeeFail,
   updateEmployeeRequestStart,
   updateEmployeeRequestSuccess,
-  updateEmployeeRequestFail
+  updateEmployeeRequestFail,
+  updateEmployee
 } = employeeSlice.actions;

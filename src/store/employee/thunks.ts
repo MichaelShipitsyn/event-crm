@@ -10,7 +10,8 @@ import {
   deleteEmployeeFail,
   updateEmployeeRequestStart,
   updateEmployeeRequestSuccess,
-  updateEmployeeRequestFail
+  updateEmployeeRequestFail,
+  updateEmployee
 } from './slice';
 
 type FetchEmployeesParams = {
@@ -39,10 +40,7 @@ export const updateEmployeesThunk = (employee: User): AppThunk => async (
     dispatch(updateEmployeeRequestStart());
     await employeeApi.updateEmployee(employee);
     dispatch(updateEmployeeRequestSuccess());
-
-    const page = getState().employee.currentPage;
-    const limit = getState().employee.currentRowsPerPage;
-    dispatch(fetchEmployeesThunk({ page, limit }));
+    dispatch(updateEmployee(employee));
   } catch (err) {
     dispatch(updateEmployeeRequestFail());
   }
