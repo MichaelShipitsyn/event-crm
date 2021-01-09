@@ -30,12 +30,21 @@ const useStyles = makeStyles(() => {
 export const ButtonWithLoader: FC<ButtonLoaderWrapProps> = ({
   label,
   isLoading,
+  disabled,
   ...rest
 }) => {
   const classes = useStyles();
 
   return (
-    <Button disabled={isLoading} {...rest}>
+    <Button
+      classes={
+        isLoading
+          ? { startIcon: classes.invisible, endIcon: classes.invisible }
+          : {}
+      }
+      disabled={isLoading || disabled}
+      {...rest}
+    >
       <span className={isLoading ? classes.invisible : ''}>{label}</span>
       {isLoading && (
         <CircularProgress
