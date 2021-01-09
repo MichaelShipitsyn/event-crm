@@ -1,6 +1,7 @@
 import { employeeApi } from 'api/employee';
 import type { AppThunk } from 'store';
 import { User } from 'types/users';
+import { showAlert } from 'store/global/slice';
 import {
   fetchEmployeesRequestStart,
   fetchEmployeesRequestSuccess,
@@ -33,14 +34,19 @@ export const fetchEmployeesThunk = ({
 };
 
 export const updateEmployeesThunk = (employee: User): AppThunk => async (
-  dispatch,
-  getState
+  dispatch
 ) => {
   try {
     dispatch(updateEmployeeRequestStart());
     await employeeApi.updateEmployee(employee);
     dispatch(updateEmployeeRequestSuccess());
     dispatch(updateEmployee(employee));
+    dispatch(
+      showAlert({
+        alertMessage: 'Сотрудник успешно обновлён',
+        alertType: 'success'
+      })
+    );
   } catch (err) {
     dispatch(updateEmployeeRequestFail());
   }
