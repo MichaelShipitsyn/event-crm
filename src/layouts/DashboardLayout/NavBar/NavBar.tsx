@@ -47,6 +47,16 @@ const sections: Section[] = [
         href: '/app/employees'
       }
     ]
+  },
+  {
+    subheader: 'Клиенты',
+    items: [
+      {
+        title: 'Клиенты',
+        icon: UsersIcon,
+        href: '/app/clients'
+      }
+    ]
   }
 ];
 

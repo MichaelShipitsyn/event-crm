@@ -87,6 +87,15 @@ const routes: Routes = [
       },
       {
         exact: true,
+        path: '/app/clients',
+        component: lazy(() =>
+          import('views/client/ClientView').then((m) => ({
+            default: m.ClientView
+          }))
+        )
+      },
+      {
+        exact: true,
         path: '/app',
         component: () => <Redirect to="/app/employees" />
       },
