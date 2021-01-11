@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { User } from 'types/users';
+import { User } from 'types/user';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store';
 import { updateEmployeesThunk } from 'store/employee/thunks';

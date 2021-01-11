@@ -59,7 +59,11 @@ export const Account: FC = () => {
         // @ts-ignore
         ref={ref}
       >
-        <Avatar alt="User" className={classes.avatar} src={user?.avatar} />
+        <Avatar
+          alt="User"
+          className={classes.avatar}
+          src={user?.avatar || ''}
+        />
         <Hidden smDown>
           <Typography variant="h6" color="inherit">
             {userFullName}

@@ -1,6 +1,6 @@
 import { employeeApi } from 'api/employee';
 import type { AppThunk } from 'store';
-import { User } from 'types/users';
+import { User } from 'types/user';
 import { showAlert } from 'store/global/slice';
 import {
   fetchEmployeesRequestStart,

@@ -1,5 +1,5 @@
 import { request } from 'libs/request';
-import { User } from 'types/users';
+import { User } from 'types/user';
 
 type GetEmployeesParams = {
   page: number;

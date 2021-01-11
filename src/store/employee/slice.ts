@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from 'types/users';
+import { User } from 'types/user';
 import { GetEmployeesResult } from 'api/employee';
 
 type InitialState = {

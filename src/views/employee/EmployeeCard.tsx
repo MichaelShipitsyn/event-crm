@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
-import { User } from 'types/users';
+import { User } from 'types/user';
 import { getUserFullName } from 'utils/getUserFullName';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';

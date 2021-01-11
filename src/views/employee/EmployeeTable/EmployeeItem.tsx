@@ -2,7 +2,7 @@ import React from 'react';
 import type { FC } from 'react';
 import { RootState } from 'store';
 import { SkeletonWrap } from 'components';
-import { User } from 'types/users';
+import { User } from 'types/user';
 import {
   Avatar,
   Box,
@@ -63,7 +63,7 @@ export const EmployeeItem: FC<EmployeeItemProps> = ({
             <Hidden smDown>
               <Avatar
                 className={classes.avatar}
-                src={employee.avatar}
+                src={employee?.avatar || ''}
                 alt={employee.firstname}
               />
             </Hidden>

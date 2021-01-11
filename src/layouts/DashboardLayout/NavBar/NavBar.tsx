@@ -169,7 +169,7 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
               <Avatar
                 alt="User"
                 className={classes.avatar}
-                src={user?.avatar}
+                src={user?.avatar || ''}
               />
             </RouterLink>
           </Box>
