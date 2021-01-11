@@ -12,7 +12,8 @@ import {
   updateClientRequestStart,
   updateClientRequestSuccess,
   updateClientRequestFail,
-  updateClient
+  updateClient,
+  setClientFormShow
 } from './slice';
 
 type FetchClientsParams = {
@@ -49,6 +50,8 @@ export const updateClientThunk = (client: Client): AppThunk => async (
     );
   } catch (err) {
     dispatch(updateClientRequestFail());
+  } finally {
+    dispatch(setClientFormShow(false));
   }
 };
 

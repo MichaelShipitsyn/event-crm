@@ -8,3 +8,7 @@ export interface NewClient {
 export interface Client extends NewClient {
   id: number;
 }
+
+export const isNewClient = (client: any): client is NewClient => {
+  return client.id === undefined;
+};

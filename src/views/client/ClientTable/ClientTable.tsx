@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import type { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { fetchClientsThunk } from 'store/client/thunks';
+import { fetchClientsThunk, updateClientThunk } from 'store/client/thunks';
 import {
   Card,
   Box,
@@ -16,9 +16,11 @@ import {
   TableContainer,
   Hidden
 } from '@material-ui/core';
-import { useEditClient, useDeleteClient } from 'hooks/client';
+import { useDeleteClient } from 'hooks/client';
 import Pagination from '@material-ui/lab/Pagination';
 import { DeleteWarning, NoTableData } from 'components';
+import { setEditableClient, setClientFormShow } from 'store/client/slice';
+import { NewClient, Client, isNewClient } from 'types/client';
 import { ClientItem } from './ClientItem';
 import { TableFilters } from './TableFilters';
 import { ClientForm } from '../ClientForm';
@@ -41,11 +43,6 @@ export const ClientTable: FC = () => {
   const dispatch = useDispatch();
 
   const {
-    editableClient,
-    setEditableClient,
-    handleClientSave
-  } = useEditClient();
-  const {
     removableClientID,
     setRemovableClientID,
     deleteClientRequestStatus,
@@ -65,6 +62,12 @@ export const ClientTable: FC = () => {
   const currentRowsPerPage = useSelector(
     (state: RootState) => state.client.currentRowsPerPage
   );
+  const editableClient = useSelector(
+    (state: RootState) => state.client.editableClient
+  );
+  const isClientFormShow = useSelector(
+    (state: RootState) => state.client.isClientFormShow
+  );
 
   useEffect(() => {
     dispatch(
@@ -74,6 +77,14 @@ export const ClientTable: FC = () => {
 
   const handlePageChange = (event: never, newPage: number): void => {
     dispatch(fetchClientsThunk({ page: newPage, limit: currentRowsPerPage }));
+  };
+
+  const handleClientSave = (client: Client | NewClient) => {
+    if (isNewClient(client)) {
+      // dispatch(createEmployeeThunk(employee as NewUser));
+    } else {
+      dispatch(updateClientThunk(client));
+    }
   };
 
   return (
@@ -103,7 +114,7 @@ export const ClientTable: FC = () => {
                       <ClientItem
                         key={client.id}
                         client={client}
-                        onEdit={() => setEditableClient(client)}
+                        onEdit={() => dispatch(setEditableClient(client))}
                         onDelete={() => setRemovableClientID(client.id)}
                       />
                     );
@@ -133,11 +144,11 @@ export const ClientTable: FC = () => {
           </Box>
         </Hidden>
       </Card>
-      {editableClient && (
+      {isClientFormShow && (
         <ClientForm
-          onClose={() => setEditableClient(null)}
+          onClose={() => dispatch(setClientFormShow(false))}
           initialClient={editableClient}
-          onSave={(client) => handleClientSave(client)}
+          onSave={handleClientSave}
         />
       )}
       <DeleteWarning

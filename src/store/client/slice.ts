@@ -10,6 +10,8 @@ type InitialState = {
   updateClientRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   currentPage: number;
   currentRowsPerPage: number;
+  editableClient: Client | null;
+  isClientFormShow: boolean;
 };
 
 type FetchClientsStartPayload = {
@@ -24,7 +26,9 @@ const initialState: InitialState = {
   deleteClientRequestStatus: 'idle',
   updateClientRequestStatus: 'idle',
   currentPage: 1,
-  currentRowsPerPage: 15
+  currentRowsPerPage: 15,
+  editableClient: null,
+  isClientFormShow: false
 };
 
 const clientSlice = createSlice({
@@ -73,6 +77,18 @@ const clientSlice = createSlice({
         (client) => client.id === payload.id
       );
       state.clients.splice(index, 1, payload);
+    },
+    setEditableClient(state, { payload }: PayloadAction<Client | null>) {
+      if (payload) {
+        state.isClientFormShow = true;
+      }
+      state.editableClient = payload;
+    },
+    setClientFormShow(state, { payload }: PayloadAction<boolean>) {
+      if (!payload) {
+        state.editableClient = null;
+      }
+      state.isClientFormShow = payload;
     }
   }
 });
@@ -89,5 +105,7 @@ export const {
   updateClientRequestStart,
   updateClientRequestSuccess,
   updateClientRequestFail,
-  updateClient
+  updateClient,
+  setEditableClient,
+  setClientFormShow
 } = clientSlice.actions;

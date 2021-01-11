@@ -2,7 +2,8 @@ import { colors } from '@material-ui/core';
 
 export default {
   root: {
-    fontSize: '14px'
+    fontSize: '14px',
+    lineHeight: '1.5em'
   },
   input: {
     '&::placeholder': {

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import type { FC } from 'react';
-import { Client } from 'types/client';
+import { Client, NewClient } from 'types/client';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -15,7 +15,6 @@ import {
   Divider,
   makeStyles
 } from '@material-ui/core';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
 import { ButtonWithLoader } from 'components';
 import { useSelector } from 'react-redux';
@@ -25,11 +24,12 @@ type FormData = {
   name: string;
   phone: string;
   email: string;
+  additional: string;
 };
 
 type Props = {
-  initialClient: Client;
-  onSave: (client: Client) => void;
+  initialClient: Client | null;
+  onSave: (client: Client | NewClient) => void;
   onClose: () => void;
 };
 
@@ -55,15 +55,20 @@ const schema = yup.object().shape({
 });
 
 export const ClientForm: FC<Props> = ({ initialClient, onSave, onClose }) => {
-  const { register, errors, handleSubmit, setValue } = useForm({
+  const { register, errors, handleSubmit } = useForm({
     mode: 'onChange',
-    defaultValues: initialClient,
+    defaultValues: initialClient ?? undefined,
     resolver: yupResolver(schema)
   });
   const classes = useStyles();
   const updateClientRequestStatus = useSelector(
     (state: RootState) => state.client.updateClientRequestStatus
   );
+
+  const handleSave = (editedClient: FormData) => {
+    if (initialClient) return onSave({ ...initialClient, ...editedClient });
+    return onSave({ ...editedClient });
+  };
 
   return (
     <Drawer anchor="right" open onClose={onClose} variant="temporary">
@@ -74,7 +79,7 @@ export const ClientForm: FC<Props> = ({ initialClient, onSave, onClose }) => {
         alignItems="center"
       >
         <Typography variant="h4" color="textPrimary">
-          {initialClient.name}
+          {initialClient ? initialClient.name : 'Создание клиента'}
         </Typography>
         <IconButton onClick={onClose}>
           <SvgIcon fontSize="small">
@@ -123,6 +128,8 @@ export const ClientForm: FC<Props> = ({ initialClient, onSave, onClose }) => {
             helperText={errors?.additional && errors?.additional.message}
             inputRef={register}
             fullWidth
+            multiline={true}
+            rows={5}
             label="Дополнительно"
             margin="normal"
             name="additional"
@@ -138,7 +145,7 @@ export const ClientForm: FC<Props> = ({ initialClient, onSave, onClose }) => {
           label="Сохранить"
           disabled={Object.keys(errors).length !== 0}
           onClick={handleSubmit((editedClient: FormData) =>
-            onSave({ ...initialClient, ...editedClient })
+            handleSave(editedClient)
           )}
           color="secondary"
           variant="contained"
