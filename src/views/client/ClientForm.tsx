@@ -64,6 +64,9 @@ export const ClientForm: FC<Props> = ({ initialClient, onSave, onClose }) => {
   const updateClientRequestStatus = useSelector(
     (state: RootState) => state.client.updateClientRequestStatus
   );
+  const createClientRequestStatus = useSelector(
+    (state: RootState) => state.client.createClientRequestStatus
+  );
 
   const handleSave = (editedClient: FormData) => {
     if (initialClient) return onSave({ ...initialClient, ...editedClient });
@@ -141,7 +144,10 @@ export const ClientForm: FC<Props> = ({ initialClient, onSave, onClose }) => {
       <Box p={3} display="flex" justifyContent="space-between">
         <Button variant="contained">Отменить</Button>
         <ButtonWithLoader
-          isLoading={updateClientRequestStatus === 'loading'}
+          isLoading={
+            updateClientRequestStatus === 'loading' ||
+            createClientRequestStatus === 'loading'
+          }
           label="Сохранить"
           disabled={Object.keys(errors).length !== 0}
           onClick={handleSubmit((editedClient: FormData) =>

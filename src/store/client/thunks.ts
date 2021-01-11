@@ -1,6 +1,6 @@
 import { clientApi } from 'api/client';
 import type { AppThunk } from 'store';
-import { Client } from 'types/client';
+import { Client, NewClient } from 'types/client';
 import { showAlert } from 'store/global/slice';
 import {
   fetchClientsRequestStart,
@@ -13,7 +13,11 @@ import {
   updateClientRequestSuccess,
   updateClientRequestFail,
   updateClient,
-  setClientFormShow
+  setClientFormShow,
+  createClientRequestStart,
+  createClientRequestSuccess,
+  createClientRequestFail,
+  createClient
 } from './slice';
 
 type FetchClientsParams = {
@@ -50,6 +54,27 @@ export const updateClientThunk = (client: Client): AppThunk => async (
     );
   } catch (err) {
     dispatch(updateClientRequestFail());
+  } finally {
+    dispatch(setClientFormShow(false));
+  }
+};
+
+export const createClientThunk = (client: NewClient): AppThunk => async (
+  dispatch
+) => {
+  try {
+    dispatch(createClientRequestStart());
+    const newClient = await clientApi.createClient(client);
+    dispatch(createClientRequestSuccess());
+    dispatch(createClient(newClient));
+    dispatch(
+      showAlert({
+        alertMessage: 'Сотрудник успешно создан',
+        alertType: 'success'
+      })
+    );
+  } catch (err) {
+    dispatch(createClientRequestFail());
   } finally {
     dispatch(setClientFormShow(false));
   }

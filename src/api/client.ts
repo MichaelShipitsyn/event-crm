@@ -1,5 +1,5 @@
 import { request } from 'libs/request';
-import { Client } from 'types/client';
+import { Client, NewClient } from 'types/client';
 
 type GetClientsParams = {
   page: number;
@@ -24,6 +24,11 @@ const getClients = async ({
   };
 };
 
+const createClient = async (client: NewClient): Promise<Client> => {
+  const createClientResponse = await request.post<Client>('/clients', client);
+  return createClientResponse.data;
+};
+
 const updateClient = async (client: Client): Promise<void> => {
   await request.put(`/clients/${client.id}`, client);
 };
@@ -35,5 +40,6 @@ const deleteClient = async (clientID: number): Promise<void> => {
 export const clientApi = {
   getClients,
   updateClient,
-  deleteClient
+  deleteClient,
+  createClient
 };

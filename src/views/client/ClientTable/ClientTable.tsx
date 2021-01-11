@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import type { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { fetchClientsThunk, updateClientThunk } from 'store/client/thunks';
+import {
+  fetchClientsThunk,
+  updateClientThunk,
+  createClientThunk
+} from 'store/client/thunks';
 import {
   Card,
   Box,
@@ -81,7 +85,7 @@ export const ClientTable: FC = () => {
 
   const handleClientSave = (client: Client | NewClient) => {
     if (isNewClient(client)) {
-      // dispatch(createEmployeeThunk(employee as NewUser));
+      dispatch(createClientThunk(client));
     } else {
       dispatch(updateClientThunk(client));
     }
