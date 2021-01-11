@@ -22,7 +22,7 @@ import type { Theme } from 'theme';
 import { DeleteWarning, NoTableData } from 'components';
 import { EmployeeItem } from './EmployeeItem';
 import { TableFilters } from './TableFilters';
-import { EmployeeCard } from '../EmployeeCard';
+import { EmployeeForm } from '../EmployeeForm';
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
@@ -143,7 +143,7 @@ export const EmployeeTable: FC = () => {
         </Hidden>
       </Card>
       {editableEmployee && (
-        <EmployeeCard
+        <EmployeeForm
           onClose={() => setEditableEmployee(null)}
           initialEmployee={editableEmployee}
           onSave={(employee) => handleEmployeeSave(employee)}

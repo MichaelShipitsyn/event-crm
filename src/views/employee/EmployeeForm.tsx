@@ -57,7 +57,7 @@ const schema = yup.object().shape({
   email: yup.string().email('Невалидный Email').required('Обязательное поле')
 });
 
-export const EmployeeCard: FC<Props> = ({
+export const EmployeeForm: FC<Props> = ({
   initialEmployee,
   onSave,
   onClose
