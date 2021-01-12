@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.primary.main
   },
   toolbar: {
-    minHeight: 64
+    minHeight: 44
   }
 }));
 

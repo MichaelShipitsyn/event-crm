@@ -100,7 +100,7 @@ export const OrderTable: FC = () => {
           <Table stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell>Имя</TableCell>
+                <TableCell>Название заказа</TableCell>
                 <TableCell>Адрес</TableCell>
                 <TableCell>Стоимость</TableCell>
                 <TableCell>Предоплата</TableCell>

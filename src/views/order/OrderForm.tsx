@@ -13,8 +13,11 @@ import {
   TextField,
   Typography,
   Divider,
-  makeStyles
+  makeStyles,
+  Grid,
+  useMediaQuery
 } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
 import { ButtonWithLoader } from 'components';
 import { useSelector } from 'react-redux';
@@ -58,6 +61,9 @@ const schema = yup.object().shape({
 });
 
 export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const { register, errors, handleSubmit } = useForm({
     mode: 'onChange',
     defaultValues: initialOrder ?? undefined,
@@ -101,7 +107,7 @@ export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
             helperText={errors?.name && errors?.name.message}
             inputRef={register}
             fullWidth
-            label="Имя"
+            label="Название заказа"
             margin="normal"
             name="name"
             type="text"
@@ -118,28 +124,35 @@ export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
             type="text"
             variant="outlined"
           />
-          <TextField
-            error={!!errors?.cost}
-            helperText={errors?.cost && errors?.cost.message}
-            inputRef={register}
-            fullWidth
-            label="Стоимость"
-            margin="normal"
-            name="cost"
-            type="text"
-            variant="outlined"
-          />
-          <TextField
-            error={!!errors?.prepay}
-            helperText={errors?.prepay && errors?.prepay.message}
-            inputRef={register}
-            fullWidth
-            label="Предоплата"
-            margin="normal"
-            name="prepay"
-            type="text"
-            variant="outlined"
-          />
+          <Grid container spacing={isMobile ? 0 : 3}>
+            <Grid item sm={6} xs={12}>
+              <TextField
+                error={!!errors?.cost}
+                helperText={errors?.cost && errors?.cost.message}
+                inputRef={register}
+                fullWidth
+                label="Стоимость"
+                margin="normal"
+                name="cost"
+                type="text"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item sm={6} xs={12}>
+              <TextField
+                error={!!errors?.prepay}
+                helperText={errors?.prepay && errors?.prepay.message}
+                inputRef={register}
+                fullWidth
+                label="Предоплата"
+                margin="normal"
+                name="prepay"
+                type="text"
+                variant="outlined"
+              />
+            </Grid>
+          </Grid>
+
           <TextField
             error={!!errors?.description}
             helperText={errors?.description && errors?.description.message}
