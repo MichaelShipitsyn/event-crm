@@ -1,3 +1,5 @@
+import { NewClient } from './client';
+
 export interface OrderStage {
   id: number;
   name: string;
@@ -5,7 +7,6 @@ export interface OrderStage {
 }
 
 export interface NewOrder {
-  id: number;
   name: string;
   address: string | null;
   cost: number;
@@ -14,6 +15,10 @@ export interface NewOrder {
   client_id: number;
   stage_id: number;
 }
+
+export const isNewOrder = (order: any): order is NewOrder => {
+  return order.id === undefined;
+};
 
 export interface Order extends NewOrder {
   id: number;
