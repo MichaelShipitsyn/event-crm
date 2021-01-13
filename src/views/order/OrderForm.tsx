@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
-import { Order, NewOrder } from 'types/order';
+import { Order, NewOrder, isNewOrder } from 'types/order';
 import { NewClient } from 'types/client';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { setOrderFormShow } from 'store/order/slice';
 import * as yup from 'yup';
 import {
   Box,
@@ -23,8 +25,9 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
 import { ButtonWithLoader } from 'components';
-import { useSelector } from 'react-redux';
+
 import { RootState } from 'store';
+import { createOrderThunk, updateOrderThunk } from '../../store/order/thunks';
 
 type FormData = NewOrder & {
   newClient: NewClient | null;
@@ -32,8 +35,6 @@ type FormData = NewOrder & {
 
 type Props = {
   initialOrder: Order | null;
-  onSave: (Order: Order | NewOrder) => void;
-  onClose: () => void;
 };
 
 const useStyles = makeStyles(() => ({
@@ -63,7 +64,9 @@ const schema = yup.object().shape({
   additional: yup.string()
 });
 
-export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
+export const OrderForm: FC<Props> = ({ initialOrder }) => {
+  const dispatch = useDispatch();
+
   const [isNewClient, setNewClient] = useState(initialOrder === null);
 
   const classes = useStyles();
@@ -77,8 +80,6 @@ export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
       : undefined,
     resolver: yupResolver(schema)
   });
-
-  console.log(watch('newClient'));
 
   useEffect(() => {
     register('newClient');
@@ -99,14 +100,21 @@ export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
     (state: RootState) => state.order.createOrderRequestStatus
   );
 
+  const handleClose = () => {
+    dispatch(setOrderFormShow(false));
+  };
+
   const handleSave = (editedOrder: FormData) => {
     console.log(editedOrder);
-    if (initialOrder) return onSave({ ...initialOrder, ...editedOrder });
-    return onSave({ ...editedOrder });
+    if (initialOrder) {
+      dispatch(updateOrderThunk({ ...initialOrder, ...editedOrder }));
+    } else {
+      dispatch(createOrderThunk({ ...editedOrder }));
+    }
   };
 
   return (
-    <Drawer anchor="right" open onClose={onClose} variant="temporary">
+    <Drawer anchor="right" open onClose={handleClose} variant="temporary">
       <Box
         p={3}
         display="flex"
@@ -116,7 +124,7 @@ export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
         <Typography variant="h4" color="textPrimary">
           {initialOrder ? initialOrder.name : 'Создание заказа'}
         </Typography>
-        <IconButton onClick={onClose}>
+        <IconButton onClick={handleClose}>
           <SvgIcon fontSize="small">
             <XIcon />
           </SvgIcon>
@@ -236,7 +244,9 @@ export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
         </Box>
       </div>
       <Box p={3} display="flex" justifyContent="space-between">
-        <Button variant="contained">Отменить</Button>
+        <Button variant="contained" onClick={handleClose}>
+          Отменить
+        </Button>
         <ButtonWithLoader
           isLoading={
             updateOrderRequestStatus === 'loading' ||

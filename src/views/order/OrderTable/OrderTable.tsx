@@ -1,12 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import {
-  fetchOrdersThunk,
-  updateOrderThunk,
-  createOrderThunk
-} from 'store/order/thunks';
+import { fetchOrdersThunk } from 'store/order/thunks';
 import {
   Card,
   Box,
@@ -23,8 +19,7 @@ import {
 import { useDeleteOrder } from 'hooks/order';
 import Pagination from '@material-ui/lab/Pagination';
 import { DeleteWarning, NoTableData } from 'components';
-import { setEditableOrder, setOrderFormShow } from 'store/order/slice';
-import { NewOrder, Order, isNewOrder } from 'types/order';
+import { setEditableOrder } from 'store/order/slice';
 import { OrderItem } from './OrderItem';
 import { TableFilters } from './TableFilters';
 import { OrderForm } from '../OrderForm';
@@ -53,7 +48,7 @@ export const OrderTable: FC = () => {
     handleDeleteOrder
   } = useDeleteOrder();
 
-  const Orders = useSelector((state: RootState) => state.order.orders);
+  const orders = useSelector((state: RootState) => state.order.orders);
   const totalOrdersPages = useSelector(
     (state: RootState) => state.order.totalOrdersPages
   );
@@ -83,20 +78,12 @@ export const OrderTable: FC = () => {
     dispatch(fetchOrdersThunk({ page: newPage, limit: currentRowsPerPage }));
   };
 
-  const handleOrderSave = (order: Order | NewOrder) => {
-    if (isNewOrder(order)) {
-      dispatch(createOrderThunk(order));
-    } else {
-      dispatch(updateOrderThunk(order));
-    }
-  };
-
   return (
     <div>
       <Card>
         <TableFilters />
         <TableContainer className={classes.container}>
-          {Orders.length === 0 && isOrdersFetchLoading && <LinearProgress />}
+          {orders.length === 0 && isOrdersFetchLoading && <LinearProgress />}
           <Table stickyHeader>
             <TableHead>
               <TableRow>
@@ -110,11 +97,11 @@ export const OrderTable: FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Orders.length === 0 && !isOrdersFetchLoading ? (
+              {orders.length === 0 && !isOrdersFetchLoading ? (
                 <NoTableData numberColumns={6} />
               ) : (
                 <>
-                  {Orders.map((order) => {
+                  {orders.map((order) => {
                     return (
                       <OrderItem
                         key={order.id}
@@ -149,13 +136,7 @@ export const OrderTable: FC = () => {
           </Box>
         </Hidden>
       </Card>
-      {isOrderFormShow && (
-        <OrderForm
-          onClose={() => dispatch(setOrderFormShow(false))}
-          initialOrder={editableOrder}
-          onSave={handleOrderSave}
-        />
-      )}
+      {isOrderFormShow && <OrderForm initialOrder={editableOrder} />}
       <DeleteWarning
         isLoading={deleteOrderRequestStatus === 'loading'}
         isOpen={removableOrderID !== null}
