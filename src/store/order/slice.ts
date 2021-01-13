@@ -76,7 +76,7 @@ const orderSlice = createSlice({
     },
     updateOrder(state, { payload }: PayloadAction<Order>) {
       const index = state.orders.findIndex((order) => order.id === payload.id);
-      state.orders.splice(index, 1, payload);
+      state.orders[index] = payload;
     },
     setEditableOrder(state, { payload }: PayloadAction<Order | null>) {
       if (payload) {
@@ -100,7 +100,7 @@ const orderSlice = createSlice({
       state.createOrderRequestStatus = 'fail';
     },
     createOrder(state, { payload }: PayloadAction<Order>) {
-      state.orders = [payload, ...state.orders];
+      state.orders.unshift(payload);
     }
   }
 });

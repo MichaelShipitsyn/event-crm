@@ -72,7 +72,7 @@ const employeeSlice = createSlice({
       const index = state.employees.findIndex(
         (employee) => employee.id === payload.id
       );
-      state.employees.splice(index, 1, payload);
+      state.employees[index] = payload;
     }
   }
 });

@@ -1,4 +1,4 @@
-export interface User {
+export type User = {
   id: number;
   email: string;
   firstname: string;
@@ -8,4 +8,4 @@ export interface User {
   is_owner: boolean;
   is_admin: boolean;
   is_active: boolean;
-}
+};

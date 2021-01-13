@@ -78,7 +78,7 @@ const clientSlice = createSlice({
       const index = state.clients.findIndex(
         (client) => client.id === payload.id
       );
-      state.clients.splice(index, 1, payload);
+      state.clients[index] = payload;
     },
     setEditableClient(state, { payload }: PayloadAction<Client | null>) {
       if (payload) {
@@ -102,7 +102,7 @@ const clientSlice = createSlice({
       state.createClientRequestStatus = 'fail';
     },
     createClient(state, { payload }: PayloadAction<Client>) {
-      state.clients = [payload, ...state.clients];
+      state.clients.unshift(payload);
     }
   }
 });
