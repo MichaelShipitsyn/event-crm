@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { Order, NewOrder } from 'types/order';
+import { NewClient } from 'types/client';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -15,7 +16,9 @@ import {
   Divider,
   makeStyles,
   Grid,
-  useMediaQuery
+  useMediaQuery,
+  Checkbox,
+  FormControlLabel
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
@@ -23,14 +26,8 @@ import { ButtonWithLoader } from 'components';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 
-type FormData = {
-  name: string;
-  address: string;
-  cost: number;
-  prepay: number;
-  description: string;
-  client_id: number;
-  stage_id: number;
+type FormData = NewOrder & {
+  newClient: NewClient | null;
 };
 
 type Props = {
@@ -54,6 +51,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 const schema = yup.object().shape({
+  newClient: yup
+    .object()
+    .shape({
+      name: yup.string().required('Обязательное поле')
+    })
+    .nullable(),
   name: yup.string().required('Обязательное поле'),
   phone: yup.string(),
   email: yup.string().email('Невалидный Email'),
@@ -61,15 +64,34 @@ const schema = yup.object().shape({
 });
 
 export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
+  const [isNewClient, setNewClient] = useState(initialOrder === null);
+
+  const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const { register, errors, handleSubmit } = useForm({
+  const { register, errors, watch, handleSubmit, setValue } = useForm({
     mode: 'onChange',
-    defaultValues: initialOrder ?? undefined,
+    defaultValues: initialOrder
+      ? { ...initialOrder, newClient: { name: '', phone: '' } }
+      : undefined,
     resolver: yupResolver(schema)
   });
-  const classes = useStyles();
+
+  console.log(watch('newClient'));
+
+  useEffect(() => {
+    register('newClient');
+  }, [register]);
+
+  useEffect(() => {
+    if (isNewClient) {
+      setValue('newClient', { name: '', phone: '' });
+    } else {
+      setValue('newClient', null);
+    }
+  }, [isNewClient]);
+
   const updateOrderRequestStatus = useSelector(
     (state: RootState) => state.order.updateOrderRequestStatus
   );
@@ -78,6 +100,7 @@ export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
   );
 
   const handleSave = (editedOrder: FormData) => {
+    console.log(editedOrder);
     if (initialOrder) return onSave({ ...initialOrder, ...editedOrder });
     return onSave({ ...editedOrder });
   };
@@ -102,6 +125,50 @@ export const OrderForm: FC<Props> = ({ initialOrder, onSave, onClose }) => {
       <Divider light variant="fullWidth" />
       <div className={classes.drawerContent}>
         <Box px={3} py={1}>
+          <pre style={{ marginTop: 24 }}>
+            {JSON.stringify(watch(), null, 2)}
+          </pre>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isNewClient}
+                onChange={(event) => setNewClient(event.target.checked)}
+                name="checkedA"
+              />
+            }
+            label="Secondary"
+          />
+          {isNewClient && (
+            <>
+              <TextField
+                error={!!errors?.newClient?.name}
+                helperText={
+                  errors?.newClient?.name && errors?.newClient?.name.message
+                }
+                inputRef={register}
+                fullWidth
+                label="Имя клиента"
+                margin="normal"
+                name="newClient.name"
+                type="text"
+                variant="outlined"
+              />
+              <TextField
+                error={!!errors?.newClient?.phone}
+                helperText={
+                  errors?.newClient?.phone && errors?.newClient?.phone.message
+                }
+                inputRef={register}
+                fullWidth
+                label="Телефон"
+                margin="normal"
+                name="newClient.phone"
+                type="text"
+                variant="outlined"
+              />
+            </>
+          )}
+
           <TextField
             error={!!errors?.name}
             helperText={errors?.name && errors?.name.message}
