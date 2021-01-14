@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useSelector } from 'react-redux';
 import {
   makeStyles,
+  Box,
   List,
   ListItem,
   ListItemText,
@@ -17,7 +18,7 @@ import {
   IconButton,
   SvgIcon
 } from '@material-ui/core';
-import { Check as CheckIcon } from 'react-feather';
+import { Check as CheckIcon, X as XIcon } from 'react-feather';
 import { Theme } from '../theme';
 
 type Props = {
@@ -56,6 +57,14 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     itemSecondaryAction: {
       pointerEvents: 'none'
+    },
+    dialogTitle: {
+      display: 'flex',
+      justifyContent: 'space-between'
+    },
+    closeButton: {
+      position: 'relative',
+      right: '-4px'
     }
   };
 });
@@ -85,8 +94,17 @@ export const ItemPicker: FC<Props> = ({ onClose, onSelect }) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle disableTypography id="alert-dialog-title">
+      <DialogTitle
+        disableTypography
+        id="alert-dialog-title"
+        className={classes.dialogTitle}
+      >
         <Typography variant="h4">Выбор клиента</Typography>
+        <IconButton onClick={onClose} className={classes.closeButton}>
+          <SvgIcon fontSize="small">
+            <XIcon />
+          </SvgIcon>
+        </IconButton>
       </DialogTitle>
       <DialogContent id="alert-dialog-description">
         <Typography variant="body2" color="textSecondary">
