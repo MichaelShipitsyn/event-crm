@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
-import { Order, NewOrder, isNewOrder } from 'types/order';
+import { Order, NewOrder } from 'types/order';
 import { NewClient } from 'types/client';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOrderFormShow } from 'store/order/slice';
+import { Theme } from 'theme';
 import * as yup from 'yup';
 import {
   Box,
@@ -24,7 +25,7 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
-import { ButtonWithLoader } from 'components';
+import { ButtonWithLoader, ItemPicker } from 'components';
 
 import { RootState } from 'store';
 import { createOrderThunk, updateOrderThunk } from '../../store/order/thunks';
@@ -37,19 +38,31 @@ type Props = {
   initialOrder: Order | null;
 };
 
-const useStyles = makeStyles(() => ({
-  toggleButtonGroup: {
-    display: 'flex',
-    marginTop: '3px'
-  },
-  toggleButton: {
-    width: '50%'
-  },
-  drawerContent: {
-    overflowY: 'auto',
-    height: '100%'
-  }
-}));
+const useStyles = makeStyles((theme: Theme) => {
+  return {
+    toggleButtonGroup: {
+      display: 'flex',
+      marginTop: '3px'
+    },
+    toggleButton: {
+      width: '50%'
+    },
+    drawerContent: {
+      overflowY: 'auto',
+      height: '100%'
+    },
+    nameClientLabel: {
+      display: 'flex',
+      justifyContent: 'space-between'
+    },
+    selectClientButton: {
+      color: theme.palette.primary.main,
+      fontSize: '14px',
+      textDecoration: 'underline',
+      cursor: 'pointer'
+    }
+  };
+});
 
 const schema = yup.object().shape({
   newClient: yup
@@ -68,6 +81,7 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
   const dispatch = useDispatch();
 
   const [isNewClient, setNewClient] = useState(initialOrder === null);
+  const [isClientPickerShow, setClientPickerShow] = useState(false);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -113,6 +127,10 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
     }
   };
 
+  const handleSelectClient = (selectedClientId: number) => {
+    console.log(selectedClientId);
+  };
+
   return (
     <Drawer anchor="right" open onClose={handleClose} variant="temporary">
       <Box
@@ -144,7 +162,7 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
                 name="checkedA"
               />
             }
-            label="Secondary"
+            label="primary"
           />
           {isNewClient && (
             <>
@@ -155,7 +173,17 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
                 }
                 inputRef={register}
                 fullWidth
-                label="Имя клиента"
+                label={
+                  <div className={classes.nameClientLabel}>
+                    <span>Имя клиента</span>
+                    <span
+                      className={classes.selectClientButton}
+                      onClick={() => setClientPickerShow(true)}
+                    >
+                      Выбрать клиента из базы
+                    </span>
+                  </div>
+                }
                 margin="normal"
                 name="newClient.name"
                 type="text"
@@ -257,7 +285,7 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
           onClick={handleSubmit((editedOrder: FormData) =>
             handleSave(editedOrder)
           )}
-          color="secondary"
+          color="primary"
           variant="contained"
           startIcon={
             <SvgIcon fontSize="small">
@@ -266,6 +294,12 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
           }
         />
       </Box>
+      {isClientPickerShow && (
+        <ItemPicker
+          onClose={() => setClientPickerShow(false)}
+          onSelect={handleSelectClient}
+        />
+      )}
     </Drawer>
   );
 };

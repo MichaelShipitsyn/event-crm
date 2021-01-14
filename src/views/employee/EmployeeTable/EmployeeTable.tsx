@@ -149,12 +149,13 @@ export const EmployeeTable: FC = () => {
           onSave={(employee) => handleEmployeeSave(employee)}
         />
       )}
-      <DeleteWarning
-        isLoading={deleteEmployeeRequestStatus === 'loading'}
-        isOpen={removableEmployeeID !== null}
-        onCancel={() => setRemovableEmployeeID(null)}
-        onDelete={handleDeleteEmployee}
-      />
+      {removableEmployeeID && (
+        <DeleteWarning
+          isLoading={deleteEmployeeRequestStatus === 'loading'}
+          onCancel={() => setRemovableEmployeeID(null)}
+          onDelete={handleDeleteEmployee}
+        />
+      )}
     </div>
   );
 };

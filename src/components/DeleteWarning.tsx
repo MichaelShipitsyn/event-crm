@@ -11,23 +11,17 @@ import {
 } from '@material-ui/core';
 import { ButtonWithLoader } from './ButtonWithLoader';
 
-type AuthProviderProps = {
+type Props = {
   isLoading: boolean;
-  isOpen: boolean;
   onCancel: () => void;
   onDelete: () => void;
 };
 
-export const DeleteWarning: FC<AuthProviderProps> = ({
-  isLoading,
-  isOpen,
-  onCancel,
-  onDelete
-}) => {
+export const DeleteWarning: FC<Props> = ({ isLoading, onCancel, onDelete }) => {
   return (
     <Dialog
-      open={isOpen}
-      onClose={() => onCancel()}
+      open
+      onClose={onCancel}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
@@ -45,18 +39,14 @@ export const DeleteWarning: FC<AuthProviderProps> = ({
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button
-          className="actionButton"
-          variant="outlined"
-          onClick={() => onCancel()}
-        >
+        <Button className="actionButton" variant="outlined" onClick={onCancel}>
           Отменить
         </Button>
         <ButtonWithLoader
           isLoading={isLoading}
           label="Отправить в архив"
           className="deleteButton actionButton"
-          onClick={() => onDelete()}
+          onClick={onDelete}
           color="primary"
           autoFocus
         />

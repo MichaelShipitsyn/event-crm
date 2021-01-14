@@ -11,10 +11,10 @@ export default {
     paper: colors.common.white
   },
   primary: {
-    main: colors.indigo[600]
+    main: '#5850EC'
   },
   secondary: {
-    main: '#5850EC'
+    main: colors.indigo[600]
   },
   text: {
     primary: colors.blueGrey[900],

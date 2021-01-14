@@ -155,12 +155,13 @@ export const ClientTable: FC = () => {
           onSave={handleClientSave}
         />
       )}
-      <DeleteWarning
-        isLoading={deleteClientRequestStatus === 'loading'}
-        isOpen={removableClientID !== null}
-        onCancel={() => setRemovableClientID(null)}
-        onDelete={handleDeleteClient}
-      />
+      {removableClientID && (
+        <DeleteWarning
+          isLoading={deleteClientRequestStatus === 'loading'}
+          onCancel={() => setRemovableClientID(null)}
+          onDelete={handleDeleteClient}
+        />
+      )}
     </div>
   );
 };

@@ -137,12 +137,13 @@ export const OrderTable: FC = () => {
         </Hidden>
       </Card>
       {isOrderFormShow && <OrderForm initialOrder={editableOrder} />}
-      <DeleteWarning
-        isLoading={deleteOrderRequestStatus === 'loading'}
-        isOpen={removableOrderID !== null}
-        onCancel={() => setRemovableOrderID(null)}
-        onDelete={handleDeleteOrder}
-      />
+      {removableOrderID && (
+        <DeleteWarning
+          isLoading={deleteOrderRequestStatus === 'loading'}
+          onCancel={() => setRemovableOrderID(null)}
+          onDelete={handleDeleteOrder}
+        />
+      )}
     </div>
   );
 };
