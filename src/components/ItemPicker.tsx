@@ -3,7 +3,6 @@ import type { FC } from 'react';
 import { useSelector } from 'react-redux';
 import {
   makeStyles,
-  Box,
   List,
   ListItem,
   ListItemText,
@@ -25,6 +24,7 @@ import { useScrollTrigger } from 'hooks/useScrollTrigger';
 type Props = {
   onClose: () => void;
   onSelect: (id: number) => void;
+  items: Array<{ id: number }>;
 };
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
-export const ItemPicker: FC<Props> = ({ onClose, onSelect }) => {
+export const ItemPicker: FC<Props> = ({ onClose, onSelect, items }) => {
   const [checkedId, setCheckedId] = useState<number | null>(null);
   const classes = useStyles();
 
@@ -79,7 +79,7 @@ export const ItemPicker: FC<Props> = ({ onClose, onSelect }) => {
   };
 
   const refElement = useRef(null);
-  const { scrollHandler, scrollToTop } = useScrollTrigger({
+  const { scrollHandler } = useScrollTrigger({
     threshold: 500,
     onReachBottom: loadMore,
     refElement
@@ -137,23 +137,20 @@ export const ItemPicker: FC<Props> = ({ onClose, onSelect }) => {
             dense
             className={classes.list}
           >
-            {[...new Array(45).keys()].map((value) => {
-              const labelId = `checkbox-list-secondary-label-${value}`;
+            {items.map((item) => {
+              const labelId = `checkbox-list-secondary-label-${item.id}`;
               return (
                 <ListItem
-                  key={value}
+                  key={item.id}
                   button
                   className={classes.listItem}
-                  onClick={() => handleCheckItem(value)}
+                  onClick={() => handleCheckItem(item.id)}
                 >
-                  <ListItemText
-                    id={labelId}
-                    primary={`Line item ${value + 1}`}
-                  />
+                  <ListItemText id={labelId} primary={`Line item ${item.id}`} />
                   <ListItemSecondaryAction
                     className={classes.itemSecondaryAction}
                   >
-                    {checkedId === value ? (
+                    {checkedId === item.id ? (
                       <IconButton
                         className={classes.checkedIcon}
                         classes={{ root: classes.iconButton }}

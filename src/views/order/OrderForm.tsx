@@ -296,6 +296,7 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
       </Box>
       {isClientPickerShow && (
         <ItemPicker
+          items={[{ id: 1 }]}
           onClose={() => setClientPickerShow(false)}
           onSelect={handleSelectClient}
         />
