@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAuthRequest } from 'store/auth/thunks';
 import { RootState } from 'store';
 import { LoadingScreen } from 'components/LoadingScreen';
 import { makeStyles } from '@material-ui/core';
-
-interface AuthProviderProps {
-  children?: ReactNode;
-}
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -16,7 +12,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: FC = ({ children }) => {
   const classes = useStyles();
 
   const isAuthChecked = useSelector(

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import type { FC } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -19,7 +19,8 @@ import {
   SvgIcon
 } from '@material-ui/core';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
-import { Theme } from '../theme';
+import { Theme } from 'theme';
+import { useScrollTrigger } from 'hooks/useScrollTrigger';
 
 type Props = {
   onClose: () => void;
@@ -73,6 +74,17 @@ export const ItemPicker: FC<Props> = ({ onClose, onSelect }) => {
   const [checkedId, setCheckedId] = useState<number | null>(null);
   const classes = useStyles();
 
+  const loadMore = () => {
+    console.log('loadMore');
+  };
+
+  const refElement = useRef(null);
+  const { scrollHandler, scrollToTop } = useScrollTrigger({
+    threshold: 500,
+    onReachBottom: loadMore,
+    refElement
+  });
+
   const handleCheckItem = (value: number) => {
     if (value === checkedId) {
       setCheckedId(null);
@@ -119,7 +131,12 @@ export const ItemPicker: FC<Props> = ({ onClose, onSelect }) => {
             type="text"
             variant="outlined"
           />
-          <List dense className={classes.list}>
+          <List
+            onScroll={scrollHandler}
+            ref={refElement}
+            dense
+            className={classes.list}
+          >
             {[...new Array(45).keys()].map((value) => {
               const labelId = `checkbox-list-secondary-label-${value}`;
               return (
