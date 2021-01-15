@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -46,6 +46,9 @@ export const EmployeeTable: FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const currentRowsPerPage = 15;
+
   const {
     editableEmployee,
     setEditableEmployee,
@@ -65,21 +68,15 @@ export const EmployeeTable: FC = () => {
   const isEmployeesFetchLoading = useSelector(
     (state: RootState) => state.employee.isEmployeesFetchLoading
   );
-  const currentPage = useSelector(
-    (state: RootState) => state.employee.currentPage
-  );
-  const currentRowsPerPage = useSelector(
-    (state: RootState) => state.employee.currentRowsPerPage
-  );
 
   useEffect(() => {
     dispatch(
       fetchEmployeesThunk({ page: currentPage, limit: currentRowsPerPage })
     );
-  }, [dispatch, currentPage, currentRowsPerPage]);
+  }, [dispatch, currentPage]);
 
   const handlePageChange = (event: never, newPage: number): void => {
-    dispatch(fetchEmployeesThunk({ page: newPage, limit: currentRowsPerPage }));
+    setCurrentPage(newPage);
   };
 
   return (

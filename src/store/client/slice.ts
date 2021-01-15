@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Client, NewClient } from 'types/client';
+import { Client } from 'types/client';
 import { GetClientsResult } from 'api/client';
 
 type InitialState = {
@@ -9,8 +9,6 @@ type InitialState = {
   deleteClientRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   updateClientRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   createClientRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
-  currentPage: number;
-  currentRowsPerPage: number;
   editableClient: Client | null;
   isClientFormShow: boolean;
 };
@@ -27,8 +25,6 @@ const initialState: InitialState = {
   deleteClientRequestStatus: 'idle',
   updateClientRequestStatus: 'idle',
   createClientRequestStatus: 'idle',
-  currentPage: 1,
-  currentRowsPerPage: 15,
   editableClient: null,
   isClientFormShow: false
 };
@@ -42,8 +38,6 @@ const clientSlice = createSlice({
       { payload }: PayloadAction<FetchClientsStartPayload>
     ) {
       state.isClientsFetchLoading = true;
-      state.currentPage = payload.page;
-      state.currentRowsPerPage = payload.limit;
     },
     fetchClientsRequestSuccess(
       state,
@@ -59,8 +53,10 @@ const clientSlice = createSlice({
     deleteClientStart(state) {
       state.deleteClientRequestStatus = 'loading';
     },
-    deleteClientSuccess(state) {
+    deleteClientSuccess(state, { payload }: PayloadAction<number>) {
       state.deleteClientRequestStatus = 'success';
+      const index = state.clients.findIndex((client) => client.id === payload);
+      state.clients.splice(index, 1);
     },
     deleteClientFail(state) {
       state.deleteClientRequestStatus = 'fail';
@@ -68,17 +64,15 @@ const clientSlice = createSlice({
     updateClientRequestStart(state) {
       state.updateClientRequestStatus = 'loading';
     },
-    updateClientRequestSuccess(state) {
+    updateClientRequestSuccess(state, { payload }: PayloadAction<Client>) {
       state.updateClientRequestStatus = 'success';
-    },
-    updateClientRequestFail(state) {
-      state.updateClientRequestStatus = 'fail';
-    },
-    updateClient(state, { payload }: PayloadAction<Client>) {
       const index = state.clients.findIndex(
         (client) => client.id === payload.id
       );
       state.clients[index] = payload;
+    },
+    updateClientRequestFail(state) {
+      state.updateClientRequestStatus = 'fail';
     },
     setEditableClient(state, { payload }: PayloadAction<Client | null>) {
       if (payload) {
@@ -95,14 +89,12 @@ const clientSlice = createSlice({
     createClientRequestStart(state) {
       state.createClientRequestStatus = 'loading';
     },
-    createClientRequestSuccess(state) {
+    createClientRequestSuccess(state, { payload }: PayloadAction<Client>) {
       state.createClientRequestStatus = 'success';
+      state.clients.unshift(payload);
     },
     createClientRequestFail(state) {
       state.createClientRequestStatus = 'fail';
-    },
-    createClient(state, { payload }: PayloadAction<Client>) {
-      state.clients.unshift(payload);
     }
   }
 });
@@ -119,11 +111,9 @@ export const {
   updateClientRequestStart,
   updateClientRequestSuccess,
   updateClientRequestFail,
-  updateClient,
   setEditableClient,
   setClientFormShow,
   createClientRequestStart,
   createClientRequestSuccess,
-  createClientRequestFail,
-  createClient
+  createClientRequestFail
 } = clientSlice.actions;

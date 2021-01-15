@@ -8,8 +8,6 @@ type InitialState = {
   isEmployeesFetchLoading: boolean;
   deleteEmployeeRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   updateEmployeeRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
-  currentPage: number;
-  currentRowsPerPage: number;
 };
 
 type FetchEmployeesStartPayload = {
@@ -22,9 +20,7 @@ const initialState: InitialState = {
   totalEmployeesPages: 0,
   isEmployeesFetchLoading: false,
   deleteEmployeeRequestStatus: 'idle',
-  updateEmployeeRequestStatus: 'idle',
-  currentPage: 1,
-  currentRowsPerPage: 15
+  updateEmployeeRequestStatus: 'idle'
 };
 
 const employeeSlice = createSlice({
@@ -36,8 +32,6 @@ const employeeSlice = createSlice({
       { payload }: PayloadAction<FetchEmployeesStartPayload>
     ) {
       state.isEmployeesFetchLoading = true;
-      state.currentPage = payload.page;
-      state.currentRowsPerPage = payload.limit;
     },
     fetchEmployeesRequestSuccess(
       state,
@@ -53,8 +47,12 @@ const employeeSlice = createSlice({
     deleteEmployeeStart(state) {
       state.deleteEmployeeRequestStatus = 'loading';
     },
-    deleteEmployeeSuccess(state) {
+    deleteEmployeeSuccess(state, { payload }: PayloadAction<number>) {
       state.deleteEmployeeRequestStatus = 'success';
+      const index = state.employees.findIndex(
+        (employee) => employee.id === payload
+      );
+      state.employees.splice(index, 1);
     },
     deleteEmployeeFail(state) {
       state.deleteEmployeeRequestStatus = 'fail';
@@ -62,17 +60,15 @@ const employeeSlice = createSlice({
     updateEmployeeRequestStart(state) {
       state.updateEmployeeRequestStatus = 'loading';
     },
-    updateEmployeeRequestSuccess(state) {
+    updateEmployeeRequestSuccess(state, { payload }: PayloadAction<User>) {
       state.updateEmployeeRequestStatus = 'success';
-    },
-    updateEmployeeRequestFail(state) {
-      state.updateEmployeeRequestStatus = 'fail';
-    },
-    updateEmployee(state, { payload }: PayloadAction<User>) {
       const index = state.employees.findIndex(
         (employee) => employee.id === payload.id
       );
       state.employees[index] = payload;
+    },
+    updateEmployeeRequestFail(state) {
+      state.updateEmployeeRequestStatus = 'fail';
     }
   }
 });
@@ -88,6 +84,5 @@ export const {
   deleteEmployeeFail,
   updateEmployeeRequestStart,
   updateEmployeeRequestSuccess,
-  updateEmployeeRequestFail,
-  updateEmployee
+  updateEmployeeRequestFail
 } = employeeSlice.actions;

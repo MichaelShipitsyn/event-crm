@@ -11,8 +11,7 @@ import {
   deleteEmployeeFail,
   updateEmployeeRequestStart,
   updateEmployeeRequestSuccess,
-  updateEmployeeRequestFail,
-  updateEmployee
+  updateEmployeeRequestFail
 } from './slice';
 
 type FetchEmployeesParams = {
@@ -39,8 +38,7 @@ export const updateEmployeesThunk = (employee: User): AppThunk => async (
   try {
     dispatch(updateEmployeeRequestStart());
     await employeeApi.updateEmployee(employee);
-    dispatch(updateEmployeeRequestSuccess());
-    dispatch(updateEmployee(employee));
+    dispatch(updateEmployeeRequestSuccess(employee));
     dispatch(
       showAlert({
         alertMessage: 'Сотрудник успешно обновлён',
@@ -52,18 +50,20 @@ export const updateEmployeesThunk = (employee: User): AppThunk => async (
   }
 };
 
-export const deleteEmployeesThunk = (employeeID: number): AppThunk => async (
+export const deleteEmployeesThunk = (employeeId: number): AppThunk => async (
   dispatch,
   getState
 ) => {
   try {
     dispatch(deleteEmployeeStart());
-    await employeeApi.deleteEmployee(employeeID);
-    dispatch(deleteEmployeeSuccess());
-
-    const page = getState().employee.currentPage;
-    const limit = getState().employee.currentRowsPerPage;
-    dispatch(fetchEmployeesThunk({ page, limit }));
+    await employeeApi.deleteEmployee(employeeId);
+    dispatch(deleteEmployeeSuccess(employeeId));
+    dispatch(
+      showAlert({
+        alertMessage: 'Сотрудник успешно удалён',
+        alertType: 'success'
+      })
+    );
   } catch (err) {
     dispatch(deleteEmployeeFail());
   }

@@ -12,12 +12,10 @@ import {
   updateOrderRequestStart,
   updateOrderRequestSuccess,
   updateOrderRequestFail,
-  updateOrder,
   setOrderFormShow,
   createOrderRequestStart,
   createOrderRequestSuccess,
-  createOrderRequestFail,
-  createOrder
+  createOrderRequestFail
 } from './slice';
 
 type FetchOrdersParams = {
@@ -44,11 +42,10 @@ export const updateOrderThunk = (order: Order): AppThunk => async (
   try {
     dispatch(updateOrderRequestStart());
     await orderApi.updateOrder(order);
-    dispatch(updateOrderRequestSuccess());
-    dispatch(updateOrder(order));
+    dispatch(updateOrderRequestSuccess(order));
     dispatch(
       showAlert({
-        alertMessage: 'Сотрудник успешно обновлён',
+        alertMessage: 'Заказ успешно обновлён',
         alertType: 'success'
       })
     );
@@ -65,11 +62,10 @@ export const createOrderThunk = (order: NewOrder): AppThunk => async (
   try {
     dispatch(createOrderRequestStart());
     const newOrder = await orderApi.createOrder(order);
-    dispatch(createOrderRequestSuccess());
-    dispatch(createOrder(newOrder));
+    dispatch(createOrderRequestSuccess(newOrder));
     dispatch(
       showAlert({
-        alertMessage: 'Сотрудник успешно создан',
+        alertMessage: 'Заказ успешно создан',
         alertType: 'success'
       })
     );
@@ -80,18 +76,20 @@ export const createOrderThunk = (order: NewOrder): AppThunk => async (
   }
 };
 
-export const deleteOrderThunk = (OrderID: number): AppThunk => async (
+export const deleteOrderThunk = (orderId: number): AppThunk => async (
   dispatch,
   getState
 ) => {
   try {
     dispatch(deleteOrderStart());
-    await orderApi.deleteOrder(OrderID);
-    dispatch(deleteOrderSuccess());
-
-    const page = getState().order.currentPage;
-    const limit = getState().order.currentRowsPerPage;
-    dispatch(fetchOrdersThunk({ page, limit }));
+    await orderApi.deleteOrder(orderId);
+    dispatch(deleteOrderSuccess(orderId));
+    dispatch(
+      showAlert({
+        alertMessage: 'Заказ успешно удалён',
+        alertType: 'success'
+      })
+    );
   } catch (err) {
     dispatch(deleteOrderFail());
   }

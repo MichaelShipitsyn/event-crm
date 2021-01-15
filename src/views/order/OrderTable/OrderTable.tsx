@@ -41,6 +41,9 @@ export const OrderTable: FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const currentRowsPerPage = 15;
+
   const {
     removableOrderID,
     setRemovableOrderID,
@@ -55,12 +58,6 @@ export const OrderTable: FC = () => {
   const isOrdersFetchLoading = useSelector(
     (state: RootState) => state.order.isOrdersFetchLoading
   );
-  const currentPage = useSelector(
-    (state: RootState) => state.order.currentPage
-  );
-  const currentRowsPerPage = useSelector(
-    (state: RootState) => state.order.currentRowsPerPage
-  );
   const editableOrder = useSelector(
     (state: RootState) => state.order.editableOrder
   );
@@ -72,10 +69,10 @@ export const OrderTable: FC = () => {
     dispatch(
       fetchOrdersThunk({ page: currentPage, limit: currentRowsPerPage })
     );
-  }, [dispatch, currentPage, currentRowsPerPage]);
+  }, [dispatch, currentPage]);
 
   const handlePageChange = (event: never, newPage: number): void => {
-    dispatch(fetchOrdersThunk({ page: newPage, limit: currentRowsPerPage }));
+    setCurrentPage(newPage);
   };
 
   return (

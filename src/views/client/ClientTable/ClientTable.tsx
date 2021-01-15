@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -46,6 +46,9 @@ export const ClientTable: FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const currentRowsPerPage = 15;
+
   const {
     removableClientID,
     setRemovableClientID,
@@ -60,12 +63,7 @@ export const ClientTable: FC = () => {
   const isClientsFetchLoading = useSelector(
     (state: RootState) => state.client.isClientsFetchLoading
   );
-  const currentPage = useSelector(
-    (state: RootState) => state.client.currentPage
-  );
-  const currentRowsPerPage = useSelector(
-    (state: RootState) => state.client.currentRowsPerPage
-  );
+
   const editableClient = useSelector(
     (state: RootState) => state.client.editableClient
   );
@@ -77,10 +75,10 @@ export const ClientTable: FC = () => {
     dispatch(
       fetchClientsThunk({ page: currentPage, limit: currentRowsPerPage })
     );
-  }, [dispatch, currentPage, currentRowsPerPage]);
+  }, [dispatch, currentPage]);
 
   const handlePageChange = (event: never, newPage: number): void => {
-    dispatch(fetchClientsThunk({ page: newPage, limit: currentRowsPerPage }));
+    setCurrentPage(newPage);
   };
 
   const handleClientSave = (client: Client | NewClient) => {

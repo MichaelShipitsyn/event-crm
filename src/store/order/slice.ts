@@ -9,8 +9,6 @@ type InitialState = {
   deleteOrderRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   updateOrderRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   createOrderRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
-  currentPage: number;
-  currentRowsPerPage: number;
   editableOrder: Order | null;
   isOrderFormShow: boolean;
 };
@@ -27,8 +25,6 @@ const initialState: InitialState = {
   deleteOrderRequestStatus: 'idle',
   updateOrderRequestStatus: 'idle',
   createOrderRequestStatus: 'idle',
-  currentPage: 1,
-  currentRowsPerPage: 15,
   editableOrder: null,
   isOrderFormShow: false
 };
@@ -42,8 +38,6 @@ const orderSlice = createSlice({
       { payload }: PayloadAction<FetchOrdersStartPayload>
     ) {
       state.isOrdersFetchLoading = true;
-      state.currentPage = payload.page;
-      state.currentRowsPerPage = payload.limit;
     },
     fetchOrdersRequestSuccess(
       state,
@@ -59,8 +53,10 @@ const orderSlice = createSlice({
     deleteOrderStart(state) {
       state.deleteOrderRequestStatus = 'loading';
     },
-    deleteOrderSuccess(state) {
+    deleteOrderSuccess(state, { payload }: PayloadAction<number>) {
       state.deleteOrderRequestStatus = 'success';
+      const index = state.orders.findIndex((order) => order.id === payload);
+      state.orders.splice(index, 1);
     },
     deleteOrderFail(state) {
       state.deleteOrderRequestStatus = 'fail';
@@ -68,15 +64,13 @@ const orderSlice = createSlice({
     updateOrderRequestStart(state) {
       state.updateOrderRequestStatus = 'loading';
     },
-    updateOrderRequestSuccess(state) {
+    updateOrderRequestSuccess(state, { payload }: PayloadAction<Order>) {
       state.updateOrderRequestStatus = 'success';
+      const index = state.orders.findIndex((order) => order.id === payload.id);
+      state.orders[index] = payload;
     },
     updateOrderRequestFail(state) {
       state.updateOrderRequestStatus = 'fail';
-    },
-    updateOrder(state, { payload }: PayloadAction<Order>) {
-      const index = state.orders.findIndex((order) => order.id === payload.id);
-      state.orders[index] = payload;
     },
     setEditableOrder(state, { payload }: PayloadAction<Order | null>) {
       if (payload) {
@@ -93,14 +87,12 @@ const orderSlice = createSlice({
     createOrderRequestStart(state) {
       state.createOrderRequestStatus = 'loading';
     },
-    createOrderRequestSuccess(state) {
+    createOrderRequestSuccess(state, { payload }: PayloadAction<Order>) {
       state.createOrderRequestStatus = 'success';
+      state.orders.unshift(payload);
     },
     createOrderRequestFail(state) {
       state.createOrderRequestStatus = 'fail';
-    },
-    createOrder(state, { payload }: PayloadAction<Order>) {
-      state.orders.unshift(payload);
     }
   }
 });
@@ -117,11 +109,9 @@ export const {
   updateOrderRequestStart,
   updateOrderRequestSuccess,
   updateOrderRequestFail,
-  updateOrder,
   setEditableOrder,
   setOrderFormShow,
   createOrderRequestStart,
   createOrderRequestSuccess,
-  createOrderRequestFail,
-  createOrder
+  createOrderRequestFail
 } = orderSlice.actions;

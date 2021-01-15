@@ -12,12 +12,10 @@ import {
   updateClientRequestStart,
   updateClientRequestSuccess,
   updateClientRequestFail,
-  updateClient,
   setClientFormShow,
   createClientRequestStart,
   createClientRequestSuccess,
-  createClientRequestFail,
-  createClient
+  createClientRequestFail
 } from './slice';
 
 type FetchClientsParams = {
@@ -44,8 +42,7 @@ export const updateClientThunk = (client: Client): AppThunk => async (
   try {
     dispatch(updateClientRequestStart());
     await clientApi.updateClient(client);
-    dispatch(updateClientRequestSuccess());
-    dispatch(updateClient(client));
+    dispatch(updateClientRequestSuccess(client));
     dispatch(
       showAlert({
         alertMessage: 'Сотрудник успешно обновлён',
@@ -65,8 +62,7 @@ export const createClientThunk = (client: NewClient): AppThunk => async (
   try {
     dispatch(createClientRequestStart());
     const newClient = await clientApi.createClient(client);
-    dispatch(createClientRequestSuccess());
-    dispatch(createClient(newClient));
+    dispatch(createClientRequestSuccess(newClient));
     dispatch(
       showAlert({
         alertMessage: 'Сотрудник успешно создан',
@@ -80,18 +76,20 @@ export const createClientThunk = (client: NewClient): AppThunk => async (
   }
 };
 
-export const deleteClientThunk = (clientID: number): AppThunk => async (
+export const deleteClientThunk = (clientId: number): AppThunk => async (
   dispatch,
   getState
 ) => {
   try {
     dispatch(deleteClientStart());
-    await clientApi.deleteClient(clientID);
-    dispatch(deleteClientSuccess());
-
-    const page = getState().client.currentPage;
-    const limit = getState().client.currentRowsPerPage;
-    dispatch(fetchClientsThunk({ page, limit }));
+    await clientApi.deleteClient(clientId);
+    dispatch(deleteClientSuccess(clientId));
+    dispatch(
+      showAlert({
+        alertMessage: 'Сотрудник успешно удалён',
+        alertType: 'success'
+      })
+    );
   } catch (err) {
     dispatch(deleteClientFail());
   }
