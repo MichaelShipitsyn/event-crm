@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 export const Header: FC = () => {
   const dispatch = useDispatch();
   return (
-    <Grid container justify="space-between" spacing={3}>
+    <Grid container alignItems="center" justify="space-between" spacing={3}>
       <Grid item>
         <Typography variant="h3" color="textPrimary">
           Клиенты

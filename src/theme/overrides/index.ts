@@ -11,6 +11,7 @@ import MuiBackdrop from './MuiBackdrop';
 import MuiDialogTitle from './MuiDialogTitle';
 import MuiDrawer from './MuiDrawer';
 import MuiIconButton from './MuiIconButton';
+import MuiPaper from './MuiPaper';
 
 export default {
   MuiChip,
@@ -25,5 +26,6 @@ export default {
   MuiBackdrop,
   MuiDialogTitle,
   MuiDrawer,
-  MuiIconButton
+  MuiIconButton,
+  MuiPaper
 };

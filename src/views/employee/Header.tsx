@@ -5,7 +5,7 @@ import { PlusCircle as PlusCircleIcon } from 'react-feather';
 
 export const Header: FC = () => {
   return (
-    <Grid container justify="space-between" spacing={3}>
+    <Grid container alignItems="center" justify="space-between" spacing={3}>
       <Grid item>
         <Typography variant="h3" color="textPrimary">
           Сотрудники
