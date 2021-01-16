@@ -52,11 +52,11 @@ export const OrderTable: FC = () => {
   } = useDeleteOrder();
 
   const orders = useSelector((state: RootState) => state.order.orders);
-  const totalOrdersPages = useSelector(
-    (state: RootState) => state.order.totalOrdersPages
+  const totalOrders = useSelector(
+    (state: RootState) => state.order.totalOrders
   );
-  const isOrdersFetchLoading = useSelector(
-    (state: RootState) => state.order.isOrdersFetchLoading
+  const ordersFetchRequestStatus = useSelector(
+    (state: RootState) => state.order.ordersFetchRequestStatus
   );
   const editableOrder = useSelector(
     (state: RootState) => state.order.editableOrder
@@ -64,6 +64,8 @@ export const OrderTable: FC = () => {
   const isOrderFormShow = useSelector(
     (state: RootState) => state.order.isOrderFormShow
   );
+
+  const isOrdersFetchLoading = ordersFetchRequestStatus === 'loading';
 
   useEffect(() => {
     dispatch(
@@ -117,7 +119,7 @@ export const OrderTable: FC = () => {
           <Box display="flex" justifyContent="center" p="10px">
             <Pagination
               variant="outlined"
-              count={Math.floor(totalOrdersPages / currentRowsPerPage)}
+              count={Math.floor(totalOrders / currentRowsPerPage)}
               page={currentPage}
               onChange={handlePageChange}
             />
@@ -126,7 +128,7 @@ export const OrderTable: FC = () => {
         <Hidden smUp>
           <Box pt="10px" pb="10px">
             <Pagination
-              count={Math.floor(totalOrdersPages / currentRowsPerPage)}
+              count={Math.floor(totalOrders / currentRowsPerPage)}
               page={currentPage}
               onChange={handlePageChange}
             />

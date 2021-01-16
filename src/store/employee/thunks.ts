@@ -24,7 +24,7 @@ export const fetchEmployeesThunk = ({
   limit
 }: FetchEmployeesParams): AppThunk => async (dispatch) => {
   try {
-    dispatch(fetchEmployeesRequestStart({ page, limit }));
+    dispatch(fetchEmployeesRequestStart());
     const employees = await employeeApi.getEmployees({ page, limit });
     dispatch(fetchEmployeesRequestSuccess(employees));
   } catch (err) {

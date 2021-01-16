@@ -4,21 +4,16 @@ import { GetEmployeesResult } from 'api/employee';
 
 type InitialState = {
   employees: User[];
-  totalEmployeesPages: number;
-  isEmployeesFetchLoading: boolean;
+  totalEmployees: number;
+  employeesFetchRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   deleteEmployeeRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   updateEmployeeRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
 };
 
-type FetchEmployeesStartPayload = {
-  page: number;
-  limit: number;
-};
-
 const initialState: InitialState = {
   employees: [],
-  totalEmployeesPages: 0,
-  isEmployeesFetchLoading: false,
+  totalEmployees: 0,
+  employeesFetchRequestStatus: 'idle',
   deleteEmployeeRequestStatus: 'idle',
   updateEmployeeRequestStatus: 'idle'
 };
@@ -27,22 +22,19 @@ const employeeSlice = createSlice({
   name: 'employee',
   initialState,
   reducers: {
-    fetchEmployeesRequestStart(
-      state,
-      { payload }: PayloadAction<FetchEmployeesStartPayload>
-    ) {
-      state.isEmployeesFetchLoading = true;
+    fetchEmployeesRequestStart(state) {
+      state.employeesFetchRequestStatus = 'loading';
     },
     fetchEmployeesRequestSuccess(
       state,
       { payload }: PayloadAction<GetEmployeesResult>
     ) {
       state.employees = payload.employees;
-      state.totalEmployeesPages = payload.total;
-      state.isEmployeesFetchLoading = false;
+      state.totalEmployees = payload.total;
+      state.employeesFetchRequestStatus = 'success';
     },
     fetchEmployeesRequestFail(state) {
-      state.isEmployeesFetchLoading = false;
+      state.employeesFetchRequestStatus = 'fail';
     },
     deleteEmployeeStart(state) {
       state.deleteEmployeeRequestStatus = 'loading';

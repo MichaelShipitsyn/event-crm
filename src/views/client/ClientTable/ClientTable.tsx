@@ -57,11 +57,11 @@ export const ClientTable: FC = () => {
   } = useDeleteClient();
 
   const clients = useSelector((state: RootState) => state.client.clients);
-  const totalClientsPages = useSelector(
-    (state: RootState) => state.client.totalClientsPages
+  const totalClients = useSelector(
+    (state: RootState) => state.client.totalClients
   );
-  const isClientsFetchLoading = useSelector(
-    (state: RootState) => state.client.isClientsFetchLoading
+  const clientsFetchRequestStatus = useSelector(
+    (state: RootState) => state.client.clientsFetchRequestStatus
   );
 
   const editableClient = useSelector(
@@ -70,6 +70,8 @@ export const ClientTable: FC = () => {
   const isClientFormShow = useSelector(
     (state: RootState) => state.client.isClientFormShow
   );
+
+  const isClientsFetchLoading = clientsFetchRequestStatus === 'loading';
 
   useEffect(() => {
     dispatch(
@@ -130,7 +132,7 @@ export const ClientTable: FC = () => {
           <Box display="flex" justifyContent="center" p="10px">
             <Pagination
               variant="outlined"
-              count={Math.floor(totalClientsPages / currentRowsPerPage)}
+              count={Math.floor(totalClients / currentRowsPerPage)}
               page={currentPage}
               onChange={handlePageChange}
             />
@@ -139,7 +141,7 @@ export const ClientTable: FC = () => {
         <Hidden smUp>
           <Box pt="10px" pb="10px">
             <Pagination
-              count={Math.floor(totalClientsPages / currentRowsPerPage)}
+              count={Math.floor(totalClients / currentRowsPerPage)}
               page={currentPage}
               onChange={handlePageChange}
             />

@@ -28,7 +28,7 @@ export const fetchOrdersThunk = ({
   limit
 }: FetchOrdersParams): AppThunk => async (dispatch) => {
   try {
-    dispatch(fetchOrdersRequestStart({ page, limit }));
+    dispatch(fetchOrdersRequestStart());
     const orders = await orderApi.getOrders({ page, limit });
     dispatch(fetchOrdersRequestSuccess(orders));
   } catch (err) {

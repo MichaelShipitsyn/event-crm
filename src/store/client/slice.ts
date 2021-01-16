@@ -4,8 +4,8 @@ import { GetClientsResult } from 'api/client';
 
 type InitialState = {
   clients: Client[];
-  totalClientsPages: number;
-  isClientsFetchLoading: boolean;
+  totalClients: number;
+  clientsFetchRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   deleteClientRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   updateClientRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   createClientRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
@@ -13,15 +13,10 @@ type InitialState = {
   isClientFormShow: boolean;
 };
 
-type FetchClientsStartPayload = {
-  page: number;
-  limit: number;
-};
-
 const initialState: InitialState = {
   clients: [],
-  totalClientsPages: 0,
-  isClientsFetchLoading: false,
+  totalClients: 0,
+  clientsFetchRequestStatus: 'idle',
   deleteClientRequestStatus: 'idle',
   updateClientRequestStatus: 'idle',
   createClientRequestStatus: 'idle',
@@ -33,22 +28,19 @@ const clientSlice = createSlice({
   name: 'client',
   initialState,
   reducers: {
-    fetchClientsRequestStart(
-      state,
-      { payload }: PayloadAction<FetchClientsStartPayload>
-    ) {
-      state.isClientsFetchLoading = true;
+    fetchClientsRequestStart(state) {
+      state.clientsFetchRequestStatus = 'loading';
     },
     fetchClientsRequestSuccess(
       state,
       { payload }: PayloadAction<GetClientsResult>
     ) {
       state.clients = payload.clients;
-      state.totalClientsPages = payload.total;
-      state.isClientsFetchLoading = false;
+      state.totalClients = payload.total;
+      state.clientsFetchRequestStatus = 'success';
     },
     fetchClientsRequestFail(state) {
-      state.isClientsFetchLoading = false;
+      state.clientsFetchRequestStatus = 'fail';
     },
     deleteClientStart(state) {
       state.deleteClientRequestStatus = 'loading';

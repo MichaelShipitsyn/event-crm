@@ -62,12 +62,14 @@ export const EmployeeTable: FC = () => {
   } = useDeleteEmployee();
 
   const employees = useSelector((state: RootState) => state.employee.employees);
-  const totalEmployeesPages = useSelector(
-    (state: RootState) => state.employee.totalEmployeesPages
+  const totalEmployees = useSelector(
+    (state: RootState) => state.employee.totalEmployees
   );
-  const isEmployeesFetchLoading = useSelector(
-    (state: RootState) => state.employee.isEmployeesFetchLoading
+  const employeesFetchRequestStatus = useSelector(
+    (state: RootState) => state.employee.employeesFetchRequestStatus
   );
+
+  const isEmployeesFetchLoading = employeesFetchRequestStatus === 'loading';
 
   useEffect(() => {
     dispatch(
@@ -123,7 +125,7 @@ export const EmployeeTable: FC = () => {
           <Box display="flex" justifyContent="center" p="10px">
             <Pagination
               variant="outlined"
-              count={Math.floor(totalEmployeesPages / currentRowsPerPage)}
+              count={Math.floor(totalEmployees / currentRowsPerPage)}
               page={currentPage}
               onChange={handlePageChange}
             />
@@ -132,7 +134,7 @@ export const EmployeeTable: FC = () => {
         <Hidden smUp>
           <Box pt="10px" pb="10px">
             <Pagination
-              count={Math.floor(totalEmployeesPages / currentRowsPerPage)}
+              count={Math.floor(totalEmployees / currentRowsPerPage)}
               page={currentPage}
               onChange={handlePageChange}
             />

@@ -51,9 +51,11 @@ export const EmployeeItem: FC<EmployeeItemProps> = ({
 }) => {
   const classes = useStyles();
 
-  const isEmployeesFetchLoading = useSelector(
-    (state: RootState) => state.employee.isEmployeesFetchLoading
+  const employeesFetchRequestStatus = useSelector(
+    (state: RootState) => state.employee.employeesFetchRequestStatus
   );
+
+  const isEmployeesFetchLoading = employeesFetchRequestStatus === 'loading';
 
   return (
     <TableRow key={employee.id}>

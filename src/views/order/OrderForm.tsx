@@ -129,12 +129,14 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
   };
 
   const globalClients = useSelector((state: RootState) => state.client.clients);
-  const totalClientsPages = useSelector(
-    (state: RootState) => state.client.totalClientsPages
+  const totalClients = useSelector(
+    (state: RootState) => state.client.totalClients
   );
-  const isClientsFetchLoading = useSelector(
-    (state: RootState) => state.client.isClientsFetchLoading
+  const clientsFetchRequestStatus = useSelector(
+    (state: RootState) => state.client.clientsFetchRequestStatus
   );
+
+  const isClientsFetchLoading = clientsFetchRequestStatus === 'loading';
 
   const [clients, setClients] = useState<Client[]>([]);
 
@@ -156,7 +158,7 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
   };
 
   const hasNextPage =
-    Math.floor(totalClientsPages / currentRowsPerPage) >= currentPage;
+    Math.floor(totalClients / currentRowsPerPage) >= currentPage;
 
   const handleLoadMoreItems = () => {
     if (hasNextPage) {

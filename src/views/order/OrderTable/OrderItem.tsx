@@ -38,9 +38,11 @@ const useStyles = makeStyles(() => ({
 export const OrderItem: FC<Props> = ({ order, onEdit, onDelete }) => {
   const classes = useStyles();
 
-  const isOrdersFetchLoading = useSelector(
-    (state: RootState) => state.order.isOrdersFetchLoading
+  const ordersFetchRequestStatus = useSelector(
+    (state: RootState) => state.order.ordersFetchRequestStatus
   );
+
+  const isOrdersFetchLoading = ordersFetchRequestStatus === 'loading';
 
   return (
     <TableRow key={order.id}>

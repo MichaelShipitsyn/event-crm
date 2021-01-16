@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Order, NewOrder } from 'types/order';
+import { Order } from 'types/order';
 import { GetOrdersResult } from 'api/order';
 
 type InitialState = {
   orders: Order[];
-  totalOrdersPages: number;
-  isOrdersFetchLoading: boolean;
+  totalOrders: number;
+  ordersFetchRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   deleteOrderRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   updateOrderRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   createOrderRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
@@ -13,15 +13,10 @@ type InitialState = {
   isOrderFormShow: boolean;
 };
 
-type FetchOrdersStartPayload = {
-  page: number;
-  limit: number;
-};
-
 const initialState: InitialState = {
   orders: [],
-  totalOrdersPages: 0,
-  isOrdersFetchLoading: false,
+  totalOrders: 0,
+  ordersFetchRequestStatus: 'idle',
   deleteOrderRequestStatus: 'idle',
   updateOrderRequestStatus: 'idle',
   createOrderRequestStatus: 'idle',
@@ -33,22 +28,19 @@ const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
-    fetchOrdersRequestStart(
-      state,
-      { payload }: PayloadAction<FetchOrdersStartPayload>
-    ) {
-      state.isOrdersFetchLoading = true;
+    fetchOrdersRequestStart(state) {
+      state.ordersFetchRequestStatus = 'success';
     },
     fetchOrdersRequestSuccess(
       state,
       { payload }: PayloadAction<GetOrdersResult>
     ) {
       state.orders = payload.orders;
-      state.totalOrdersPages = payload.total;
-      state.isOrdersFetchLoading = false;
+      state.totalOrders = payload.total;
+      state.ordersFetchRequestStatus = 'success';
     },
     fetchOrdersRequestFail(state) {
-      state.isOrdersFetchLoading = false;
+      state.ordersFetchRequestStatus = 'fail';
     },
     deleteOrderStart(state) {
       state.deleteOrderRequestStatus = 'loading';

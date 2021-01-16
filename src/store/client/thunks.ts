@@ -28,7 +28,7 @@ export const fetchClientsThunk = ({
   limit
 }: FetchClientsParams): AppThunk => async (dispatch) => {
   try {
-    dispatch(fetchClientsRequestStart({ page, limit }));
+    dispatch(fetchClientsRequestStart());
     const clients = await clientApi.getClients({ page, limit });
     dispatch(fetchClientsRequestSuccess(clients));
   } catch (err) {
