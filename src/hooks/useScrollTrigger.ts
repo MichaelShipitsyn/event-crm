@@ -1,4 +1,4 @@
-import React, { useRef, RefObject } from 'react';
+import React, { useRef, RefObject, useMemo } from 'react';
 import throttle from 'lodash.throttle';
 
 type Props = {
@@ -35,12 +35,13 @@ export const useScrollTrigger = ({
   };
 
   const scrollHandler = throttle(() => {
+    console.log('scrollHandler');
     if (!refElement) return;
 
     if (onReachBottom && isScrolledToBottom()) {
       onReachBottom();
     }
-  }, 250);
+  }, 1000);
 
   return { scrollHandler, scrollToTop, scrollToBottom };
 };

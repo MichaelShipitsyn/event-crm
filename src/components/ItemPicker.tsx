@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -21,10 +21,17 @@ import { Check as CheckIcon, X as XIcon } from 'react-feather';
 import { Theme } from 'theme';
 import { useScrollTrigger } from 'hooks/useScrollTrigger';
 
+type Entity = {
+  id: number;
+  name: string;
+  [key: string]: any;
+};
+
 type Props = {
   onClose: () => void;
+  loadMore: () => void;
   onSelect: (id: number) => void;
-  items: Array<{ id: number }>;
+  items: Array<Entity>;
 };
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -70,17 +77,19 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
-export const ItemPicker: FC<Props> = ({ onClose, onSelect, items }) => {
+export const ItemPicker: FC<Props> = ({
+  onClose,
+  onSelect,
+  items,
+  loadMore
+}) => {
   const [checkedId, setCheckedId] = useState<number | null>(null);
   const classes = useStyles();
 
-  const loadMore = () => {
-    console.log('loadMore');
-  };
-
   const refElement = useRef(null);
+
   const { scrollHandler } = useScrollTrigger({
-    threshold: 500,
+    threshold: 200,
     onReachBottom: loadMore,
     refElement
   });
@@ -146,7 +155,7 @@ export const ItemPicker: FC<Props> = ({ onClose, onSelect, items }) => {
                   className={classes.listItem}
                   onClick={() => handleCheckItem(item.id)}
                 >
-                  <ListItemText id={labelId} primary={`Line item ${item.id}`} />
+                  <ListItemText id={labelId} primary={`${item.name}`} />
                   <ListItemSecondaryAction
                     className={classes.itemSecondaryAction}
                   >

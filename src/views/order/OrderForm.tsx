@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { Order, NewOrder } from 'types/order';
-import { NewClient } from 'types/client';
+import { Client, NewClient } from 'types/client';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOrderFormShow } from 'store/order/slice';
 import { Theme } from 'theme';
 import * as yup from 'yup';
+import { fetchClientsThunk } from 'store/client/thunks';
 import {
   Box,
   Button,
@@ -127,9 +128,43 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
     }
   };
 
+  const globalClients = useSelector((state: RootState) => state.client.clients);
+  const totalClientsPages = useSelector(
+    (state: RootState) => state.client.totalClientsPages
+  );
+
+  const [clients, setClients] = useState<Client[]>([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const currentRowsPerPage = 15;
+
+  useEffect(() => {
+    dispatch(
+      fetchClientsThunk({ page: currentPage, limit: currentRowsPerPage })
+    );
+  }, [dispatch, currentPage]);
+
+  useEffect(() => {
+    setClients([...clients, ...globalClients]);
+  }, [globalClients]);
+
   const handleSelectClient = (selectedClientId: number) => {
     console.log(selectedClientId);
   };
+
+  const handleLoadMoreItems = () => {
+    if (Math.floor(totalClientsPages / currentRowsPerPage) >= currentPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (!isClientPickerShow && currentPage !== 1) {
+      console.log('reset');
+      setClients([]);
+      setCurrentPage(1);
+    }
+  }, [isClientPickerShow]);
 
   return (
     <Drawer anchor="right" open onClose={handleClose} variant="temporary">
@@ -296,8 +331,9 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
       </Box>
       {isClientPickerShow && (
         <ItemPicker
-          items={[{ id: 1 }]}
+          items={clients}
           onClose={() => setClientPickerShow(false)}
+          loadMore={handleLoadMoreItems}
           onSelect={handleSelectClient}
         />
       )}
