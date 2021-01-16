@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setOrderFormShow } from 'store/order/slice';
 import { Theme } from 'theme';
 import * as yup from 'yup';
-import { fetchClientsThunk } from 'store/client/thunks';
+import { useClientPick } from 'hooks/client/useClientPick';
 import {
   Box,
   Button,
@@ -82,7 +82,6 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
   const dispatch = useDispatch();
 
   const [isNewClient, setNewClient] = useState(initialOrder === null);
-  const [isClientPickerShow, setClientPickerShow] = useState(false);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -120,7 +119,6 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
   };
 
   const handleSave = (editedOrder: FormData) => {
-    console.log(editedOrder);
     if (initialOrder) {
       dispatch(updateOrderThunk({ ...initialOrder, ...editedOrder }));
     } else {
@@ -128,51 +126,15 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
     }
   };
 
-  const globalClients = useSelector((state: RootState) => state.client.clients);
-  const totalClients = useSelector(
-    (state: RootState) => state.client.totalClients
-  );
-  const clientsFetchRequestStatus = useSelector(
-    (state: RootState) => state.client.clientsFetchRequestStatus
-  );
-
-  const isClientsFetchLoading = clientsFetchRequestStatus === 'loading';
-
-  const [clients, setClients] = useState<Client[]>([]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const currentRowsPerPage = 15;
-
-  useEffect(() => {
-    dispatch(
-      fetchClientsThunk({ page: currentPage, limit: currentRowsPerPage })
-    );
-  }, [dispatch, currentPage]);
-
-  useEffect(() => {
-    setClients([...clients, ...globalClients]);
-  }, [globalClients]);
-
-  const handleSelectClient = (selectedClientId: number) => {
-    console.log(selectedClientId);
-  };
-
-  const hasNextPage =
-    Math.floor(totalClients / currentRowsPerPage) >= currentPage;
-
-  const handleLoadMoreItems = () => {
-    if (hasNextPage) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  useEffect(() => {
-    if (!isClientPickerShow && currentPage !== 1) {
-      console.log('reset');
-      setClients([]);
-      setCurrentPage(1);
-    }
-  }, [isClientPickerShow]);
+  const {
+    isClientPickerShow,
+    setClientPickerShow,
+    clients,
+    isClientsFetchLoading,
+    hasNextPage,
+    handleLoadMoreItems,
+    handlePickClient
+  } = useClientPick();
 
   return (
     <Drawer anchor="right" open onClose={handleClose} variant="temporary">
@@ -344,7 +306,7 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
           items={clients}
           onClose={() => setClientPickerShow(false)}
           loadMore={handleLoadMoreItems}
-          onSelect={handleSelectClient}
+          onSelect={handlePickClient}
         />
       )}
     </Drawer>
