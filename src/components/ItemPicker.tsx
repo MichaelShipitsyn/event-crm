@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { useSelector } from 'react-redux';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 import {
   makeStyles,
   List,
@@ -32,15 +33,19 @@ type Props = {
   loadMore: () => void;
   onSelect: (id: number) => void;
   items: Array<Entity>;
+  hasNextPage: boolean;
+  isLoading: boolean;
 };
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
+    listWrap: {
+      maxHeight: '300px',
+      overflow: 'auto'
+    },
     list: {
       paddingTop: 0,
       paddingBottom: 0,
-      maxHeight: '300px',
-      overflow: 'auto',
       border: '1px solid #e8e8e8',
       borderRadius: '0 0 3px 3px'
     },
@@ -81,17 +86,20 @@ export const ItemPicker: FC<Props> = ({
   onClose,
   onSelect,
   items,
-  loadMore
+  loadMore,
+  hasNextPage,
+  isLoading
 }) => {
   const [checkedId, setCheckedId] = useState<number | null>(null);
   const classes = useStyles();
 
   const refElement = useRef(null);
 
-  const { scrollHandler } = useScrollTrigger({
-    threshold: 200,
-    onReachBottom: loadMore,
-    refElement
+  const infiniteRef = useInfiniteScroll<HTMLUListElement>({
+    loading: isLoading,
+    hasNextPage,
+    onLoadMore: loadMore,
+    scrollContainer: 'parent'
   });
 
   const handleCheckItem = (value: number) => {
@@ -140,44 +148,41 @@ export const ItemPicker: FC<Props> = ({
             type="text"
             variant="outlined"
           />
-          <List
-            onScroll={scrollHandler}
-            ref={refElement}
-            dense
-            className={classes.list}
-          >
-            {items.map((item) => {
-              const labelId = `checkbox-list-secondary-label-${item.id}`;
-              return (
-                <ListItem
-                  key={item.id}
-                  button
-                  className={classes.listItem}
-                  onClick={() => handleCheckItem(item.id)}
-                >
-                  <ListItemText id={labelId} primary={`${item.name}`} />
-                  <ListItemSecondaryAction
-                    className={classes.itemSecondaryAction}
+          <div className={classes.listWrap}>
+            <List ref={infiniteRef} dense className={classes.list}>
+              {items.map((item) => {
+                const labelId = `checkbox-list-secondary-label-${item.id}`;
+                return (
+                  <ListItem
+                    key={item.id}
+                    button
+                    className={classes.listItem}
+                    onClick={() => handleCheckItem(item.id)}
                   >
-                    {checkedId === item.id ? (
-                      <IconButton
-                        className={classes.checkedIcon}
-                        classes={{ root: classes.iconButton }}
-                      >
-                        <SvgIcon fontSize="small">
-                          <CheckIcon color="#fff" />
-                        </SvgIcon>
-                      </IconButton>
-                    ) : (
-                      <IconButton classes={{ root: classes.iconButton }}>
-                        {' '}
-                      </IconButton>
-                    )}
-                  </ListItemSecondaryAction>
-                </ListItem>
-              );
-            })}
-          </List>
+                    <ListItemText id={labelId} primary={`${item.name}`} />
+                    <ListItemSecondaryAction
+                      className={classes.itemSecondaryAction}
+                    >
+                      {checkedId === item.id ? (
+                        <IconButton
+                          className={classes.checkedIcon}
+                          classes={{ root: classes.iconButton }}
+                        >
+                          <SvgIcon fontSize="small">
+                            <CheckIcon color="#fff" />
+                          </SvgIcon>
+                        </IconButton>
+                      ) : (
+                        <IconButton classes={{ root: classes.iconButton }}>
+                          {' '}
+                        </IconButton>
+                      )}
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </div>
         </div>
       </DialogContent>
       <DialogActions classes={{ root: classes.dialogActions }}>

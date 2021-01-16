@@ -1,27 +1,10 @@
-import React, { useRef, RefObject, useMemo } from 'react';
-import throttle from 'lodash.throttle';
+import React, { RefObject } from 'react';
 
 type Props = {
-  threshold: number;
-  onReachBottom: () => void;
   refElement: RefObject<HTMLDivElement> | null;
 };
 
-export const useScrollTrigger = ({
-  threshold,
-  onReachBottom,
-  refElement
-}: Props) => {
-  const isScrolledToBottom = () => {
-    if (refElement !== null && refElement.current !== null) {
-      return (
-        refElement.current.clientHeight + refElement.current.scrollTop >=
-        refElement.current.scrollHeight - threshold
-      );
-    }
-    return false;
-  };
-
+export const useScrollTrigger = ({ refElement }: Props) => {
   const scrollToTop = () => {
     if (refElement !== null && refElement.current !== null) {
       refElement.current.scrollTop = 0;
@@ -34,14 +17,5 @@ export const useScrollTrigger = ({
     }
   };
 
-  const scrollHandler = throttle(() => {
-    console.log('scrollHandler');
-    if (!refElement) return;
-
-    if (onReachBottom && isScrolledToBottom()) {
-      onReachBottom();
-    }
-  }, 1000);
-
-  return { scrollHandler, scrollToTop, scrollToBottom };
+  return { scrollToTop, scrollToBottom };
 };

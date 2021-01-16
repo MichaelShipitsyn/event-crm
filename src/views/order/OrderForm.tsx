@@ -132,6 +132,9 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
   const totalClientsPages = useSelector(
     (state: RootState) => state.client.totalClientsPages
   );
+  const isClientsFetchLoading = useSelector(
+    (state: RootState) => state.client.isClientsFetchLoading
+  );
 
   const [clients, setClients] = useState<Client[]>([]);
 
@@ -152,8 +155,11 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
     console.log(selectedClientId);
   };
 
+  const hasNextPage =
+    Math.floor(totalClientsPages / currentRowsPerPage) >= currentPage;
+
   const handleLoadMoreItems = () => {
-    if (Math.floor(totalClientsPages / currentRowsPerPage) >= currentPage) {
+    if (hasNextPage) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -331,6 +337,8 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
       </Box>
       {isClientPickerShow && (
         <ItemPicker
+          hasNextPage={hasNextPage}
+          isLoading={isClientsFetchLoading}
           items={clients}
           onClose={() => setClientPickerShow(false)}
           loadMore={handleLoadMoreItems}
