@@ -15,17 +15,21 @@ import {
 } from './slice';
 
 type FetchEmployeesParams = {
-  page: number;
   limit: number;
+  page?: number;
 };
 
 export const fetchEmployeesThunk = ({
-  page,
+  page = 1,
   limit
-}: FetchEmployeesParams): AppThunk => async (dispatch) => {
+}: FetchEmployeesParams): AppThunk => async (dispatch, getState) => {
   try {
     dispatch(fetchEmployeesRequestStart());
-    const employees = await employeeApi.getEmployees({ page, limit });
+    const employees = await employeeApi.getEmployees({
+      page,
+      limit,
+      query: getState().employee.searchQuery
+    });
     dispatch(fetchEmployeesRequestSuccess(employees));
   } catch (err) {
     dispatch(fetchEmployeesRequestFail());
@@ -51,8 +55,7 @@ export const updateEmployeesThunk = (employee: User): AppThunk => async (
 };
 
 export const deleteEmployeesThunk = (employeeId: number): AppThunk => async (
-  dispatch,
-  getState
+  dispatch
 ) => {
   try {
     dispatch(deleteEmployeeStart());

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import type { FC, ChangeEvent } from 'react';
+import { useDispatch } from 'react-redux';
+import debounce from 'lodash.debounce';
+import { setSearchQuery } from 'store/employee/slice';
 import {
   Box,
-  Button,
   InputAdornment,
   SvgIcon,
   TextField,
@@ -46,22 +48,19 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const TableFilters: FC = () => {
+  const dispatch = useDispatch();
+
   const classes = useStyles();
-  const [query, setQuery] = useState<string>('');
   const [sort, setSort] = useState<Sort>(sortOptions[0].value);
 
-  const handleQueryChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    event.persist();
-    setQuery(event.target.value);
-  };
+  const handleQueryChange = debounce(
+    (query) => dispatch(setSearchQuery(query)),
+    500
+  );
 
   const handleSortChange = (event: ChangeEvent<HTMLInputElement>): void => {
     event.persist();
     setSort(event.target.value as Sort);
-  };
-
-  const handleSearch = (): void => {
-    console.log(query);
   };
 
   return (
@@ -93,18 +92,10 @@ export const TableFilters: FC = () => {
             </InputAdornment>
           )
         }}
-        onChange={handleQueryChange}
+        onChange={(event) => handleQueryChange(event.target.value)}
         placeholder="Поиск..."
-        value={query}
         variant="outlined"
       />
-      <Button
-        className={classes.searchButton}
-        variant="outlined"
-        onClick={handleSearch}
-      >
-        Поиск
-      </Button>
     </Box>
   );
 };

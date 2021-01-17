@@ -2,8 +2,9 @@ import { request } from 'libs/request';
 import { User } from 'types/user';
 
 type GetEmployeesParams = {
-  page: number;
   limit: number;
+  page?: number;
+  query: string | null;
 };
 
 export type GetEmployeesResult = {
@@ -12,12 +13,16 @@ export type GetEmployeesResult = {
 };
 
 const getEmployees = async ({
+  limit,
   page,
-  limit
+  query
 }: GetEmployeesParams): Promise<GetEmployeesResult> => {
-  const employeesResponse = await request.get<GetEmployeesResult>(
-    `/employees?page=${page}&limit=${limit}`
-  );
+  let url = `/employees?limit=${limit}&`;
+
+  if (page) url += `page=${page}&`;
+  if (query) url += `query=${query}&`;
+
+  const employeesResponse = await request.get<GetEmployeesResult>(url);
   return {
     employees: employeesResponse.data.employees,
     total: employeesResponse.data.total

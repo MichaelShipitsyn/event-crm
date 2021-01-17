@@ -5,6 +5,7 @@ import { GetEmployeesResult } from 'api/employee';
 type InitialState = {
   employees: User[];
   totalEmployees: number;
+  searchQuery: string | null;
   employeesFetchRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   deleteEmployeeRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   updateEmployeeRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
@@ -13,6 +14,7 @@ type InitialState = {
 const initialState: InitialState = {
   employees: [],
   totalEmployees: 0,
+  searchQuery: null,
   employeesFetchRequestStatus: 'idle',
   deleteEmployeeRequestStatus: 'idle',
   updateEmployeeRequestStatus: 'idle'
@@ -61,6 +63,9 @@ const employeeSlice = createSlice({
     },
     updateEmployeeRequestFail(state) {
       state.updateEmployeeRequestStatus = 'fail';
+    },
+    setSearchQuery(state, { payload }: PayloadAction<string>) {
+      state.searchQuery = payload;
     }
   }
 });
@@ -76,5 +81,6 @@ export const {
   deleteEmployeeFail,
   updateEmployeeRequestStart,
   updateEmployeeRequestSuccess,
-  updateEmployeeRequestFail
+  updateEmployeeRequestFail,
+  setSearchQuery
 } = employeeSlice.actions;

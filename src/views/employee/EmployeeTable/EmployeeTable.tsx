@@ -68,6 +68,9 @@ export const EmployeeTable: FC = () => {
   const employeesFetchRequestStatus = useSelector(
     (state: RootState) => state.employee.employeesFetchRequestStatus
   );
+  const searchQuery = useSelector(
+    (state: RootState) => state.employee.searchQuery
+  );
 
   const isEmployeesFetchLoading = employeesFetchRequestStatus === 'loading';
 
@@ -77,12 +80,19 @@ export const EmployeeTable: FC = () => {
     );
   }, [dispatch, currentPage]);
 
+  useEffect(() => {
+    if (searchQuery !== null) {
+      dispatch(fetchEmployeesThunk({ limit: currentRowsPerPage }));
+    }
+  }, [searchQuery]);
+
   const handlePageChange = (event: never, newPage: number): void => {
     setCurrentPage(newPage);
   };
 
   return (
     <div>
+      {searchQuery}
       <Card>
         <TableFilters />
         <TableContainer className={classes.container}>
