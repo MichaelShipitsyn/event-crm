@@ -10,7 +10,7 @@ export const useClientPick = () => {
   const [isClientPickerShow, setClientPickerShow] = useState(false);
   const [clients, setClients] = useState<Client[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const currentRowsPerPage = 15;
+  const currentRowsPerPage = 10;
 
   const globalClients = useSelector((state: RootState) => state.client.clients);
   const totalClients = useSelector(
@@ -43,6 +43,10 @@ export const useClientPick = () => {
     console.log(selectedClientId);
   };
 
+  const getClientsByQuery = (query: string) => {
+    console.log(query);
+  };
+
   const hasNextPage =
     Math.floor(totalClients / currentRowsPerPage) >= currentPage;
 
@@ -59,6 +63,7 @@ export const useClientPick = () => {
     isClientsFetchLoading,
     hasNextPage,
     handleLoadMoreItems,
-    handlePickClient
+    handlePickClient,
+    getClientsByQuery
   };
 };

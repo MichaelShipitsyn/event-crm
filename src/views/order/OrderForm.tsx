@@ -133,7 +133,8 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
     isClientsFetchLoading,
     hasNextPage,
     handleLoadMoreItems,
-    handlePickClient
+    handlePickClient,
+    getClientsByQuery
   } = useClientPick();
 
   return (
@@ -302,6 +303,7 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
       {isClientPickerShow && (
         <ItemPicker
           hasNextPage={hasNextPage}
+          getItemsByQuery={getClientsByQuery}
           isLoading={isClientsFetchLoading}
           items={clients}
           onClose={() => setClientPickerShow(false)}

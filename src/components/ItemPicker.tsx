@@ -1,7 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import type { FC } from 'react';
-import { useSelector } from 'react-redux';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
+import debounce from 'lodash.debounce';
 import {
   makeStyles,
   List,
@@ -20,7 +20,6 @@ import {
 } from '@material-ui/core';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
 import { Theme } from 'theme';
-import { useScrollTrigger } from 'hooks/useScrollTrigger';
 
 type Entity = {
   id: number;
@@ -31,6 +30,7 @@ type Entity = {
 type Props = {
   onClose: () => void;
   loadMore: () => void;
+  getItemsByQuery: (query: string) => void;
   onSelect: (id: number) => void;
   items: Array<Entity>;
   hasNextPage: boolean;
@@ -88,12 +88,11 @@ export const ItemPicker: FC<Props> = ({
   items,
   loadMore,
   hasNextPage,
-  isLoading
+  isLoading,
+  getItemsByQuery
 }) => {
   const [checkedId, setCheckedId] = useState<number | null>(null);
   const classes = useStyles();
-
-  const refElement = useRef(null);
 
   const infiniteRef = useInfiniteScroll<HTMLUListElement>({
     loading: isLoading,
@@ -115,6 +114,8 @@ export const ItemPicker: FC<Props> = ({
       onSelect(checkedId);
     }
   };
+
+  const handleQueryChange = debounce((query) => getItemsByQuery(query), 500);
 
   return (
     <Dialog
@@ -144,9 +145,9 @@ export const ItemPicker: FC<Props> = ({
             placeholder="Поиск..."
             fullWidth
             margin="normal"
-            name="newClient.phone"
             type="text"
             variant="outlined"
+            onChange={(event) => handleQueryChange(event.target.value)}
           />
           <div className={classes.listWrap}>
             <List ref={infiniteRef} dense className={classes.list}>
