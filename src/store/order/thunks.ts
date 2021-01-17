@@ -19,17 +19,21 @@ import {
 } from './slice';
 
 type FetchOrdersParams = {
-  page: number;
   limit: number;
+  page?: number;
 };
 
 export const fetchOrdersThunk = ({
-  page,
+  page = 1,
   limit
-}: FetchOrdersParams): AppThunk => async (dispatch) => {
+}: FetchOrdersParams): AppThunk => async (dispatch, getState) => {
   try {
     dispatch(fetchOrdersRequestStart());
-    const orders = await orderApi.getOrders({ page, limit });
+    const orders = await orderApi.getOrders({
+      page,
+      limit,
+      query: getState().order.searchQuery
+    });
     dispatch(fetchOrdersRequestSuccess(orders));
   } catch (err) {
     dispatch(fetchOrdersRequestFail());
@@ -77,8 +81,7 @@ export const createOrderThunk = (order: NewOrder): AppThunk => async (
 };
 
 export const deleteOrderThunk = (orderId: number): AppThunk => async (
-  dispatch,
-  getState
+  dispatch
 ) => {
   try {
     dispatch(deleteOrderStart());

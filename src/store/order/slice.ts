@@ -5,6 +5,7 @@ import { GetOrdersResult } from 'api/order';
 type InitialState = {
   orders: Order[];
   totalOrders: number;
+  searchQuery: string | null;
   ordersFetchRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   deleteOrderRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   updateOrderRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
@@ -16,6 +17,7 @@ type InitialState = {
 const initialState: InitialState = {
   orders: [],
   totalOrders: 0,
+  searchQuery: null,
   ordersFetchRequestStatus: 'idle',
   deleteOrderRequestStatus: 'idle',
   updateOrderRequestStatus: 'idle',
@@ -29,7 +31,7 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     fetchOrdersRequestStart(state) {
-      state.ordersFetchRequestStatus = 'success';
+      state.ordersFetchRequestStatus = 'loading';
     },
     fetchOrdersRequestSuccess(
       state,
@@ -85,6 +87,9 @@ const orderSlice = createSlice({
     },
     createOrderRequestFail(state) {
       state.createOrderRequestStatus = 'fail';
+    },
+    setSearchQuery(state, { payload }: PayloadAction<string>) {
+      state.searchQuery = payload;
     }
   }
 });
@@ -105,5 +110,6 @@ export const {
   setOrderFormShow,
   createOrderRequestStart,
   createOrderRequestSuccess,
-  createOrderRequestFail
+  createOrderRequestFail,
+  setSearchQuery
 } = orderSlice.actions;

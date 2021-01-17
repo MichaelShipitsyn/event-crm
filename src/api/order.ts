@@ -2,8 +2,9 @@ import { request } from 'libs/request';
 import { Order, NewOrder } from 'types/order';
 
 type GetOrdersParams = {
-  page: number;
   limit: number;
+  page?: number;
+  query: string | null;
 };
 
 export type GetOrdersResult = {
@@ -12,12 +13,15 @@ export type GetOrdersResult = {
 };
 
 const getOrders = async ({
+  limit,
   page,
-  limit
+  query
 }: GetOrdersParams): Promise<GetOrdersResult> => {
-  const ordersResponse = await request.get<GetOrdersResult>(
-    `/orders?page=${page}&limit=${limit}`
-  );
+  let url = `/orders?limit=${limit}&`;
+  if (page) url += `page=${page}&`;
+  if (query) url += `query=${query}&`;
+
+  const ordersResponse = await request.get<GetOrdersResult>(url);
   return {
     orders: ordersResponse.data.orders,
     total: ordersResponse.data.total

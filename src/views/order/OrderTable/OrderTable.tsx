@@ -64,6 +64,9 @@ export const OrderTable: FC = () => {
   const isOrderFormShow = useSelector(
     (state: RootState) => state.order.isOrderFormShow
   );
+  const searchQuery = useSelector(
+    (state: RootState) => state.order.searchQuery
+  );
 
   const isOrdersFetchLoading = ordersFetchRequestStatus === 'loading';
 
@@ -72,6 +75,12 @@ export const OrderTable: FC = () => {
       fetchOrdersThunk({ page: currentPage, limit: currentRowsPerPage })
     );
   }, [dispatch, currentPage]);
+
+  useEffect(() => {
+    if (searchQuery !== null) {
+      dispatch(fetchOrdersThunk({ limit: currentRowsPerPage }));
+    }
+  }, [searchQuery]);
 
   const handlePageChange = (event: never, newPage: number): void => {
     setCurrentPage(newPage);

@@ -92,7 +92,6 @@ export const EmployeeTable: FC = () => {
 
   return (
     <div>
-      {searchQuery}
       <Card>
         <TableFilters />
         <TableContainer className={classes.container}>
