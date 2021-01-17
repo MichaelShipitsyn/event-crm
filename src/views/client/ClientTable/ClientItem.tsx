@@ -38,9 +38,11 @@ const useStyles = makeStyles(() => ({
 export const ClientItem: FC<Props> = ({ client, onEdit, onDelete }) => {
   const classes = useStyles();
 
-  const isClientsFetchLoading = useSelector(
-    (state: RootState) => state.client.isClientsFetchLoading
+  const clientsFetchRequestStatus = useSelector(
+    (state: RootState) => state.client.clientsFetchRequestStatus
   );
+
+  const isClientsFetchLoading = clientsFetchRequestStatus === 'loading';
 
   return (
     <TableRow key={client.id}>

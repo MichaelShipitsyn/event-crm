@@ -2,8 +2,9 @@ import { request } from 'libs/request';
 import { Client, NewClient } from 'types/client';
 
 type GetClientsParams = {
-  page: number;
   limit: number;
+  page?: number;
+  query: string | null;
 };
 
 export type GetClientsResult = {
@@ -13,11 +14,15 @@ export type GetClientsResult = {
 
 const getClients = async ({
   page,
-  limit
+  limit,
+  query
 }: GetClientsParams): Promise<GetClientsResult> => {
-  const clientsResponse = await request.get<GetClientsResult>(
-    `/clients?page=${page}&limit=${limit}`
-  );
+  let url = `/clients?limit=${limit}&`;
+
+  if (page) url += `page=${page}&`;
+  if (query) url += `query=${query}&`;
+
+  const clientsResponse = await request.get<GetClientsResult>(url);
   return {
     clients: clientsResponse.data.clients,
     total: clientsResponse.data.total

@@ -63,6 +63,9 @@ export const ClientTable: FC = () => {
   const clientsFetchRequestStatus = useSelector(
     (state: RootState) => state.client.clientsFetchRequestStatus
   );
+  const searchQuery = useSelector(
+    (state: RootState) => state.client.searchQuery
+  );
 
   const editableClient = useSelector(
     (state: RootState) => state.client.editableClient
@@ -78,6 +81,12 @@ export const ClientTable: FC = () => {
       fetchClientsThunk({ page: currentPage, limit: currentRowsPerPage })
     );
   }, [dispatch, currentPage]);
+
+  useEffect(() => {
+    if (searchQuery !== null) {
+      dispatch(fetchClientsThunk({ limit: currentRowsPerPage }));
+    }
+  }, [searchQuery]);
 
   const handlePageChange = (event: never, newPage: number): void => {
     setCurrentPage(newPage);

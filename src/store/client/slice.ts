@@ -5,6 +5,7 @@ import { GetClientsResult } from 'api/client';
 type InitialState = {
   clients: Client[];
   totalClients: number;
+  searchQuery: string | null;
   clientsFetchRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   deleteClientRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
   updateClientRequestStatus: 'idle' | 'loading' | 'success' | 'fail';
@@ -16,6 +17,7 @@ type InitialState = {
 const initialState: InitialState = {
   clients: [],
   totalClients: 0,
+  searchQuery: null,
   clientsFetchRequestStatus: 'idle',
   deleteClientRequestStatus: 'idle',
   updateClientRequestStatus: 'idle',
@@ -87,6 +89,9 @@ const clientSlice = createSlice({
     },
     createClientRequestFail(state) {
       state.createClientRequestStatus = 'fail';
+    },
+    setSearchQuery(state, { payload }: PayloadAction<string>) {
+      state.searchQuery = payload;
     }
   }
 });
@@ -107,5 +112,6 @@ export const {
   setClientFormShow,
   createClientRequestStart,
   createClientRequestSuccess,
-  createClientRequestFail
+  createClientRequestFail,
+  setSearchQuery
 } = clientSlice.actions;

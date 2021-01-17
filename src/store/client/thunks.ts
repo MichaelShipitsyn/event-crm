@@ -15,21 +15,27 @@ import {
   setClientFormShow,
   createClientRequestStart,
   createClientRequestSuccess,
-  createClientRequestFail
+  createClientRequestFail,
+  setSearchQuery
 } from './slice';
 
 type FetchClientsParams = {
-  page: number;
   limit: number;
+  page?: number;
 };
 
 export const fetchClientsThunk = ({
-  page,
+  page = 1,
   limit
-}: FetchClientsParams): AppThunk => async (dispatch) => {
+}: FetchClientsParams): AppThunk => async (dispatch, getState) => {
+  console.log('fetchClientsThunk');
   try {
     dispatch(fetchClientsRequestStart());
-    const clients = await clientApi.getClients({ page, limit });
+    const clients = await clientApi.getClients({
+      page,
+      limit,
+      query: getState().client.searchQuery
+    });
     dispatch(fetchClientsRequestSuccess(clients));
   } catch (err) {
     dispatch(fetchClientsRequestFail());
@@ -77,8 +83,7 @@ export const createClientThunk = (client: NewClient): AppThunk => async (
 };
 
 export const deleteClientThunk = (clientId: number): AppThunk => async (
-  dispatch,
-  getState
+  dispatch
 ) => {
   try {
     dispatch(deleteClientStart());
