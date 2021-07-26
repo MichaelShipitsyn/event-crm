@@ -1,19 +1,20 @@
-import React from 'react';
-import type { FC } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
 import {
   AppBar,
   Box,
   Hidden,
   IconButton,
-  Toolbar,
   makeStyles,
-  SvgIcon
+  SvgIcon,
+  Toolbar,
 } from '@material-ui/core';
-import { Menu as MenuIcon } from 'react-feather';
+import clsx from 'clsx';
 import { Logo } from 'components/Logo';
+import type { FC } from 'react';
+import React from 'react';
+import { Menu as MenuIcon } from 'react-feather';
+import { Link as RouterLink } from 'react-router-dom';
 import type { Theme } from 'theme';
+
 import { Account } from './Account';
 import { Search } from './Search';
 
@@ -26,11 +27,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     zIndex: theme.zIndex.drawer + 100,
     boxShadow: 'none',
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   toolbar: {
-    minHeight: 44
-  }
+    minHeight: 44,
+  },
 }));
 
 export const TopBar: FC<TopBarProps> = ({

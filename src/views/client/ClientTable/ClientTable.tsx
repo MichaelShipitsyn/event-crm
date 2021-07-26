@@ -1,44 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import type { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store';
 import {
-  fetchClientsThunk,
-  updateClientThunk,
-  createClientThunk
-} from 'store/client/thunks';
-import {
-  Card,
   Box,
+  Card,
+  Hidden,
+  LinearProgress,
+  makeStyles,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-  LinearProgress,
-  makeStyles,
-  TableContainer,
-  Hidden
 } from '@material-ui/core';
-import { useDeleteClient } from 'hooks/client';
 import Pagination from '@material-ui/lab/Pagination';
 import { DeleteWarning, NoTableData } from 'components';
-import { setEditableClient, setClientFormShow } from 'store/client/slice';
-import { NewClient, Client, isNewClient } from 'types/client';
+import { useDeleteClient } from 'hooks/client';
+import type { FC } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { setClientFormShow, setEditableClient } from 'store/client/slice';
+import {
+  createClientThunk,
+  fetchClientsThunk,
+  updateClientThunk,
+} from 'store/client/thunks';
+import { Client, isNewClient, NewClient } from 'types/client';
+
+import { ClientForm } from 'views/client/ClientForm';
 import { ClientItem } from './ClientItem';
 import { TableFilters } from './TableFilters';
-import { ClientForm } from '../ClientForm';
 
 const useStyles = makeStyles(() => {
   return {
     container: {
-      maxHeight: '50vh'
+      maxHeight: '50vh',
     },
     stickyTableCell: {
       position: 'sticky',
       right: 0,
-      background: '#fff'
-    }
+      background: '#fff',
+    },
   };
 });
 
@@ -53,7 +54,7 @@ export const ClientTable: FC = () => {
     removableClientID,
     setRemovableClientID,
     deleteClientRequestStatus,
-    handleDeleteClient
+    handleDeleteClient,
   } = useDeleteClient();
 
   const clients = useSelector((state: RootState) => state.client.clients);
@@ -86,9 +87,12 @@ export const ClientTable: FC = () => {
     if (searchQuery !== null) {
       dispatch(fetchClientsThunk({ limit: currentRowsPerPage }));
     }
-  }, [searchQuery]);
+  }, [dispatch, searchQuery]);
 
-  const handlePageChange = (event: never, newPage: number): void => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    newPage: number
+  ): void => {
     setCurrentPage(newPage);
   };
 

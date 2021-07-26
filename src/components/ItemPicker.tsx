@@ -1,30 +1,29 @@
-import React, { useState } from 'react';
-import type { FC } from 'react';
-import useInfiniteScroll from 'react-infinite-scroll-hook';
-import debounce from 'lodash.debounce';
 import {
-  makeStyles,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  makeStyles,
+  SvgIcon,
   TextField,
   Typography,
-  IconButton,
-  SvgIcon
 } from '@material-ui/core';
+import debounce from 'lodash.debounce';
+import React, { useState } from 'react';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { Theme } from 'theme';
 
 type Entity = {
+  [key: string]: unknown;
   id: number;
   name: string;
-  [key: string]: any;
 };
 
 type Props = {
@@ -32,7 +31,7 @@ type Props = {
   loadMore: () => void;
   getItemsByQuery: (query: string) => void;
   onSelect: (id: number) => void;
-  items: Array<Entity>;
+  items: Entity[];
   hasNextPage: boolean;
   isLoading: boolean;
 };
@@ -41,56 +40,56 @@ const useStyles = makeStyles((theme: Theme) => {
   return {
     listWrap: {
       maxHeight: '300px',
-      overflow: 'auto'
+      overflow: 'auto',
     },
     list: {
       paddingTop: 0,
       paddingBottom: 0,
       border: '1px solid #e8e8e8',
-      borderRadius: '0 0 3px 3px'
+      borderRadius: '0 0 3px 3px',
     },
     listItem: {
       borderBottom: '1px solid #e8e8e8',
-      padding: '12px 14px'
+      padding: '12px 14px',
     },
     iconButton: {
       border: '1px solid rgba(84, 110, 122, 0.3)',
       width: '24px',
       height: '24px',
-      padding: '5px'
+      padding: '5px',
     },
     checkedIcon: {
       backgroundColor: theme.palette.primary.main,
       '&:hover': {
-        backgroundColor: theme.palette.primary.main
-      }
+        backgroundColor: theme.palette.primary.main,
+      },
     },
     dialogActions: {
-      padding: '16px 24px 8px'
+      padding: '16px 24px 8px',
     },
     itemSecondaryAction: {
-      pointerEvents: 'none'
+      pointerEvents: 'none',
     },
     dialogTitle: {
       display: 'flex',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
     },
     closeButton: {
       position: 'relative',
-      right: '-4px'
-    }
+      right: '-4px',
+    },
   };
 });
 
-export const ItemPicker: FC<Props> = ({
+export const ItemPicker = ({
   onClose,
   onSelect,
   items,
   loadMore,
   hasNextPage,
   isLoading,
-  getItemsByQuery
-}) => {
+  getItemsByQuery,
+}: Props) => {
   const [checkedId, setCheckedId] = useState<number | null>(null);
   const classes = useStyles();
 
@@ -98,7 +97,7 @@ export const ItemPicker: FC<Props> = ({
     loading: isLoading,
     hasNextPage,
     onLoadMore: loadMore,
-    scrollContainer: 'parent'
+    scrollContainer: 'parent',
   });
 
   const handleCheckItem = (value: number) => {

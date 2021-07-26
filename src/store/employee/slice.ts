@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from 'types/user';
 import { GetEmployeesResult } from 'api/employee';
+import { User } from 'types/user';
 
 type InitialState = {
   employees: User[];
@@ -17,7 +17,7 @@ const initialState: InitialState = {
   searchQuery: null,
   employeesFetchRequestStatus: 'idle',
   deleteEmployeeRequestStatus: 'idle',
-  updateEmployeeRequestStatus: 'idle'
+  updateEmployeeRequestStatus: 'idle',
 };
 
 const employeeSlice = createSlice({
@@ -66,8 +66,8 @@ const employeeSlice = createSlice({
     },
     setSearchQuery(state, { payload }: PayloadAction<string>) {
       state.searchQuery = payload;
-    }
-  }
+    },
+  },
 });
 
 export const employeeSliceReducer = employeeSlice.reducer;
@@ -82,5 +82,5 @@ export const {
   updateEmployeeRequestStart,
   updateEmployeeRequestSuccess,
   updateEmployeeRequestFail,
-  setSearchQuery
+  setSearchQuery,
 } = employeeSlice.actions;

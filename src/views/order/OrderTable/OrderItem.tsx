@@ -1,18 +1,17 @@
-import React from 'react';
-import type { FC } from 'react';
-import { RootState } from 'store';
-import { SkeletonWrap } from 'components';
-import { Order } from 'types/order';
 import {
   Box,
   IconButton,
+  makeStyles,
   SvgIcon,
   TableCell,
   TableRow,
-  makeStyles
 } from '@material-ui/core';
-import { User as UserIcon, Trash2 as TrashIcon } from 'react-feather';
+import { SkeletonWrap } from 'components';
+import React from 'react';
+import { Trash2 as TrashIcon, User as UserIcon } from 'react-feather';
 import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { Order } from 'types/order';
 
 type Props = {
   order: Order;
@@ -24,18 +23,18 @@ const useStyles = makeStyles(() => ({
   stickyTableCell: {
     position: 'sticky',
     right: 0,
-    background: '#fff'
+    background: '#fff',
   },
   iconButton: {
     border: '1px solid rgba(84, 110, 122, 0.3)',
     padding: '5px',
     '&:hover': {
-      backgroundColor: 'rgba(84, 110, 122, 0.15)'
-    }
-  }
+      backgroundColor: 'rgba(84, 110, 122, 0.15)',
+    },
+  },
 }));
 
-export const OrderItem: FC<Props> = ({ order, onEdit, onDelete }) => {
+export const OrderItem = ({ order, onEdit, onDelete }: Props) => {
   const classes = useStyles();
 
   const ordersFetchRequestStatus = useSelector(

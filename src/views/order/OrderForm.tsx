@@ -1,35 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import type { FC } from 'react';
-import { Order, NewOrder } from 'types/order';
-import { Client, NewClient } from 'types/client';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { setOrderFormShow } from 'store/order/slice';
-import { Theme } from 'theme';
-import * as yup from 'yup';
-import { useClientPick } from 'hooks/client/useClientPick';
 import {
   Box,
   Button,
+  Checkbox,
+  Divider,
   Drawer,
+  FormControlLabel,
+  Grid,
   IconButton,
+  makeStyles,
   SvgIcon,
   TextField,
   Typography,
-  Divider,
-  makeStyles,
-  Grid,
   useMediaQuery,
-  Checkbox,
-  FormControlLabel
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
-import { Check as CheckIcon, X as XIcon } from 'react-feather';
 import { ButtonWithLoader, ItemPicker } from 'components';
-
+import { useClientPick } from 'hooks/client/useClientPick';
+import React, { useEffect, useState } from 'react';
+import { Check as CheckIcon, X as XIcon } from 'react-feather';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { createOrderThunk, updateOrderThunk } from '../../store/order/thunks';
+import { setOrderFormShow } from 'store/order/slice';
+import { createOrderThunk, updateOrderThunk } from 'store/order/thunks';
+import { Theme } from 'theme';
+import { NewClient } from 'types/client';
+import { NewOrder, Order } from 'types/order';
+import * as yup from 'yup';
 
 type FormData = NewOrder & {
   newClient: NewClient | null;
@@ -43,25 +41,25 @@ const useStyles = makeStyles((theme: Theme) => {
   return {
     toggleButtonGroup: {
       display: 'flex',
-      marginTop: '3px'
+      marginTop: '3px',
     },
     toggleButton: {
-      width: '50%'
+      width: '50%',
     },
     drawerContent: {
       overflowY: 'auto',
-      height: '100%'
+      height: '100%',
     },
     nameClientLabel: {
       display: 'flex',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
     },
     selectClientButton: {
       color: theme.palette.primary.main,
       fontSize: '14px',
       textDecoration: 'underline',
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   };
 });
 
@@ -69,16 +67,16 @@ const schema = yup.object().shape({
   newClient: yup
     .object()
     .shape({
-      name: yup.string().required('Обязательное поле')
+      name: yup.string().required('Обязательное поле'),
     })
     .nullable(),
   name: yup.string().required('Обязательное поле'),
   phone: yup.string(),
   email: yup.string().email('Невалидный Email'),
-  additional: yup.string()
+  additional: yup.string(),
 });
 
-export const OrderForm: FC<Props> = ({ initialOrder }) => {
+export const OrderForm = ({ initialOrder }: Props) => {
   const dispatch = useDispatch();
 
   const [isNewClient, setNewClient] = useState(initialOrder === null);
@@ -92,7 +90,7 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
     defaultValues: initialOrder
       ? { ...initialOrder, newClient: { name: '', phone: '' } }
       : undefined,
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
 
   useEffect(() => {
@@ -134,7 +132,7 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
     hasNextPage,
     handleLoadMoreItems,
     handlePickClient,
-    getClientsByQuery
+    getClientsByQuery,
   } = useClientPick();
 
   return (
@@ -267,7 +265,7 @@ export const OrderForm: FC<Props> = ({ initialOrder }) => {
             helperText={errors?.description && errors?.description.message}
             inputRef={register}
             fullWidth
-            multiline={true}
+            multiline
             rows={5}
             label="Описание"
             margin="normal"

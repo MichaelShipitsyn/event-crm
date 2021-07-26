@@ -6,7 +6,7 @@ export default {
     fontWeight: '500',
     color: palette.text.primary,
     '&.Mui-error': {
-      color: palette.text.primary
-    }
-  }
+      color: palette.text.primary,
+    },
+  },
 };

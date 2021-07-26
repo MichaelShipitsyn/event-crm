@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { isRequestFulfilled } from 'utils/isRequestFulfilled';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { deleteEmployeesThunk } from 'store/employee/thunks';
+import { isRequestFulfilled } from 'utils/isRequestFulfilled';
 
 export const useDeleteEmployee = () => {
   const dispatch = useDispatch();
@@ -30,6 +30,6 @@ export const useDeleteEmployee = () => {
     removableEmployeeID,
     setRemovableEmployeeID,
     deleteEmployeeRequestStatus,
-    handleDeleteEmployee
+    handleDeleteEmployee,
   };
 };

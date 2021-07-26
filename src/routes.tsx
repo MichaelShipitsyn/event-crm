@@ -1,18 +1,18 @@
-import React, { Suspense, Fragment, lazy } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { LoadingScreen } from 'components/LoadingScreen';
 import { AuthGuard } from 'components/AuthGuard';
 import { GuestGuard } from 'components/GuestGuard';
+import { LoadingScreen } from 'components/LoadingScreen';
 import { DashboardLayout } from 'layouts/DashboardLayout';
+import React, { Fragment, lazy, Suspense } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
-type Routes = {
+type Routes = Array<{
   exact?: boolean;
   path?: string | string[];
   guard?: any;
   layout?: any;
   component?: any;
   routes?: Routes;
-}[];
+}>;
 
 export const renderRoutes = (routes: Routes = []): JSX.Element => (
   <Suspense fallback={<LoadingScreen />}>
@@ -49,27 +49,31 @@ const routes: Routes = [
   {
     exact: true,
     path: '/404',
-    component: lazy(() => import('views/errors/NotFoundView'))
+    component: lazy(async () =>
+      import('views/errors/NotFoundView').then((m) => ({
+        default: m.NotFoundView,
+      }))
+    ),
   },
   {
     exact: true,
     guard: GuestGuard,
     path: '/login',
-    component: lazy(() =>
+    component: lazy(async () =>
       import('views/auth/LoginView').then((m) => ({
-        default: m.LoginView
+        default: m.LoginView,
       }))
-    )
+    ),
   },
   {
     exact: true,
     guard: GuestGuard,
     path: '/register',
-    component: lazy(() =>
+    component: lazy(async () =>
       import('views/auth/RegisterView').then((m) => ({
-        default: m.RegisterView
+        default: m.RegisterView,
       }))
-    )
+    ),
   },
   {
     path: '/app',
@@ -79,44 +83,44 @@ const routes: Routes = [
       {
         exact: true,
         path: '/app/employees',
-        component: lazy(() =>
+        component: lazy(async () =>
           import('views/employee/EmployeeView').then((m) => ({
-            default: m.EmployeeView
+            default: m.EmployeeView,
           }))
-        )
+        ),
       },
       {
         exact: true,
         path: '/app/clients',
-        component: lazy(() =>
+        component: lazy(async () =>
           import('views/client/ClientView').then((m) => ({
-            default: m.ClientView
+            default: m.ClientView,
           }))
-        )
+        ),
       },
       {
         exact: true,
         path: '/app/orders',
-        component: lazy(() =>
+        component: lazy(async () =>
           import('views/order/OrderView').then((m) => ({
-            default: m.OrderView
+            default: m.OrderView,
           }))
-        )
+        ),
       },
       {
         exact: true,
         path: '/app',
-        component: () => <Redirect to="/app/employees" />
+        component: () => <Redirect to="/app/employees" />,
       },
       {
-        component: () => <Redirect to="/404" />
-      }
-    ]
+        component: () => <Redirect to="/404" />,
+      },
+    ],
   },
   {
     path: '*',
-    component: () => <Redirect to="/404" />
-  }
+    component: () => <Redirect to="/404" />,
+  },
 ];
 
 export default routes;

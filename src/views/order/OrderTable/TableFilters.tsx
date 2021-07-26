@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import type { FC, ChangeEvent } from 'react';
-import { useDispatch } from 'react-redux';
-import debounce from 'lodash.debounce';
-import { setSearchQuery } from 'store/order/slice';
 import {
   Box,
   InputAdornment,
+  makeStyles,
   SvgIcon,
   TextField,
-  makeStyles
 } from '@material-ui/core';
+import debounce from 'lodash.debounce';
+import type { ChangeEvent, FC } from 'react';
+import React, { useState } from 'react';
 import { Search as SearchIcon } from 'react-feather';
+import { useDispatch } from 'react-redux';
+import { setSearchQuery } from 'store/order/slice';
 
 type Sort = 'updatedAt|desc' | 'updatedAt|asc' | 'orders|desc' | 'orders|asc';
 
@@ -22,29 +22,29 @@ interface SortOption {
 const sortOptions: SortOption[] = [
   {
     value: 'updatedAt|desc',
-    label: 'Last update (newest first)'
+    label: 'Last update (newest first)',
   },
   {
     value: 'updatedAt|asc',
-    label: 'Last update (oldest first)'
+    label: 'Last update (oldest first)',
   },
   {
     value: 'orders|desc',
-    label: 'Total orders (high to low)'
+    label: 'Total orders (high to low)',
   },
   {
     value: 'orders|asc',
-    label: 'Total orders (low to high)'
-  }
+    label: 'Total orders (low to high)',
+  },
 ];
 
 const useStyles = makeStyles(() => ({
   queryField: {
-    width: 300
+    width: 300,
   },
   searchButton: {
-    marginLeft: '10px'
-  }
+    marginLeft: '10px',
+  },
 }));
 
 export const TableFilters: FC = () => {
@@ -89,7 +89,7 @@ export const TableFilters: FC = () => {
                 <SearchIcon />
               </SvgIcon>
             </InputAdornment>
-          )
+          ),
         }}
         onChange={(event) => handleQueryChange(event.target.value)}
         placeholder="Поиск..."

@@ -15,7 +15,7 @@ export type GetClientsResult = {
 const getClients = async ({
   page,
   limit,
-  query
+  query,
 }: GetClientsParams): Promise<GetClientsResult> => {
   let url = `/clients?limit=${limit}&`;
 
@@ -25,7 +25,7 @@ const getClients = async ({
   const clientsResponse = await request.get<GetClientsResult>(url);
   return {
     clients: clientsResponse.data.clients,
-    total: clientsResponse.data.total
+    total: clientsResponse.data.total,
   };
 };
 
@@ -46,5 +46,5 @@ export const clientApi = {
   getClients,
   updateClient,
   deleteClient,
-  createClient
+  createClient,
 };

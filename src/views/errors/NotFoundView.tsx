@@ -1,17 +1,18 @@
-import React from 'react';
-import type { FC } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
   Button,
   Container,
+  makeStyles,
   Typography,
-  useTheme,
   useMediaQuery,
-  makeStyles
+  useTheme,
 } from '@material-ui/core';
-import type { Theme } from 'theme';
 import { Page } from 'components/Page';
+import NotFoundImage from 'images/not-found.svg';
+import type { FC } from 'react';
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import type { Theme } from 'theme';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -21,17 +22,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
     padding: theme.spacing(3),
     paddingTop: 80,
-    paddingBottom: 80
+    paddingBottom: 80,
   },
   image: {
     maxWidth: '100%',
     width: 560,
     maxHeight: 300,
-    height: 'auto'
-  }
+    height: 'auto',
+  },
 }));
 
-const NotFoundView: FC = () => {
+export const NotFoundView: FC = () => {
   const classes = useStyles();
   const theme = useTheme();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
@@ -50,7 +51,7 @@ const NotFoundView: FC = () => {
           <img
             alt="Under development"
             className={classes.image}
-            src="/static/images/undraw_page_not_found_su7k.svg"
+            src={NotFoundImage}
           />
         </Box>
         <Box mt={6} display="flex" justifyContent="center">
@@ -67,5 +68,3 @@ const NotFoundView: FC = () => {
     </Page>
   );
 };
-
-export default NotFoundView;

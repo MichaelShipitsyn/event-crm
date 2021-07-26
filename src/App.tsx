@@ -1,29 +1,29 @@
-import React from 'react';
-import type { FC } from 'react';
-import { Router } from 'react-router-dom';
-import { history } from 'libs/history';
-import { create } from 'jss';
-import MomentUtils from '@date-io/moment';
 import { jssPreset, StylesProvider, ThemeProvider } from '@material-ui/core';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import {
-  GlobalStyles,
-  ScrollReset,
   AuthProvider,
-  Notification
+  GlobalStyles,
+  Notification,
+  ScrollReset,
 } from 'components';
-import { createTheme } from 'theme';
+import { create } from 'jss';
+import { history } from 'libs/history';
+import type { FC } from 'react';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
 import routes, { renderRoutes } from 'routes';
+import store from 'store';
+import { createTheme } from 'theme';
 
 const jss = create({ plugins: [...jssPreset().plugins] });
 
-const App: FC = () => {
+export const App: FC = () => {
   const theme = createTheme();
 
   return (
-    <ThemeProvider theme={theme}>
-      <StylesProvider jss={jss}>
-        <MuiPickersUtilsProvider utils={MomentUtils}>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <StylesProvider jss={jss}>
           <AuthProvider>
             <Router history={history}>
               <GlobalStyles />
@@ -32,10 +32,8 @@ const App: FC = () => {
               {renderRoutes(routes)}
             </Router>
           </AuthProvider>
-        </MuiPickersUtilsProvider>
-      </StylesProvider>
-    </ThemeProvider>
+        </StylesProvider>
+      </ThemeProvider>
+    </Provider>
   );
 };
-
-export default App;

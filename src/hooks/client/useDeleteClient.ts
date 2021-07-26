@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { isRequestFulfilled } from 'utils/isRequestFulfilled';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { deleteClientThunk } from 'store/client/thunks';
+import { isRequestFulfilled } from 'utils/isRequestFulfilled';
 
 export const useDeleteClient = () => {
   const dispatch = useDispatch();
@@ -30,6 +30,6 @@ export const useDeleteClient = () => {
     removableClientID,
     setRemovableClientID,
     deleteClientRequestStatus,
-    handleDeleteClient
+    handleDeleteClient,
   };
 };

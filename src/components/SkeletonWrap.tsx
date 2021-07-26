@@ -1,6 +1,6 @@
-import React from 'react';
-import type { FC } from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
+import type { FC } from 'react';
+import React from 'react';
 
 type SkeletonWrapProps = {
   isLoading: boolean;
@@ -8,7 +8,7 @@ type SkeletonWrapProps = {
 
 export const SkeletonWrap: FC<SkeletonWrapProps> = ({
   children,
-  isLoading
+  isLoading,
 }) => {
   if (isLoading) {
     return <Skeleton width="100%" />;

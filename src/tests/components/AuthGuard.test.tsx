@@ -1,8 +1,9 @@
-import * as React from 'react';
 import '@testing-library/jest-dom/extend-expect';
+
 import { screen } from '@testing-library/react';
-import { renderWithProviders, createStoreTest } from 'tests/app-test-utils';
 import { AuthGuard } from 'components/AuthGuard';
+import * as React from 'react';
+import { createStoreTest, renderWithProviders } from 'tests/app-test-utils';
 
 const ui = (
   <AuthGuard>

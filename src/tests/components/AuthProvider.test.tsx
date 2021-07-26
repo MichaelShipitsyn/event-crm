@@ -1,9 +1,10 @@
+import '@testing-library/jest-dom/extend-expect';
+
+import { screen } from '@testing-library/react';
+import { AuthProvider } from 'components/AuthProvider';
 import * as React from 'react';
 import * as redux from 'react-redux';
-import '@testing-library/jest-dom/extend-expect';
-import { screen } from '@testing-library/react';
-import { renderWithProviders, createStoreTest } from 'tests/app-test-utils';
-import { AuthProvider } from 'components/AuthProvider';
+import { createStoreTest, renderWithProviders } from 'tests/app-test-utils';
 
 const ui = (
   <AuthProvider>
@@ -13,7 +14,7 @@ const ui = (
 
 test('render children when isAuthChecked=true', async () => {
   const storeTest = createStoreTest({
-    auth: { isAuthChecked: true }
+    auth: { isAuthChecked: true },
   });
 
   renderWithProviders(ui, storeTest);
@@ -23,7 +24,7 @@ test('render children when isAuthChecked=true', async () => {
 
 test('render LoadingScreen when isAuthChecked=false', async () => {
   const storeTest = createStoreTest({
-    auth: { isAuthChecked: false }
+    auth: { isAuthChecked: false },
   });
 
   const useDispatchSpy = jest.spyOn(redux, 'useDispatch');

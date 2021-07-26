@@ -1,6 +1,3 @@
-import React from 'react';
-import type { FC } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -8,11 +5,15 @@ import {
   Container,
   Divider,
   Link,
+  makeStyles,
   Typography,
-  makeStyles
 } from '@material-ui/core';
+import { Logo, Page } from 'components';
+import type { FC } from 'react';
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import type { Theme } from 'theme';
-import { Page, Logo } from 'components';
+
 import { RegisterForm } from './RegisterForm';
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -21,19 +22,19 @@ const useStyles = makeStyles((theme: Theme) => {
       backgroundColor: theme.palette.background.dark,
       display: 'flex',
       flexDirection: 'column',
-      minHeight: '100vh'
+      minHeight: '100vh',
     },
     cardContainer: {
       maxWidth: '500px',
       paddingBottom: 80,
-      paddingTop: 80
+      paddingTop: 80,
     },
     cardContent: {
       padding: theme.spacing(4),
       display: 'flex',
       flexDirection: 'column',
-      minHeight: 400
-    }
+      minHeight: 400,
+    },
   };
 });
 

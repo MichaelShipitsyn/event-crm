@@ -2,23 +2,23 @@ export default {
   MuiTextField: {
     autoComplete: 'off',
     InputProps: {
-      notched: false
+      notched: false,
     },
     InputLabelProps: {
-      shrink: true
-    }
+      shrink: true,
+    },
   },
   MuiButtonBase: {
-    disableRipple: true
+    disableRipple: true,
   },
   MuiDialog: {
     disableBackdropClick: true,
-    disableEscapeKeyDown: true
+    disableEscapeKeyDown: true,
   },
   MuiDrawer: {
     ModalProps: {
       disableBackdropClick: true,
-      disableEscapeKeyDown: true
-    }
-  }
+      disableEscapeKeyDown: true,
+    },
+  },
 };

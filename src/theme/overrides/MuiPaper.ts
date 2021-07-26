@@ -1,5 +1,5 @@
 export default {
   rounded: {
-    borderRadius: '2px'
-  }
+    borderRadius: '2px',
+  },
 };

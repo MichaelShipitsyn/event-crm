@@ -1,39 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import type { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store';
-import { fetchOrdersThunk } from 'store/order/thunks';
 import {
-  Card,
   Box,
+  Card,
+  Hidden,
+  LinearProgress,
+  makeStyles,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-  LinearProgress,
-  makeStyles,
-  TableContainer,
-  Hidden
 } from '@material-ui/core';
-import { useDeleteOrder } from 'hooks/order';
 import Pagination from '@material-ui/lab/Pagination';
 import { DeleteWarning, NoTableData } from 'components';
+import { useDeleteOrder } from 'hooks/order';
+import type { FC } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store';
 import { setEditableOrder } from 'store/order/slice';
+import { fetchOrdersThunk } from 'store/order/thunks';
+import { OrderForm } from 'views/order/OrderForm';
+
 import { OrderItem } from './OrderItem';
 import { TableFilters } from './TableFilters';
-import { OrderForm } from '../OrderForm';
 
 const useStyles = makeStyles(() => {
   return {
     container: {
-      maxHeight: '50vh'
+      maxHeight: '50vh',
     },
     stickyTableCell: {
       position: 'sticky',
       right: 0,
-      background: '#fff'
-    }
+      background: '#fff',
+    },
   };
 });
 
@@ -48,7 +49,7 @@ export const OrderTable: FC = () => {
     removableOrderID,
     setRemovableOrderID,
     deleteOrderRequestStatus,
-    handleDeleteOrder
+    handleDeleteOrder,
   } = useDeleteOrder();
 
   const orders = useSelector((state: RootState) => state.order.orders);
@@ -80,9 +81,12 @@ export const OrderTable: FC = () => {
     if (searchQuery !== null) {
       dispatch(fetchOrdersThunk({ limit: currentRowsPerPage }));
     }
-  }, [searchQuery]);
+  }, [dispatch, searchQuery]);
 
-  const handlePageChange = (event: never, newPage: number): void => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    newPage: number
+  ): void => {
     setCurrentPage(newPage);
   };
 

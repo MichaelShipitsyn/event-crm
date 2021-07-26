@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Order } from 'types/order';
 import { GetOrdersResult } from 'api/order';
+import { Order } from 'types/order';
 
 type InitialState = {
   orders: Order[];
@@ -23,7 +23,7 @@ const initialState: InitialState = {
   updateOrderRequestStatus: 'idle',
   createOrderRequestStatus: 'idle',
   editableOrder: null,
-  isOrderFormShow: false
+  isOrderFormShow: false,
 };
 
 const orderSlice = createSlice({
@@ -90,8 +90,8 @@ const orderSlice = createSlice({
     },
     setSearchQuery(state, { payload }: PayloadAction<string>) {
       state.searchQuery = payload;
-    }
-  }
+    },
+  },
 });
 
 export const orderSliceReducer = orderSlice.reducer;
@@ -111,5 +111,5 @@ export const {
   createOrderRequestStart,
   createOrderRequestSuccess,
   createOrderRequestFail,
-  setSearchQuery
+  setSearchQuery,
 } = orderSlice.actions;

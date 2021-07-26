@@ -1,12 +1,11 @@
-import React from 'react';
-import type { FC } from 'react';
-import * as Yup from 'yup';
-import { Formik } from 'formik';
 import { Box, Button, FormHelperText, TextField } from '@material-ui/core';
+import { Formik } from 'formik';
+import type { FC } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerRequest } from 'store/auth/thunks';
-
 import { RootState } from 'store';
+import { registerRequest } from 'store/auth/thunks';
+import * as Yup from 'yup';
 
 export const RegisterForm: FC = () => {
   const authMessageError = useSelector(
@@ -21,7 +20,7 @@ export const RegisterForm: FC = () => {
         lastname: '',
         email: '',
         password: '',
-        submit: null
+        submit: null,
       }}
       validationSchema={Yup.object().shape({
         firstname: Yup.string().max(255).required('Необходимо указать имя'),
@@ -33,7 +32,7 @@ export const RegisterForm: FC = () => {
         password: Yup.string()
           .min(8, 'Пароль должен содержать не менее 8 символов')
           .max(255)
-          .required('Необходимо указать пароль')
+          .required('Необходимо указать пароль'),
       })}
       onSubmit={async (values) => {
         dispatch(
@@ -41,7 +40,7 @@ export const RegisterForm: FC = () => {
             firstname: values.firstname,
             lastname: values.lastname,
             email: values.email,
-            password: values.password
+            password: values.password,
           })
         );
       }}
@@ -53,7 +52,7 @@ export const RegisterForm: FC = () => {
         handleSubmit,
         isSubmitting,
         touched,
-        values
+        values,
       }) => (
         <form noValidate onSubmit={handleSubmit}>
           <TextField

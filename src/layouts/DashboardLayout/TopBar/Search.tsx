@@ -1,6 +1,3 @@
-import React, { useState } from 'react';
-import type { FC } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
   Button,
@@ -11,9 +8,12 @@ import {
   SvgIcon,
   TextField,
   Tooltip,
-  Typography
+  Typography,
 } from '@material-ui/core';
+import type { FC } from 'react';
+import React, { useState } from 'react';
 import { Search as SearchIcon, XCircle as XIcon } from 'react-feather';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 interface Result {
   description: string;
@@ -79,7 +79,7 @@ export const Search: FC = () => {
                         <SearchIcon />
                       </SvgIcon>
                     </InputAdornment>
-                  )
+                  ),
                 }}
                 onChange={(event) => setValue(event.target.value)}
                 placeholder="Search people &amp; places"

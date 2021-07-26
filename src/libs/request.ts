@@ -6,7 +6,7 @@ import { showAlert } from 'store/global/slice';
 const { REACT_APP_API_URL } = process.env;
 
 const request = axios.create({
-  baseURL: REACT_APP_API_URL
+  baseURL: REACT_APP_API_URL,
 });
 
 request.interceptors.response.use(
@@ -24,7 +24,7 @@ request.interceptors.response.use(
       store.dispatch(
         showAlert({
           alertMessage: 'Ошибка сервера. Обратитесь к администрации',
-          alertType: 'error'
+          alertType: 'error',
         })
       );
     }

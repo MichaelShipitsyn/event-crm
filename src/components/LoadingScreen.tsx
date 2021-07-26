@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
 import { Box, LinearProgress, makeStyles } from '@material-ui/core';
+import React from 'react';
 import { Theme } from 'theme';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -11,11 +11,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '100%',
     justifyContent: 'center',
     minHeight: '100%',
-    padding: theme.spacing(3)
-  }
+    padding: theme.spacing(3),
+  },
 }));
 
-export const LoadingScreen: FC = () => {
+export const LoadingScreen = () => {
   const classes = useStyles();
 
   return (

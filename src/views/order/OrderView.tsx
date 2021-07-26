@@ -1,8 +1,9 @@
-import React from 'react';
-import type { FC } from 'react';
 import { Box, Container, makeStyles } from '@material-ui/core';
-import type { Theme } from 'theme';
 import { Page } from 'components/Page';
+import type { FC } from 'react';
+import React from 'react';
+import type { Theme } from 'theme';
+
 import { Header } from './Header';
 import { OrderTable } from './OrderTable';
 
@@ -11,8 +12,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.dark,
     minHeight: '100%',
     paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3)
-  }
+    paddingBottom: theme.spacing(3),
+  },
 }));
 
 export const OrderView: FC = () => {

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Client } from 'types/client';
 import { GetClientsResult } from 'api/client';
+import { Client } from 'types/client';
 
 type InitialState = {
   clients: Client[];
@@ -23,7 +23,7 @@ const initialState: InitialState = {
   updateClientRequestStatus: 'idle',
   createClientRequestStatus: 'idle',
   editableClient: null,
-  isClientFormShow: false
+  isClientFormShow: false,
 };
 
 const clientSlice = createSlice({
@@ -92,8 +92,8 @@ const clientSlice = createSlice({
     },
     setSearchQuery(state, { payload }: PayloadAction<string>) {
       state.searchQuery = payload;
-    }
-  }
+    },
+  },
 });
 
 export const clientSliceReducer = clientSlice.reducer;
@@ -113,5 +113,5 @@ export const {
   createClientRequestStart,
   createClientRequestSuccess,
   createClientRequestFail,
-  setSearchQuery
+  setSearchQuery,
 } = clientSlice.actions;

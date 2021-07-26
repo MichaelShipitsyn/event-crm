@@ -1,4 +1,4 @@
 module.exports = {
   rootDir: 'src',
-  modulePaths: ['<rootDir>']
+  modulePaths: ['<rootDir>'],
 };

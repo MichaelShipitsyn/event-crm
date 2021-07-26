@@ -1,10 +1,3 @@
-import React, { useEffect } from 'react';
-import type { FC, ReactNode } from 'react';
-import { useLocation, matchPath, Link as RouterLink } from 'react-router-dom';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
-import { getUserFullName } from 'store/auth/selector';
 import {
   Avatar,
   Box,
@@ -13,11 +6,32 @@ import {
   Hidden,
   Link,
   List,
-  makeStyles
+  makeStyles,
 } from '@material-ui/core';
-import { Users as UsersIcon } from 'react-feather';
 import { Logo } from 'components/Logo';
+import type { FC, ReactNode } from 'react';
+import React, { useEffect } from 'react';
+import { Users as UsersIcon } from 'react-feather';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import { useSelector } from 'react-redux';
+import { Link as RouterLink, matchPath, useLocation } from 'react-router-dom';
+import { RootState } from 'store';
+import { getUserFullName } from 'store/auth/selector';
+
 import { NavItem } from './NavItem';
+
+type ReduceChildRoutesProps = {
+  acc: any[];
+  pathname: string;
+  item: Item;
+  depth: number;
+};
+
+type RenderNavItemsProps = {
+  items: Item[];
+  pathname: string;
+  depth?: number;
+};
 
 interface NavBarProps {
   onMobileClose: () => void;
@@ -44,9 +58,9 @@ const sections: Section[] = [
       {
         title: 'Сотрудники',
         icon: UsersIcon,
-        href: '/app/employees'
-      }
-    ]
+        href: '/app/employees',
+      },
+    ],
   },
   {
     subheader: 'Клиенты',
@@ -54,9 +68,9 @@ const sections: Section[] = [
       {
         title: 'Клиенты',
         icon: UsersIcon,
-        href: '/app/clients'
-      }
-    ]
+        href: '/app/clients',
+      },
+    ],
   },
   {
     subheader: 'Заказы',
@@ -64,48 +78,24 @@ const sections: Section[] = [
       {
         title: 'Заказы',
         icon: UsersIcon,
-        href: '/app/orders'
-      }
-    ]
-  }
+        href: '/app/orders',
+      },
+    ],
+  },
 ];
 
-function renderNavItems({
-  items,
-  pathname,
-  depth = 0
-}: {
-  items: Item[];
-  pathname: string;
-  depth?: number;
-}) {
-  return (
-    <List disablePadding>
-      {items.reduce(
-        (acc, item) => reduceChildRoutes({ acc, item, pathname, depth }),
-        []
-      )}
-    </List>
-  );
-}
-
-function reduceChildRoutes({
+const reduceChildRoutes = ({
   acc,
   pathname,
   item,
-  depth
-}: {
-  acc: any[];
-  pathname: string;
-  item: Item;
-  depth: number;
-}) {
-  const key = item.title + depth;
+  depth,
+}: ReduceChildRoutesProps) => {
+  const key = `${item.title}${depth}`;
 
   if (item.items) {
     const open = matchPath(pathname, {
       path: item.href,
-      exact: false
+      exact: false,
     });
 
     acc.push(
@@ -120,7 +110,7 @@ function reduceChildRoutes({
         {renderNavItems({
           depth: depth + 1,
           pathname,
-          items: item.items
+          items: item.items,
         })}
       </NavItem>
     );
@@ -138,27 +128,40 @@ function reduceChildRoutes({
   }
 
   return acc;
+};
+
+function renderNavItems({ items, pathname, depth = 0 }: RenderNavItemsProps) {
+  return (
+    <List disablePadding>
+      {items.reduce(
+        // @ts-expect-error
+        (accumulator, item) =>
+          reduceChildRoutes({ acc: accumulator, item, pathname, depth }),
+        []
+      )}
+    </List>
+  );
 }
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
-    width: 256
+    width: 256,
   },
   desktopDrawer: {
     width: 256,
     top: 64,
-    height: 'calc(100% - 64px)'
+    height: 'calc(100% - 64px)',
   },
   avatar: {
     cursor: 'pointer',
     width: 64,
-    height: 64
+    height: 64,
   },
   list: {
     '& .MuiButton-root': {
-      height: '44px'
-    }
-  }
+      height: '44px',
+    },
+  },
 }));
 
 export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
@@ -189,7 +192,7 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
               <Avatar
                 alt="User"
                 className={classes.avatar}
-                src={user?.avatar || ''}
+                src={user?.avatar ?? ''}
               />
             </RouterLink>
           </Box>
@@ -211,7 +214,7 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
             <List key={section.subheader} classes={{ root: classes.list }}>
               {renderNavItems({
                 items: section.items,
-                pathname: location.pathname
+                pathname: location.pathname,
               })}
             </List>
           ))}

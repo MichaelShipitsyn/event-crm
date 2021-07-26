@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { isRequestFulfilled } from 'utils/isRequestFulfilled';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { deleteOrderThunk } from 'store/order/thunks';
+import { isRequestFulfilled } from 'utils/isRequestFulfilled';
 
 export const useDeleteOrder = () => {
   const dispatch = useDispatch();
@@ -28,6 +28,6 @@ export const useDeleteOrder = () => {
     removableOrderID,
     setRemovableOrderID,
     deleteOrderRequestStatus,
-    handleDeleteOrder
+    handleDeleteOrder,
   };
 };

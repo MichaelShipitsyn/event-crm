@@ -1,18 +1,17 @@
+import { makeStyles, TableCell, TableRow } from '@material-ui/core';
 import React from 'react';
-import type { FC } from 'react';
-import { TableCell, TableRow, makeStyles } from '@material-ui/core';
 
-type NoTableDataProps = {
+type Props = {
   numberColumns: number;
 };
 
 const useStyles = makeStyles(() => ({
   tableCell: {
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }));
 
-export const NoTableData: FC<NoTableDataProps> = ({ numberColumns }) => {
+export const NoTableData = ({ numberColumns }: Props) => {
   const classes = useStyles();
 
   return (

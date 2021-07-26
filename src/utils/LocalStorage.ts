@@ -3,24 +3,20 @@ export const LocalStorage = {
     try {
       const serializedState = localStorage.getItem(key);
       if (serializedState === null) {
-        return undefined;
+        return;
       }
       return JSON.parse(serializedState);
-    } catch (err) {
-      return undefined;
-    }
+    } catch {}
   },
 
   setItem: (keyName: string, keyValue: string) => {
     try {
       localStorage.setItem(keyName, JSON.stringify(keyValue));
       return true;
-    } catch (error) {
-      return undefined;
-    }
+    } catch {}
   },
 
   removeItem: (key: string) => {
     localStorage.removeItem(key);
-  }
+  },
 };

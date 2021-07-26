@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import type { FC, ReactNode } from 'react';
-import {
-  NavLink as RouterLink,
-  LinkProps as RouterLinkProps
-} from 'react-router-dom';
-import clsx from 'clsx';
 import { Button, Collapse, ListItem, makeStyles } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import clsx from 'clsx';
+import type { FC, ReactNode } from 'react';
+import React, { useState } from 'react';
+import {
+  LinkProps as RouterLinkProps,
+  NavLink as RouterLink,
+} from 'react-router-dom';
 import type { Theme } from 'theme';
 
 interface NavItemProps {
@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   item: {
     display: 'block',
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   itemLeaf: {
     display: 'flex',
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   button: {
     color: theme.palette.text.secondary,
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'flex-start',
     textTransform: 'none',
     letterSpacing: 0,
-    width: '100%'
+    width: '100%',
   },
   buttonLeaf: {
     color: theme.palette.text.secondary,
@@ -50,27 +50,27 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: theme.typography.fontWeightRegular,
     '&.depth-0': {
       '& $title': {
-        fontWeight: theme.typography.fontWeightMedium
-      }
-    }
+        fontWeight: theme.typography.fontWeightMedium,
+      },
+    },
   },
   icon: {
     display: 'flex',
     alignItems: 'center',
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   title: {
-    marginRight: 'auto'
+    marginRight: 'auto',
   },
   active: {
     color: theme.palette.secondary.main,
     '& $title': {
-      fontWeight: theme.typography.fontWeightMedium
+      fontWeight: theme.typography.fontWeightMedium,
     },
     '& $icon': {
-      color: theme.palette.secondary.main
-    }
-  }
+      color: theme.palette.secondary.main,
+    },
+  },
 }));
 
 export const NavItem: FC<NavItemProps> = ({
@@ -80,15 +80,15 @@ export const NavItem: FC<NavItemProps> = ({
   href,
   icon: Icon,
   info: Info,
-  open: openProp,
+  open: openProperty,
   title,
   ...rest
 }) => {
   const classes = useStyles();
-  const [open, setOpen] = useState<boolean>(!!openProp);
+  const [open, setOpen] = useState<boolean>(!!openProperty);
 
   const handleToggle = (): void => {
-    setOpen((prevOpen) => !prevOpen);
+    setOpen((previousOpen) => !previousOpen);
   };
 
   let paddingLeft = 15;

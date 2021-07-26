@@ -1,14 +1,14 @@
-import React from 'react';
-import type { FC } from 'react';
 import {
   Button,
   Drawer,
   Grid,
   Hidden,
+  makeStyles,
   SvgIcon,
   Typography,
-  makeStyles
 } from '@material-ui/core';
+import type { FC } from 'react';
+import React from 'react';
 import { Trash as TrashIcon } from 'react-feather';
 import type { Theme } from 'theme';
 
@@ -20,22 +20,22 @@ interface BulkOperationsProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   actions: {
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
     '& > * + *': {
-      marginLeft: theme.spacing(2)
-    }
-  }
+      marginLeft: theme.spacing(2),
+    },
+  },
 }));
 
 export const TableSelectedBar: FC<BulkOperationsProps> = ({
   onDelete,
   open,
-  selected
+  selected,
 }) => {
   const classes = useStyles();
 

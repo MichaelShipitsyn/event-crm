@@ -1,15 +1,16 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core';
 import { Theme as MuiTheme } from '@material-ui/core/styles/createMuiTheme';
-import { Shadows as MuiShadows } from '@material-ui/core/styles/shadows';
 import {
   Palette as MuiPalette,
-  TypeBackground as MuiTypeBackground
+  TypeBackground as MuiTypeBackground,
 } from '@material-ui/core/styles/createPalette';
+import { Shadows as MuiShadows } from '@material-ui/core/styles/shadows';
+
+import overrides from './overrides';
+import palette from './palette';
+import props from './props';
 import { softShadows } from './shadows';
 import typography from './typography';
-import palette from './palette';
-import overrides from './overrides';
-import props from './props';
 
 interface TypeBackground extends MuiTypeBackground {
   dark: string;
@@ -38,7 +39,7 @@ const themeOptions: ThemeOptions = {
   typography,
   overrides,
   palette,
-  shadows: softShadows
+  shadows: softShadows,
 };
 
 export const createTheme = (): Theme => {

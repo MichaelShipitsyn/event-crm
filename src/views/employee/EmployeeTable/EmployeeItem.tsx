@@ -1,22 +1,21 @@
-import React from 'react';
-import type { FC } from 'react';
-import { RootState } from 'store';
-import { SkeletonWrap } from 'components';
-import { User } from 'types/user';
 import {
   Avatar,
   Box,
+  Hidden,
   IconButton,
+  makeStyles,
   SvgIcon,
   TableCell,
   TableRow,
-  makeStyles,
-  Hidden
 } from '@material-ui/core';
-import { User as UserIcon, Trash2 as TrashIcon } from 'react-feather';
-import type { Theme } from 'theme';
-import { getUserFullName } from 'utils/getUserFullName';
+import { SkeletonWrap } from 'components';
+import React from 'react';
+import { Trash2 as TrashIcon, User as UserIcon } from 'react-feather';
 import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import type { Theme } from 'theme';
+import { User } from 'types/user';
+import { getUserFullName } from 'utils/getUserFullName';
 
 type EmployeeItemProps = {
   employee: User;
@@ -28,27 +27,27 @@ const useStyles = makeStyles((theme: Theme) => ({
   avatar: {
     height: 42,
     width: 42,
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   stickyTableCell: {
     position: 'sticky',
     right: 0,
-    background: '#fff'
+    background: '#fff',
   },
   iconButton: {
     border: '1px solid rgba(84, 110, 122, 0.3)',
     padding: '5px',
     '&:hover': {
-      backgroundColor: 'rgba(84, 110, 122, 0.15)'
-    }
-  }
+      backgroundColor: 'rgba(84, 110, 122, 0.15)',
+    },
+  },
 }));
 
-export const EmployeeItem: FC<EmployeeItemProps> = ({
+export const EmployeeItem = ({
   employee,
   onEdit,
-  onDelete
-}) => {
+  onDelete,
+}: EmployeeItemProps) => {
   const classes = useStyles();
 
   const employeesFetchRequestStatus = useSelector(
@@ -65,7 +64,7 @@ export const EmployeeItem: FC<EmployeeItemProps> = ({
             <Hidden smDown>
               <Avatar
                 className={classes.avatar}
-                src={employee?.avatar || ''}
+                src={employee?.avatar ?? ''}
                 alt={employee.firstname}
               />
             </Hidden>

@@ -1,13 +1,12 @@
-import React from 'react';
-import type { FC } from 'react';
 import {
   Button,
+  ButtonProps,
   CircularProgress,
   makeStyles,
-  ButtonProps
 } from '@material-ui/core';
+import React from 'react';
 
-type ButtonLoaderWrapProps = {
+type Props = {
   label: string;
   isLoading: boolean;
 } & ButtonProps;
@@ -19,20 +18,20 @@ const useStyles = makeStyles(() => {
       top: '50%',
       left: '50%',
       marginTop: -10,
-      marginLeft: -10
+      marginLeft: -10,
     },
     invisible: {
-      opacity: 0
-    }
+      opacity: 0,
+    },
   };
 });
 
-export const ButtonWithLoader: FC<ButtonLoaderWrapProps> = ({
+export const ButtonWithLoader = ({
   label,
   isLoading,
   disabled,
   ...rest
-}) => {
+}: Props) => {
   const classes = useStyles();
 
   return (

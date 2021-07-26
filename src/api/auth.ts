@@ -8,13 +8,13 @@ const removeHeaderAuthorization = () => {
   delete request.defaults.headers.common.Authorization;
 };
 
-const login = (email: string, password: string) =>
+const login = async (email: string, password: string) =>
   request.post('/auth/login', {
     email,
-    password
+    password,
   });
 
-const register = (
+const register = async (
   firstname: string,
   lastname: string,
   email: string,
@@ -24,15 +24,15 @@ const register = (
     firstname,
     lastname,
     email,
-    password
+    password,
   });
 
-const getUser = () => request.get('/auth/user');
+const getUser = async () => request.get('/auth/user');
 
 export const authApi = {
   login,
   register,
   getUser,
   setHeaderAuthorization,
-  removeHeaderAuthorization
+  removeHeaderAuthorization,
 };

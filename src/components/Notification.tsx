@@ -1,12 +1,11 @@
-import React from 'react';
-import type { FC } from 'react';
 import { Snackbar } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { closeAlert } from 'store/global/slice';
 
-export const Notification: FC = () => {
+export const Notification = () => {
   const dispatch = useDispatch();
   const alertMessage = useSelector(
     (state: RootState) => state.global.alertMessage

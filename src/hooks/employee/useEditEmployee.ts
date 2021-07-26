@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { User } from 'types/user';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { updateEmployeesThunk } from 'store/employee/thunks';
+import { User } from 'types/user';
 import { isRequestFulfilled } from 'utils/isRequestFulfilled';
 
 export const useEditEmployee = () => {
@@ -26,6 +26,6 @@ export const useEditEmployee = () => {
   return {
     editableEmployee,
     setEditableEmployee,
-    handleEmployeeSave
+    handleEmployeeSave,
   };
 };

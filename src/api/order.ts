@@ -1,5 +1,5 @@
 import { request } from 'libs/request';
-import { Order, NewOrder } from 'types/order';
+import { NewOrder, Order } from 'types/order';
 
 type GetOrdersParams = {
   limit: number;
@@ -15,7 +15,7 @@ export type GetOrdersResult = {
 const getOrders = async ({
   limit,
   page,
-  query
+  query,
 }: GetOrdersParams): Promise<GetOrdersResult> => {
   let url = `/orders?limit=${limit}&`;
   if (page) url += `page=${page}&`;
@@ -24,7 +24,7 @@ const getOrders = async ({
   const ordersResponse = await request.get<GetOrdersResult>(url);
   return {
     orders: ordersResponse.data.orders,
-    total: ordersResponse.data.total
+    total: ordersResponse.data.total,
   };
 };
 
@@ -45,5 +45,5 @@ export const orderApi = {
   getOrders,
   createOrder,
   updateOrder,
-  deleteOrder
+  deleteOrder,
 };

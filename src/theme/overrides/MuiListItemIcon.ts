@@ -1,5 +1,5 @@
 export default {
   root: {
-    minWidth: 32
-  }
+    minWidth: 32,
+  },
 };

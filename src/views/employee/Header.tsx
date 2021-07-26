@@ -1,6 +1,6 @@
-import React from 'react';
-import type { FC } from 'react';
 import { Button, Grid, SvgIcon, Typography } from '@material-ui/core';
+import type { FC } from 'react';
+import React from 'react';
 import { PlusCircle as PlusCircleIcon } from 'react-feather';
 
 export const Header: FC = () => {

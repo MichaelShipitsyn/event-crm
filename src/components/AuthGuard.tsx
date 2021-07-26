@@ -1,10 +1,13 @@
 import React from 'react';
-import type { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store';
 import { Redirect } from 'react-router-dom';
+import { RootState } from 'store';
 
-export const AuthGuard: FC = ({ children }) => {
+type Props = {
+  children?: React.ReactNode;
+};
+
+export const AuthGuard = ({ children }: Props) => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );

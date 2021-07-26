@@ -29,7 +29,7 @@ export const useClientPick = () => {
   }, [dispatch, currentPage]);
 
   useEffect(() => {
-    setClients([...clients, ...globalClients]);
+    setClients((clients: Client[]) => [...clients, ...globalClients]);
   }, [globalClients]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export const useClientPick = () => {
       setClients([]);
       setCurrentPage(1);
     }
-  }, [isClientPickerShow]);
+  }, [currentPage, isClientPickerShow]);
 
   const handlePickClient = (selectedClientId: number) => {
     console.log(selectedClientId);
@@ -64,6 +64,6 @@ export const useClientPick = () => {
     hasNextPage,
     handleLoadMoreItems,
     handlePickClient,
-    getClientsByQuery
+    getClientsByQuery,
   };
 };

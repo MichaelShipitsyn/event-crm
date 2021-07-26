@@ -1,14 +1,14 @@
-import React from 'react';
 import type { FC, ReactNode } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store';
 import { Redirect } from 'react-router-dom';
+import { RootState } from 'store';
 
-interface GuestGuardProps {
+type Props = {
   children?: ReactNode;
-}
+};
 
-export const GuestGuard: FC<GuestGuardProps> = ({ children }) => {
+export const GuestGuard = ({ children }: Props) => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );

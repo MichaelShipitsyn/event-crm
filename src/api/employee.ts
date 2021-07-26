@@ -15,7 +15,7 @@ export type GetEmployeesResult = {
 const getEmployees = async ({
   limit,
   page,
-  query
+  query,
 }: GetEmployeesParams): Promise<GetEmployeesResult> => {
   let url = `/employees?limit=${limit}&`;
 
@@ -25,7 +25,7 @@ const getEmployees = async ({
   const employeesResponse = await request.get<GetEmployeesResult>(url);
   return {
     employees: employeesResponse.data.employees,
-    total: employeesResponse.data.total
+    total: employeesResponse.data.total,
   };
 };
 
@@ -40,5 +40,5 @@ const deleteEmployee = async (employeeID: number): Promise<void> => {
 export const employeeApi = {
   getEmployees,
   updateEmployee,
-  deleteEmployee
+  deleteEmployee,
 };

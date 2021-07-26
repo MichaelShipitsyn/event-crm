@@ -1,44 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import type { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store';
-import { fetchEmployeesThunk } from 'store/employee/thunks';
 import {
-  Card,
   Box,
+  Card,
+  Hidden,
+  LinearProgress,
+  makeStyles,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-  LinearProgress,
-  makeStyles,
-  TableContainer,
-  Hidden
 } from '@material-ui/core';
-import { useEditEmployee, useDeleteEmployee } from 'hooks/employee';
 import Pagination from '@material-ui/lab/Pagination';
-import type { Theme } from 'theme';
 import { DeleteWarning, NoTableData } from 'components';
+import { useDeleteEmployee, useEditEmployee } from 'hooks/employee';
+import type { FC } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { fetchEmployeesThunk } from 'store/employee/thunks';
+import type { Theme } from 'theme';
+import { EmployeeForm } from 'views/employee/EmployeeForm';
+
 import { EmployeeItem } from './EmployeeItem';
 import { TableFilters } from './TableFilters';
-import { EmployeeForm } from '../EmployeeForm';
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
     avatar: {
       height: 42,
       width: 42,
-      marginRight: theme.spacing(1)
+      marginRight: theme.spacing(1),
     },
     container: {
-      maxHeight: '50vh'
+      maxHeight: '50vh',
     },
     stickyTableCell: {
       position: 'sticky',
       right: 0,
-      background: '#fff'
-    }
+      background: '#fff',
+    },
   };
 });
 
@@ -49,16 +50,13 @@ export const EmployeeTable: FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const currentRowsPerPage = 15;
 
-  const {
-    editableEmployee,
-    setEditableEmployee,
-    handleEmployeeSave
-  } = useEditEmployee();
+  const { editableEmployee, setEditableEmployee, handleEmployeeSave } =
+    useEditEmployee();
   const {
     removableEmployeeID,
     setRemovableEmployeeID,
     deleteEmployeeRequestStatus,
-    handleDeleteEmployee
+    handleDeleteEmployee,
   } = useDeleteEmployee();
 
   const employees = useSelector((state: RootState) => state.employee.employees);
@@ -84,9 +82,12 @@ export const EmployeeTable: FC = () => {
     if (searchQuery !== null) {
       dispatch(fetchEmployeesThunk({ limit: currentRowsPerPage }));
     }
-  }, [searchQuery]);
+  }, [dispatch, searchQuery]);
 
-  const handlePageChange = (event: never, newPage: number): void => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    newPage: number
+  ): void => {
     setCurrentPage(newPage);
   };
 
@@ -154,7 +155,7 @@ export const EmployeeTable: FC = () => {
         <EmployeeForm
           onClose={() => setEditableEmployee(null)}
           initialEmployee={editableEmployee}
-          onSave={(employee) => handleEmployeeSave(employee)}
+          onSave={async (employee) => handleEmployeeSave(employee)}
         />
       )}
       {removableEmployeeID && (

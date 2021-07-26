@@ -1,12 +1,12 @@
-import React from 'react';
-import type { FC } from 'react';
-import * as Yup from 'yup';
-import { Formik } from 'formik';
 import { Box, FormHelperText, TextField } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginRequest } from 'store/auth/thunks';
-import { RootState } from 'store';
 import { ButtonWithLoader } from 'components';
+import { Formik } from 'formik';
+import type { FC } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { loginRequest } from 'store/auth/thunks';
+import * as Yup from 'yup';
 
 export const LoginForm: FC = () => {
   const authMessageError = useSelector(
@@ -22,14 +22,14 @@ export const LoginForm: FC = () => {
       initialValues={{
         email: '',
         password: '',
-        submit: null
+        submit: null,
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string()
           .email('Невалидный Email')
           .max(255)
           .required('Необходимо указать Email'),
-        password: Yup.string().max(255).required('Необходимо указать пароль')
+        password: Yup.string().max(255).required('Необходимо указать пароль'),
       })}
       onSubmit={async (values) => {
         dispatch(
@@ -43,7 +43,7 @@ export const LoginForm: FC = () => {
         handleChange,
         handleSubmit,
         touched,
-        values
+        values,
       }) => (
         <form noValidate onSubmit={handleSubmit}>
           <TextField

@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import type { FC } from 'react';
-import { User } from 'types/user';
-import { getUserFullName } from 'utils/getUserFullName';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import {
   Box,
   Button,
+  Divider,
   Drawer,
   IconButton,
+  makeStyles,
   SvgIcon,
   TextField,
   Typography,
-  Divider,
-  makeStyles
 } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { Check as CheckIcon, X as XIcon } from 'react-feather';
 import { ButtonWithLoader } from 'components';
+import React, { useEffect, useState } from 'react';
+import { Check as CheckIcon, X as XIcon } from 'react-feather';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { RootState } from 'store';
+import { User } from 'types/user';
+import { getUserFullName } from 'utils/getUserFullName';
+import * as yup from 'yup';
 
 type FormData = {
   firstname: string;
@@ -39,33 +38,29 @@ type Props = {
 const useStyles = makeStyles(() => ({
   toggleButtonGroup: {
     display: 'flex',
-    marginTop: '3px'
+    marginTop: '3px',
   },
   toggleButton: {
-    width: '50%'
+    width: '50%',
   },
   drawerContent: {
     overflowY: 'auto',
-    height: '100%'
-  }
+    height: '100%',
+  },
 }));
 
 const schema = yup.object().shape({
   firstname: yup.string().required('Обязательное поле'),
   lastname: yup.string().required('Обязательное поле'),
   phone: yup.string().required('Обязательное поле'),
-  email: yup.string().email('Невалидный Email').required('Обязательное поле')
+  email: yup.string().email('Невалидный Email').required('Обязательное поле'),
 });
 
-export const EmployeeForm: FC<Props> = ({
-  initialEmployee,
-  onSave,
-  onClose
-}) => {
+export const EmployeeForm = ({ initialEmployee, onSave, onClose }: Props) => {
   const { register, errors, handleSubmit, setValue } = useForm({
     mode: 'onChange',
     defaultValues: initialEmployee,
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
   const classes = useStyles();
   const [isAdmin, setIsAdmin] = useState(initialEmployee.is_admin);
@@ -157,7 +152,7 @@ export const EmployeeForm: FC<Props> = ({
             >
               <ToggleButton
                 color="primary"
-                value={true}
+                value
                 className={classes.toggleButton}
               >
                 Администратор

@@ -10,6 +10,6 @@ export const buildUser = () => {
     phone: faker.phone.phoneNumber(),
     is_owner: true,
     is_admin: true,
-    is_active: true
+    is_active: true,
   };
 };

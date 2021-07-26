@@ -5,7 +5,7 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-  cache: ['123']
+  cache: ['123'],
 };
 
 const cacheSlice = createSlice({
@@ -15,8 +15,8 @@ const cacheSlice = createSlice({
     setCached(state, action: PayloadAction<string>) {
       const url = action.payload;
       state.cache.push(url);
-    }
-  }
+    },
+  },
 });
 
 export const { setCached } = cacheSlice.actions;

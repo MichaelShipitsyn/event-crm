@@ -1,24 +1,23 @@
-import React from 'react';
-import type { FC } from 'react';
-import { Client, NewClient } from 'types/client';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import {
   Box,
   Button,
+  Divider,
   Drawer,
   IconButton,
+  makeStyles,
   SvgIcon,
   TextField,
   Typography,
-  Divider,
-  makeStyles
 } from '@material-ui/core';
-import { Check as CheckIcon, X as XIcon } from 'react-feather';
 import { ButtonWithLoader } from 'components';
+import React from 'react';
+import { Check as CheckIcon, X as XIcon } from 'react-feather';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { RootState } from 'store';
+import { Client, NewClient } from 'types/client';
+import * as yup from 'yup';
 
 type FormData = {
   name: string;
@@ -36,29 +35,29 @@ type Props = {
 const useStyles = makeStyles(() => ({
   toggleButtonGroup: {
     display: 'flex',
-    marginTop: '3px'
+    marginTop: '3px',
   },
   toggleButton: {
-    width: '50%'
+    width: '50%',
   },
   drawerContent: {
     overflowY: 'auto',
-    height: '100%'
-  }
+    height: '100%',
+  },
 }));
 
 const schema = yup.object().shape({
   name: yup.string().required('Обязательное поле'),
   phone: yup.string(),
   email: yup.string().email('Невалидный Email'),
-  additional: yup.string()
+  additional: yup.string(),
 });
 
-export const ClientForm: FC<Props> = ({ initialClient, onSave, onClose }) => {
+export const ClientForm = ({ initialClient, onSave, onClose }: Props) => {
   const { register, errors, handleSubmit } = useForm({
     mode: 'onChange',
     defaultValues: initialClient ?? undefined,
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
   const classes = useStyles();
   const updateClientRequestStatus = useSelector(
@@ -131,7 +130,7 @@ export const ClientForm: FC<Props> = ({ initialClient, onSave, onClose }) => {
             helperText={errors?.additional && errors?.additional.message}
             inputRef={register}
             fullWidth
-            multiline={true}
+            multiline
             rows={5}
             label="Дополнительно"
             margin="normal"

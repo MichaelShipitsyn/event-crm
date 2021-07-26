@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom/extend-expect';
+
 import { render, screen } from '@testing-library/react';
-import * as React from 'react';
 import { ButtonWithLoader } from 'components/ButtonWithLoader';
+import * as React from 'react';
 
 test('check render with isLoading=false', async () => {
   render(<ButtonWithLoader label="test-label" isLoading={false} />);
@@ -14,7 +15,7 @@ test('check render with isLoading=false', async () => {
 });
 
 test('check render with isLoading=true', async () => {
-  render(<ButtonWithLoader label="test-label" isLoading={true} />);
+  render(<ButtonWithLoader label="test-label" isLoading />);
 
   expect(screen.getByRole('button', { name: /test-label/i })).toBeDisabled();
   expect(screen.getByText('test-label')).not.toBeVisible();

@@ -1,15 +1,15 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { buildUser } from 'tests/generate';
 import {
-  initialState,
   authSliceReducer,
-  setCurrentUser,
+  initialState,
   removeCurrentUser,
   setAuthChecked,
+  setAuthMessageError,
+  setCurrentUser,
   setLoginRequestLoader,
   setRegisterRequestLoader,
-  setAuthMessageError
 } from 'store/auth/slice';
+import { buildUser } from 'tests/generate';
 
 describe('authSlice', () => {
   test('should return the initial state on first run', () => {
@@ -25,7 +25,7 @@ describe('authSlice', () => {
     const nextState = {
       ...initialState,
       isAuthenticated: true,
-      user: payload
+      user: payload,
     };
 
     const result = authSliceReducer(initialState, setCurrentUser(payload));

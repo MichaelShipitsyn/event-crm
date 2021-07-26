@@ -12,7 +12,7 @@ type ShowAlertPayload = {
 
 const initialState: InitialState = {
   alertMessage: null,
-  alertType: 'error'
+  alertType: 'error',
 };
 
 const globalSlice = createSlice({
@@ -25,8 +25,8 @@ const globalSlice = createSlice({
     },
     closeAlert(state) {
       state.alertMessage = null;
-    }
-  }
+    },
+  },
 });
 
 export const { showAlert, closeAlert } = globalSlice.actions;

@@ -16,7 +16,7 @@ export const initialState: AuthState = {
   user: null,
   isLoginRequestLoading: false,
   isRegisterRequestLoading: false,
-  authMessageError: null
+  authMessageError: null,
 };
 
 const authSlice = createSlice({
@@ -42,8 +42,8 @@ const authSlice = createSlice({
     },
     setAuthMessageError(state, { payload }: PayloadAction<string | null>) {
       state.authMessageError = payload;
-    }
-  }
+    },
+  },
 });
 
 export const authSliceReducer = authSlice.reducer;
@@ -54,5 +54,5 @@ export const {
   setAuthChecked,
   setLoginRequestLoader,
   setRegisterRequestLoader,
-  setAuthMessageError
+  setAuthMessageError,
 } = authSlice.actions;

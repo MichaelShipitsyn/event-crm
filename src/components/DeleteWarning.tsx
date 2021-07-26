@@ -1,14 +1,14 @@
-import React from 'react';
-import type { FC } from 'react';
 import {
+  Box,
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
-  Box,
   DialogTitle,
-  Button,
-  Typography
+  Typography,
 } from '@material-ui/core';
+import React from 'react';
+
 import { ButtonWithLoader } from './ButtonWithLoader';
 
 type Props = {
@@ -17,7 +17,7 @@ type Props = {
   onDelete: () => void;
 };
 
-export const DeleteWarning: FC<Props> = ({ isLoading, onCancel, onDelete }) => {
+export const DeleteWarning = ({ isLoading, onCancel, onDelete }: Props) => {
   return (
     <Dialog
       open
