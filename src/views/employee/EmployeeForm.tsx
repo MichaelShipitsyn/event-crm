@@ -5,12 +5,10 @@ import {
   Divider,
   Drawer,
   IconButton,
-  makeStyles,
   SvgIcon,
   TextField,
   Typography,
 } from '@material-ui/core';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import { ButtonWithLoader } from 'components';
 import React, { useEffect, useState } from 'react';
 import { Check as CheckIcon, X as XIcon } from 'react-feather';
@@ -20,6 +18,8 @@ import { RootState } from 'store';
 import { User } from 'types/user';
 import { getUserFullName } from 'utils/getUserFullName';
 import * as yup from 'yup';
+
+import { StyledDrawerContent,StyledToggleButton, StyledToggleButtonGroup } from './styled'
 
 type FormData = {
   firstname: string;
@@ -35,20 +35,6 @@ type Props = {
   onClose: () => void;
 };
 
-const useStyles = makeStyles(() => ({
-  toggleButtonGroup: {
-    display: 'flex',
-    marginTop: '3px',
-  },
-  toggleButton: {
-    width: '50%',
-  },
-  drawerContent: {
-    overflowY: 'auto',
-    height: '100%',
-  },
-}));
-
 const schema = yup.object().shape({
   firstname: yup.string().required('Обязательное поле'),
   lastname: yup.string().required('Обязательное поле'),
@@ -62,7 +48,6 @@ export const EmployeeForm = ({ initialEmployee, onSave, onClose }: Props) => {
     defaultValues: initialEmployee,
     resolver: yupResolver(schema),
   });
-  const classes = useStyles();
   const [isAdmin, setIsAdmin] = useState(initialEmployee.is_admin);
   const updateEmployeeRequestStatus = useSelector(
     (state: RootState) => state.employee.updateEmployeeRequestStatus
@@ -90,7 +75,7 @@ export const EmployeeForm = ({ initialEmployee, onSave, onClose }: Props) => {
         </IconButton>
       </Box>
       <Divider light variant="fullWidth" />
-      <div className={classes.drawerContent}>
+      <StyledDrawerContent>
         <Box px={3} py={1}>
           <TextField
             error={!!errors?.firstname}
@@ -140,30 +125,28 @@ export const EmployeeForm = ({ initialEmployee, onSave, onClose }: Props) => {
             <Typography gutterBottom variant="caption">
               Уровень доступа
             </Typography>
-            <ToggleButtonGroup
-              classes={{ root: classes.toggleButtonGroup }}
+            <StyledToggleButtonGroup
               exclusive
               size="small"
               value={isAdmin}
-              onChange={(event, value) => {
+              onChange={(event: React.MouseEvent, value: string) => {
                 setIsAdmin(!!value);
                 setValue('is_admin', value);
               }}
             >
-              <ToggleButton
+              <StyledToggleButton
                 color="primary"
                 value
-                className={classes.toggleButton}
               >
                 Администратор
-              </ToggleButton>
-              <ToggleButton value={false} className={classes.toggleButton}>
+              </StyledToggleButton>
+              <StyledToggleButton value={false}>
                 Сотрудник
-              </ToggleButton>
-            </ToggleButtonGroup>
+              </StyledToggleButton>
+            </StyledToggleButtonGroup>
           </Box>
         </Box>
-      </div>
+      </StyledDrawerContent>
       <Box p={3} display="flex" justifyContent="space-between">
         <Button variant="contained">Отменить</Button>
         <ButtonWithLoader

@@ -3,14 +3,34 @@ import {
   Drawer,
   Grid,
   Hidden,
-  makeStyles,
   SvgIcon,
   Typography,
 } from '@material-ui/core';
 import type { FC } from 'react';
 import React from 'react';
 import { Trash as TrashIcon } from 'react-feather';
-import type { Theme } from 'theme';
+import styled from "styled-components";
+
+const StyledDrawerContent = styled('div')(
+  ({ theme }) => (
+    {
+      padding: theme.spacing(2),
+    }
+  )
+);
+
+const StyledActions = styled('div')(
+  ({ theme }) => (
+    {
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      '& > * + *': {
+        marginLeft: theme.spacing(2),
+      },
+    }
+  )
+);
 
 interface BulkOperationsProps {
   onDelete: () => void;
@@ -18,27 +38,11 @@ interface BulkOperationsProps {
   selected: number[];
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-  actions: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    '& > * + *': {
-      marginLeft: theme.spacing(2),
-    },
-  },
-}));
-
 export const TableSelectedBar: FC<BulkOperationsProps> = ({
   onDelete,
   open,
   selected,
 }) => {
-  const classes = useStyles();
-
   return (
     <Drawer
       anchor="bottom"
@@ -46,7 +50,7 @@ export const TableSelectedBar: FC<BulkOperationsProps> = ({
       PaperProps={{ elevation: 1 }}
       variant="persistent"
     >
-      <div className={classes.root}>
+      <StyledDrawerContent>
         <Grid alignItems="center" container spacing={2}>
           <Hidden smDown>
             <Grid item md={3}>
@@ -56,7 +60,7 @@ export const TableSelectedBar: FC<BulkOperationsProps> = ({
             </Grid>
           </Hidden>
           <Grid item md={6} xs={12}>
-            <div className={classes.actions}>
+            <StyledActions>
               <Button
                 onClick={onDelete}
                 startIcon={
@@ -67,10 +71,10 @@ export const TableSelectedBar: FC<BulkOperationsProps> = ({
               >
                 Отправить в архив
               </Button>
-            </div>
+            </StyledActions>
           </Grid>
         </Grid>
-      </div>
+      </StyledDrawerContent>
     </Drawer>
   );
 };

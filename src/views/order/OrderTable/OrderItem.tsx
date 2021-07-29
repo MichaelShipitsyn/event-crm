@@ -1,7 +1,5 @@
 import {
   Box,
-  IconButton,
-  makeStyles,
   SvgIcon,
   TableCell,
   TableRow,
@@ -13,30 +11,15 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { Order } from 'types/order';
 
+import { StyledIconButton,StyledTableCell } from './styled'
+
 type Props = {
   order: Order;
   onEdit: () => void;
   onDelete: () => void;
 };
 
-const useStyles = makeStyles(() => ({
-  stickyTableCell: {
-    position: 'sticky',
-    right: 0,
-    background: '#fff',
-  },
-  iconButton: {
-    border: '1px solid rgba(84, 110, 122, 0.3)',
-    padding: '5px',
-    '&:hover': {
-      backgroundColor: 'rgba(84, 110, 122, 0.15)',
-    },
-  },
-}));
-
 export const OrderItem = ({ order, onEdit, onDelete }: Props) => {
-  const classes = useStyles();
-
   const ordersFetchRequestStatus = useSelector(
     (state: RootState) => state.order.ordersFetchRequestStatus
   );
@@ -65,28 +48,26 @@ export const OrderItem = ({ order, onEdit, onDelete }: Props) => {
           {order.prepay}
         </SkeletonWrap>
       </TableCell>
-      <TableCell align="right" className={classes.stickyTableCell}>
+      <StyledTableCell align="right">
         <SkeletonWrap isLoading={isOrdersFetchLoading}>
           <Box mr="5px" clone>
-            <IconButton
-              classes={{ root: classes.iconButton }}
+            <StyledIconButton
               onClick={() => onEdit()}
             >
               <SvgIcon fontSize="small">
                 <UserIcon />
               </SvgIcon>
-            </IconButton>
+            </StyledIconButton>
           </Box>
-          <IconButton
-            classes={{ root: classes.iconButton }}
+          <StyledIconButton
             onClick={() => onDelete()}
           >
             <SvgIcon fontSize="small">
               <TrashIcon />
             </SvgIcon>
-          </IconButton>
+          </StyledIconButton>
         </SkeletonWrap>
-      </TableCell>
+      </StyledTableCell>
     </TableRow>
   );
 };

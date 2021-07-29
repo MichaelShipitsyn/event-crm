@@ -1,12 +1,9 @@
 import {
-  Avatar,
   Box,
   Divider,
-  Drawer,
   Hidden,
   Link,
   List,
-  makeStyles,
 } from '@material-ui/core';
 import { Logo } from 'components/Logo';
 import type { FC, ReactNode } from 'react';
@@ -19,6 +16,7 @@ import { RootState } from 'store';
 import { getUserFullName } from 'store/auth/selector';
 
 import { NavItem } from './NavItem';
+import { StyledAvatar, StyledDesktopDrawer, StyledList,StyledMobileDrawer } from './styled'
 
 type ReduceChildRoutesProps = {
   acc: any[];
@@ -134,8 +132,8 @@ function renderNavItems({ items, pathname, depth = 0 }: RenderNavItemsProps) {
   return (
     <List disablePadding>
       {items.reduce(
-        // @ts-expect-error
         (accumulator, item) =>
+          // @ts-expect-error
           reduceChildRoutes({ acc: accumulator, item, pathname, depth }),
         []
       )}
@@ -143,29 +141,7 @@ function renderNavItems({ items, pathname, depth = 0 }: RenderNavItemsProps) {
   );
 }
 
-const useStyles = makeStyles(() => ({
-  mobileDrawer: {
-    width: 256,
-  },
-  desktopDrawer: {
-    width: 256,
-    top: 64,
-    height: 'calc(100% - 64px)',
-  },
-  avatar: {
-    cursor: 'pointer',
-    width: 64,
-    height: 64,
-  },
-  list: {
-    '& .MuiButton-root': {
-      height: '44px',
-    },
-  },
-}));
-
 export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
-  const classes = useStyles();
   const location = useLocation();
   const user = useSelector((state: RootState) => state.auth.user);
   const userFullName = useSelector(getUserFullName);
@@ -189,9 +165,8 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
         <Box p={2}>
           <Box display="flex" justifyContent="center">
             <RouterLink to="/app/account">
-              <Avatar
+              <StyledAvatar
                 alt="User"
-                className={classes.avatar}
                 src={user?.avatar ?? ''}
               />
             </RouterLink>
@@ -211,12 +186,12 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
         <Divider />
         <Box p={2}>
           {sections.map((section) => (
-            <List key={section.subheader} classes={{ root: classes.list }}>
+            <StyledList key={section.subheader}>
               {renderNavItems({
                 items: section.items,
                 pathname: location.pathname,
               })}
-            </List>
+            </StyledList>
           ))}
         </Box>
       </PerfectScrollbar>
@@ -226,25 +201,23 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
   return (
     <>
       <Hidden lgUp>
-        <Drawer
+        <StyledMobileDrawer
           anchor="left"
-          classes={{ paper: classes.mobileDrawer }}
           onClose={onMobileClose}
           open={openMobile}
           variant="temporary"
         >
           {content}
-        </Drawer>
+        </StyledMobileDrawer>
       </Hidden>
       <Hidden mdDown>
-        <Drawer
+        <StyledDesktopDrawer
           anchor="left"
-          classes={{ paper: classes.desktopDrawer }}
           open
           variant="persistent"
         >
           {content}
-        </Drawer>
+        </StyledDesktopDrawer>
       </Hidden>
     </>
   );

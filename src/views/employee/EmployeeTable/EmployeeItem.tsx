@@ -1,9 +1,6 @@
 import {
-  Avatar,
   Box,
   Hidden,
-  IconButton,
-  makeStyles,
   SvgIcon,
   TableCell,
   TableRow,
@@ -13,9 +10,10 @@ import React from 'react';
 import { Trash2 as TrashIcon, User as UserIcon } from 'react-feather';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import type { Theme } from 'theme';
 import { User } from 'types/user';
 import { getUserFullName } from 'utils/getUserFullName';
+
+import { StyledAvatar, StyledIconButton,StyledTableCell } from './styled'
 
 type EmployeeItemProps = {
   employee: User;
@@ -23,33 +21,11 @@ type EmployeeItemProps = {
   onDelete: () => void;
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  avatar: {
-    height: 42,
-    width: 42,
-    marginRight: theme.spacing(1),
-  },
-  stickyTableCell: {
-    position: 'sticky',
-    right: 0,
-    background: '#fff',
-  },
-  iconButton: {
-    border: '1px solid rgba(84, 110, 122, 0.3)',
-    padding: '5px',
-    '&:hover': {
-      backgroundColor: 'rgba(84, 110, 122, 0.15)',
-    },
-  },
-}));
-
 export const EmployeeItem = ({
   employee,
   onEdit,
   onDelete,
 }: EmployeeItemProps) => {
-  const classes = useStyles();
-
   const employeesFetchRequestStatus = useSelector(
     (state: RootState) => state.employee.employeesFetchRequestStatus
   );
@@ -62,8 +38,7 @@ export const EmployeeItem = ({
         <SkeletonWrap isLoading={isEmployeesFetchLoading}>
           <Box display="flex" alignItems="center">
             <Hidden smDown>
-              <Avatar
-                className={classes.avatar}
+              <StyledAvatar
                 src={employee?.avatar ?? ''}
                 alt={employee.firstname}
               />
@@ -87,28 +62,26 @@ export const EmployeeItem = ({
           {employee.is_admin ? 'Администратор' : 'Сотрудник'}
         </SkeletonWrap>
       </TableCell>
-      <TableCell align="right" className={classes.stickyTableCell}>
+      <StyledTableCell align="right">
         <SkeletonWrap isLoading={isEmployeesFetchLoading}>
           <Box mr="5px" clone>
-            <IconButton
-              classes={{ root: classes.iconButton }}
+            <StyledIconButton
               onClick={() => onEdit()}
             >
               <SvgIcon fontSize="small">
                 <UserIcon />
               </SvgIcon>
-            </IconButton>
+            </StyledIconButton>
           </Box>
-          <IconButton
-            classes={{ root: classes.iconButton }}
+          <StyledIconButton
             onClick={() => onDelete()}
           >
             <SvgIcon fontSize="small">
               <TrashIcon />
             </SvgIcon>
-          </IconButton>
+          </StyledIconButton>
         </SkeletonWrap>
-      </TableCell>
+      </StyledTableCell>
     </TableRow>
   );
 };

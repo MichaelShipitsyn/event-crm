@@ -3,11 +3,9 @@ import {
   Card,
   Hidden,
   LinearProgress,
-  makeStyles,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
 } from '@material-ui/core';
@@ -23,23 +21,10 @@ import { fetchOrdersThunk } from 'store/order/thunks';
 import { OrderForm } from 'views/order/OrderForm';
 
 import { OrderItem } from './OrderItem';
+import { StyledTableCell,StyledTableContainer } from './styled'
 import { TableFilters } from './TableFilters';
 
-const useStyles = makeStyles(() => {
-  return {
-    container: {
-      maxHeight: '50vh',
-    },
-    stickyTableCell: {
-      position: 'sticky',
-      right: 0,
-      background: '#fff',
-    },
-  };
-});
-
 export const OrderTable: FC = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -94,7 +79,7 @@ export const OrderTable: FC = () => {
     <div>
       <Card>
         <TableFilters />
-        <TableContainer className={classes.container}>
+        <StyledTableContainer>
           {orders.length === 0 && isOrdersFetchLoading && <LinearProgress />}
           <Table stickyHeader>
             <TableHead>
@@ -103,9 +88,9 @@ export const OrderTable: FC = () => {
                 <TableCell>Адрес</TableCell>
                 <TableCell>Стоимость</TableCell>
                 <TableCell>Предоплата</TableCell>
-                <TableCell align="right" className={classes.stickyTableCell}>
+                <StyledTableCell align="right">
                   Действия
-                </TableCell>
+                </StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -127,7 +112,7 @@ export const OrderTable: FC = () => {
               )}
             </TableBody>
           </Table>
-        </TableContainer>
+        </StyledTableContainer>
         <Hidden smDown>
           <Box display="flex" justifyContent="center" p="10px">
             <Pagination

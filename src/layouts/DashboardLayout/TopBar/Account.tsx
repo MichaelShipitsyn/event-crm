@@ -1,9 +1,7 @@
 import {
-  Avatar,
   Box,
   ButtonBase,
   Hidden,
-  makeStyles,
   Menu,
   MenuItem,
   Typography,
@@ -16,20 +14,10 @@ import { RootState } from 'store';
 import { getUserFullName } from 'store/auth/selector';
 import { logoutUser } from 'store/auth/thunks';
 
-const useStyles = makeStyles((theme) => ({
-  avatar: {
-    height: 32,
-    width: 32,
-    marginRight: theme.spacing(1),
-  },
-  popover: {
-    width: 200,
-  },
-}));
+import { StyledAvatar, StyledMenu } from './styled'
 
 export const Account: FC = () => {
   const dispatch = useDispatch();
-  const classes = useStyles();
   const history = useHistory();
   const ref = useRef<any>(null);
   const user = useSelector((state: RootState) => state.auth.user);
@@ -59,9 +47,8 @@ export const Account: FC = () => {
         // @ts-expect-error
         ref={ref}
       >
-        <Avatar
+        <StyledAvatar
           alt="User"
-          className={classes.avatar}
           src={user?.avatar ?? ''}
         />
         <Hidden smDown>
@@ -70,14 +57,13 @@ export const Account: FC = () => {
           </Typography>
         </Hidden>
       </Box>
-      <Menu
+      <StyledMenu
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'center',
         }}
         keepMounted
-        PaperProps={{ className: classes.popover }}
         getContentAnchorEl={null}
         anchorEl={ref.current}
         open={isOpen}
@@ -89,7 +75,7 @@ export const Account: FC = () => {
           Account
         </MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
-      </Menu>
+      </StyledMenu>
     </>
   );
 };

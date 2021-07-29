@@ -3,11 +3,9 @@ import {
   Card,
   Hidden,
   LinearProgress,
-  makeStyles,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
 } from '@material-ui/core';
@@ -25,26 +23,13 @@ import {
   updateClientThunk,
 } from 'store/client/thunks';
 import { Client, isNewClient, NewClient } from 'types/client';
-
 import { ClientForm } from 'views/client/ClientForm';
+
 import { ClientItem } from './ClientItem';
+import { StickyTableCell,StyledTableContainer } from './styled'
 import { TableFilters } from './TableFilters';
 
-const useStyles = makeStyles(() => {
-  return {
-    container: {
-      maxHeight: '50vh',
-    },
-    stickyTableCell: {
-      position: 'sticky',
-      right: 0,
-      background: '#fff',
-    },
-  };
-});
-
 export const ClientTable: FC = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -108,7 +93,7 @@ export const ClientTable: FC = () => {
     <div>
       <Card>
         <TableFilters />
-        <TableContainer className={classes.container}>
+        <StyledTableContainer>
           {clients.length === 0 && isClientsFetchLoading && <LinearProgress />}
           <Table stickyHeader>
             <TableHead>
@@ -116,9 +101,9 @@ export const ClientTable: FC = () => {
                 <TableCell>Имя</TableCell>
                 <TableCell>Телефон</TableCell>
                 <TableCell>Электронная почта</TableCell>
-                <TableCell align="right" className={classes.stickyTableCell}>
+                <StickyTableCell align="right">
                   Действия
-                </TableCell>
+                </StickyTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -140,7 +125,7 @@ export const ClientTable: FC = () => {
               )}
             </TableBody>
           </Table>
-        </TableContainer>
+        </StyledTableContainer>
         <Hidden smDown>
           <Box display="flex" justifyContent="center" p="10px">
             <Pagination

@@ -3,11 +3,9 @@ import {
   Card,
   Hidden,
   LinearProgress,
-  makeStyles,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
 } from '@material-ui/core';
@@ -19,32 +17,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { fetchEmployeesThunk } from 'store/employee/thunks';
-import type { Theme } from 'theme';
 import { EmployeeForm } from 'views/employee/EmployeeForm';
 
 import { EmployeeItem } from './EmployeeItem';
+import { StyledTableCell,StyledTableContainer } from './styled'
 import { TableFilters } from './TableFilters';
 
-const useStyles = makeStyles((theme: Theme) => {
-  return {
-    avatar: {
-      height: 42,
-      width: 42,
-      marginRight: theme.spacing(1),
-    },
-    container: {
-      maxHeight: '50vh',
-    },
-    stickyTableCell: {
-      position: 'sticky',
-      right: 0,
-      background: '#fff',
-    },
-  };
-});
-
 export const EmployeeTable: FC = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -95,7 +74,7 @@ export const EmployeeTable: FC = () => {
     <div>
       <Card>
         <TableFilters />
-        <TableContainer className={classes.container}>
+        <StyledTableContainer>
           {employees.length === 0 && isEmployeesFetchLoading && (
             <LinearProgress />
           )}
@@ -106,9 +85,9 @@ export const EmployeeTable: FC = () => {
                 <TableCell>Электронная почта</TableCell>
                 <TableCell>Телефон</TableCell>
                 <TableCell>Уровень доступа</TableCell>
-                <TableCell align="right" className={classes.stickyTableCell}>
+                <StyledTableCell align="right">
                   Действия
-                </TableCell>
+                </StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -130,7 +109,7 @@ export const EmployeeTable: FC = () => {
               )}
             </TableBody>
           </Table>
-        </TableContainer>
+        </StyledTableContainer>
         <Hidden smDown>
           <Box display="flex" justifyContent="center" p="10px">
             <Pagination

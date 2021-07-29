@@ -1,7 +1,8 @@
 import { createStyles, makeStyles } from '@material-ui/core';
 import { FC } from 'react';
+import {Theme} from "../theme";
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     '@global': {
       '*': {
@@ -32,6 +33,15 @@ const useStyles = makeStyles(() =>
         color: '#fff',
         '&:hover': {
           backgroundColor: '#e92626',
+        },
+      },
+      '.navItemActive': {
+        color: theme.palette.secondary.main,
+        '& $title': {
+          fontWeight: theme.typography.fontWeightMedium,
+        },
+        '& $icon': {
+          color: theme.palette.secondary.main,
         },
       },
     },

@@ -5,7 +5,6 @@ import {
   Divider,
   Drawer,
   IconButton,
-  makeStyles,
   SvgIcon,
   TextField,
   Typography,
@@ -18,6 +17,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { Client, NewClient } from 'types/client';
 import * as yup from 'yup';
+
+import { StyledDrawerContent } from './styled'
 
 type FormData = {
   name: string;
@@ -32,20 +33,6 @@ type Props = {
   onClose: () => void;
 };
 
-const useStyles = makeStyles(() => ({
-  toggleButtonGroup: {
-    display: 'flex',
-    marginTop: '3px',
-  },
-  toggleButton: {
-    width: '50%',
-  },
-  drawerContent: {
-    overflowY: 'auto',
-    height: '100%',
-  },
-}));
-
 const schema = yup.object().shape({
   name: yup.string().required('Обязательное поле'),
   phone: yup.string(),
@@ -59,7 +46,6 @@ export const ClientForm = ({ initialClient, onSave, onClose }: Props) => {
     defaultValues: initialClient ?? undefined,
     resolver: yupResolver(schema),
   });
-  const classes = useStyles();
   const updateClientRequestStatus = useSelector(
     (state: RootState) => state.client.updateClientRequestStatus
   );
@@ -90,7 +76,7 @@ export const ClientForm = ({ initialClient, onSave, onClose }: Props) => {
         </IconButton>
       </Box>
       <Divider light variant="fullWidth" />
-      <div className={classes.drawerContent}>
+      <StyledDrawerContent>
         <Box px={3} py={1}>
           <TextField
             error={!!errors?.name}
@@ -139,7 +125,7 @@ export const ClientForm = ({ initialClient, onSave, onClose }: Props) => {
             variant="outlined"
           />
         </Box>
-      </div>
+      </StyledDrawerContent>
       <Box p={3} display="flex" justifyContent="space-between">
         <Button variant="contained">Отменить</Button>
         <ButtonWithLoader

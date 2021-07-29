@@ -10,6 +10,8 @@ import {
 } from 'react-router-dom';
 import type { Theme } from 'theme';
 
+import { StyledListItem, StyledButton, StyledButtonLeaf, StyledTitle } from './styled'
+
 interface NavItemProps {
   children?: ReactNode;
   className?: string;
@@ -20,58 +22,6 @@ interface NavItemProps {
   open?: boolean;
   title: string;
 }
-
-const useStyles = makeStyles((theme: Theme) => ({
-  item: {
-    display: 'block',
-    paddingTop: 0,
-    paddingBottom: 0,
-  },
-  itemLeaf: {
-    display: 'flex',
-    paddingTop: 0,
-    paddingBottom: 0,
-  },
-  button: {
-    color: theme.palette.text.secondary,
-    padding: '10px 8px',
-    justifyContent: 'flex-start',
-    textTransform: 'none',
-    letterSpacing: 0,
-    width: '100%',
-  },
-  buttonLeaf: {
-    color: theme.palette.text.secondary,
-    padding: '10px 8px',
-    justifyContent: 'flex-start',
-    textTransform: 'none',
-    letterSpacing: 0,
-    width: '100%',
-    fontWeight: theme.typography.fontWeightRegular,
-    '&.depth-0': {
-      '& $title': {
-        fontWeight: theme.typography.fontWeightMedium,
-      },
-    },
-  },
-  icon: {
-    display: 'flex',
-    alignItems: 'center',
-    marginRight: theme.spacing(1),
-  },
-  title: {
-    marginRight: 'auto',
-  },
-  active: {
-    color: theme.palette.secondary.main,
-    '& $title': {
-      fontWeight: theme.typography.fontWeightMedium,
-    },
-    '& $icon': {
-      color: theme.palette.secondary.main,
-    },
-  },
-}));
 
 export const NavItem: FC<NavItemProps> = ({
   children,
@@ -84,7 +34,6 @@ export const NavItem: FC<NavItemProps> = ({
   title,
   ...rest
 }) => {
-  const classes = useStyles();
   const [open, setOpen] = useState<boolean>(!!openProperty);
 
   const handleToggle = (): void => {
@@ -101,19 +50,19 @@ export const NavItem: FC<NavItemProps> = ({
 
   if (children) {
     return (
-      <ListItem
-        className={clsx(classes.item, className)}
+      <StyledListItem
         disableGutters
         key={title}
+        button
         {...rest}
       >
-        <Button className={classes.button} onClick={handleToggle} style={style}>
-          {Icon && <Icon className={classes.icon} size="20" />}
-          <span className={classes.title}>{title}</span>
+        <StyledButton onClick={handleToggle} style={style}>
+          {Icon && <Icon size="20" />}
+          <StyledTitle>{title}</StyledTitle>
           {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        </Button>
+        </StyledButton>
         <Collapse in={open}>{children}</Collapse>
-      </ListItem>
+      </StyledListItem>
     );
   }
 
@@ -122,29 +71,29 @@ export const NavItem: FC<NavItemProps> = ({
       <RouterLink
         ref={ref}
         exact
-        to={href || ''}
-        activeClassName={classes.active}
+        to={href ?? ''}
+        activeClassName="navItemActive"
         {...props}
       />
     )
   );
 
   return (
-    <ListItem
-      className={clsx(classes.itemLeaf, className)}
+    <StyledListItem
       disableGutters
       key={title}
+      button
       {...rest}
     >
-      <Button
+      <StyledButtonLeaf
+        // @ts-expect-error
         component={LinkBehavior}
-        className={clsx(classes.buttonLeaf, `depth-${depth}`)}
         style={style}
       >
-        {Icon && <Icon className={classes.icon} size="20" />}
-        <span className={classes.title}>{title}</span>
+        {Icon && <Icon size="20" />}
+        <StyledTitle>{title}</StyledTitle>
         {Info && <Info />}
-      </Button>
-    </ListItem>
+      </StyledButtonLeaf>
+    </StyledListItem>
   );
 };

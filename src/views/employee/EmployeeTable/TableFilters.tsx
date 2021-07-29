@@ -12,6 +12,8 @@ import { Search as SearchIcon } from 'react-feather';
 import { useDispatch } from 'react-redux';
 import { setSearchQuery } from 'store/employee/slice';
 
+import { StyledQueryField } from './styled'
+
 type Sort = 'updatedAt|desc' | 'updatedAt|asc' | 'orders|desc' | 'orders|asc';
 
 interface SortOption {
@@ -38,19 +40,9 @@ const sortOptions: SortOption[] = [
   },
 ];
 
-const useStyles = makeStyles(() => ({
-  queryField: {
-    width: 300,
-  },
-  searchButton: {
-    marginLeft: '10px',
-  },
-}));
-
 export const TableFilters: FC = () => {
   const dispatch = useDispatch();
 
-  const classes = useStyles();
   const [sort, setSort] = useState<Sort>(sortOptions[0].value);
 
   const handleQueryChange = debounce(
@@ -81,8 +73,7 @@ export const TableFilters: FC = () => {
         ))}
       </TextField>
       <Box flexGrow={1} />
-      <TextField
-        className={classes.queryField}
+      <StyledQueryField
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

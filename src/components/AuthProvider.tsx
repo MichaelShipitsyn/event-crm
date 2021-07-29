@@ -1,23 +1,19 @@
-import { makeStyles } from '@material-ui/core';
 import { LoadingScreen } from 'components/LoadingScreen';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { checkAuthRequest } from 'store/auth/thunks';
+import styled from "styled-components";
 
-const useStyles = makeStyles(() => ({
-  root: {
-    height: '100vh',
-  },
-}));
+export const Container = styled('div')({
+  height: '100vh',
+});
 
 type Props = {
   children?: React.ReactNode;
 };
 
 export const AuthProvider = ({ children }: Props) => {
-  const classes = useStyles();
-
   const isAuthChecked = useSelector(
     (state: RootState) => state.auth.isAuthChecked
   );
@@ -29,9 +25,9 @@ export const AuthProvider = ({ children }: Props) => {
 
   if (!isAuthChecked) {
     return (
-      <div className={classes.root}>
+      <Container>
         <LoadingScreen />
-      </div>
+      </Container>
     );
   }
 

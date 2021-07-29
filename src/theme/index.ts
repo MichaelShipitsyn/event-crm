@@ -1,9 +1,9 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core';
-import { Theme as MuiTheme } from '@material-ui/core/styles/createMuiTheme';
 import {
   Palette as MuiPalette,
   TypeBackground as MuiTypeBackground,
 } from '@material-ui/core/styles/createPalette';
+import { Theme as MuiTheme } from '@material-ui/core/styles/createTheme';
 import { Shadows as MuiShadows } from '@material-ui/core/styles/shadows';
 
 import overrides from './overrides';
@@ -42,10 +42,10 @@ const themeOptions: ThemeOptions = {
   shadows: softShadows,
 };
 
-export const createTheme = (): Theme => {
+export const createTheme = () => {
   let theme = createMuiTheme(themeOptions);
 
   theme = responsiveFontSizes(theme);
 
-  return theme as Theme;
+  return theme;
 };

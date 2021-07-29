@@ -8,7 +8,6 @@ import {
   FormControlLabel,
   Grid,
   IconButton,
-  makeStyles,
   SvgIcon,
   TextField,
   Typography,
@@ -24,10 +23,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { setOrderFormShow } from 'store/order/slice';
 import { createOrderThunk, updateOrderThunk } from 'store/order/thunks';
-import { Theme } from 'theme';
 import { NewClient } from 'types/client';
 import { NewOrder, Order } from 'types/order';
 import * as yup from 'yup';
+
+import { StyledDrawerContent, StyledNameClientLabel, StyledSelectClientButton } from './styled'
 
 type FormData = NewOrder & {
   newClient: NewClient | null;
@@ -36,32 +36,6 @@ type FormData = NewOrder & {
 type Props = {
   initialOrder: Order | null;
 };
-
-const useStyles = makeStyles((theme: Theme) => {
-  return {
-    toggleButtonGroup: {
-      display: 'flex',
-      marginTop: '3px',
-    },
-    toggleButton: {
-      width: '50%',
-    },
-    drawerContent: {
-      overflowY: 'auto',
-      height: '100%',
-    },
-    nameClientLabel: {
-      display: 'flex',
-      justifyContent: 'space-between',
-    },
-    selectClientButton: {
-      color: theme.palette.primary.main,
-      fontSize: '14px',
-      textDecoration: 'underline',
-      cursor: 'pointer',
-    },
-  };
-});
 
 const schema = yup.object().shape({
   newClient: yup
@@ -81,7 +55,6 @@ export const OrderForm = ({ initialOrder }: Props) => {
 
   const [isNewClient, setNewClient] = useState(initialOrder === null);
 
-  const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -103,7 +76,7 @@ export const OrderForm = ({ initialOrder }: Props) => {
     } else {
       setValue('newClient', null);
     }
-  }, [isNewClient]);
+  }, [isNewClient, setValue]);
 
   const updateOrderRequestStatus = useSelector(
     (state: RootState) => state.order.updateOrderRequestStatus
@@ -153,7 +126,7 @@ export const OrderForm = ({ initialOrder }: Props) => {
         </IconButton>
       </Box>
       <Divider light variant="fullWidth" />
-      <div className={classes.drawerContent}>
+      <StyledDrawerContent>
         <Box px={3} py={1}>
           <pre style={{ marginTop: 24 }}>
             {JSON.stringify(watch(), null, 2)}
@@ -178,15 +151,14 @@ export const OrderForm = ({ initialOrder }: Props) => {
                 inputRef={register}
                 fullWidth
                 label={
-                  <div className={classes.nameClientLabel}>
+                  <StyledNameClientLabel>
                     <span>Имя клиента</span>
-                    <span
-                      className={classes.selectClientButton}
+                    <StyledSelectClientButton
                       onClick={() => setClientPickerShow(true)}
                     >
                       Выбрать клиента из базы
-                    </span>
-                  </div>
+                    </StyledSelectClientButton>
+                  </StyledNameClientLabel>
                 }
                 margin="normal"
                 name="newClient.name"
@@ -274,7 +246,7 @@ export const OrderForm = ({ initialOrder }: Props) => {
             variant="outlined"
           />
         </Box>
-      </div>
+      </StyledDrawerContent>
       <Box p={3} display="flex" justifyContent="space-between">
         <Button variant="contained" onClick={handleClose}>
           Отменить
