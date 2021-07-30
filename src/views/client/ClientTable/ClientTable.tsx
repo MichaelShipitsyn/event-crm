@@ -26,7 +26,7 @@ import { Client, isNewClient, NewClient } from 'types/client';
 import { ClientForm } from 'views/client/ClientForm';
 
 import { ClientItem } from './ClientItem';
-import { StickyTableCell,StyledTableContainer } from './styled'
+import { StickyTableCell, StyledTableContainer } from './styled';
 import { TableFilters } from './TableFilters';
 
 export const ClientTable: FC = () => {
@@ -101,9 +101,7 @@ export const ClientTable: FC = () => {
                 <TableCell>Имя</TableCell>
                 <TableCell>Телефон</TableCell>
                 <TableCell>Электронная почта</TableCell>
-                <StickyTableCell align="right">
-                  Действия
-                </StickyTableCell>
+                <StickyTableCell align="right">Действия</StickyTableCell>
               </TableRow>
             </TableHead>
             <TableBody>

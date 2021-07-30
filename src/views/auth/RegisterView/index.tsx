@@ -1,17 +1,11 @@
-import {
-  Box,
-  Card,
-  Divider,
-  Link,
-  Typography,
-} from '@material-ui/core';
+import { Box, Card, Divider, Link, Typography } from '@material-ui/core';
 import { Logo } from 'components';
 import type { FC } from 'react';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { RegisterForm } from './RegisterForm';
-import { StyledCardContainer, StyledCardContent, StyledPage } from './styled'
+import { StyledCardContainer, StyledCardContent, StyledPage } from './styled';
 
 export const RegisterView: FC = () => {
   return (

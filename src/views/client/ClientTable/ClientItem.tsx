@@ -1,9 +1,4 @@
-import {
-  Box,
-  SvgIcon,
-  TableCell,
-  TableRow,
-} from '@material-ui/core';
+import { Box, SvgIcon, TableCell, TableRow } from '@material-ui/core';
 import { SkeletonWrap } from 'components';
 import type { FC } from 'react';
 import React from 'react';
@@ -12,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { Client } from 'types/client';
 
-import { StickyTableCell, StyledIconButton } from './styled'
+import { StickyTableCell, StyledIconButton } from './styled';
 
 type Props = {
   client: Client;
@@ -47,17 +42,13 @@ export const ClientItem: FC<Props> = ({ client, onEdit, onDelete }) => {
       <StickyTableCell align="right">
         <SkeletonWrap isLoading={isClientsFetchLoading}>
           <Box mr="5px" clone>
-            <StyledIconButton
-              onClick={() => onEdit()}
-            >
+            <StyledIconButton onClick={() => onEdit()}>
               <SvgIcon fontSize="small">
                 <UserIcon />
               </SvgIcon>
             </StyledIconButton>
           </Box>
-          <StyledIconButton
-            onClick={() => onDelete()}
-          >
+          <StyledIconButton onClick={() => onDelete()}>
             <SvgIcon fontSize="small">
               <TrashIcon />
             </SvgIcon>

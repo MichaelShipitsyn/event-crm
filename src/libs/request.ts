@@ -1,5 +1,5 @@
 import axios from 'axios';
-import store from 'store';
+import { store } from 'store';
 import { logoutUser } from 'store/auth/thunks';
 import { showAlert } from 'store/global/slice';
 

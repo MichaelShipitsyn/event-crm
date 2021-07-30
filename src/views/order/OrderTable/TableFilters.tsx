@@ -1,9 +1,4 @@
-import {
-  Box,
-  InputAdornment,
-  SvgIcon,
-  TextField,
-} from '@material-ui/core';
+import { Box, InputAdornment, SvgIcon, TextField } from '@material-ui/core';
 import debounce from 'lodash.debounce';
 import type { ChangeEvent, FC } from 'react';
 import React, { useState } from 'react';
@@ -11,7 +6,7 @@ import { Search as SearchIcon } from 'react-feather';
 import { useDispatch } from 'react-redux';
 import { setSearchQuery } from 'store/order/slice';
 
-import { StyledQueryField } from './styled'
+import { StyledQueryField } from './styled';
 
 type Sort = 'updatedAt|desc' | 'updatedAt|asc' | 'orders|desc' | 'orders|asc';
 

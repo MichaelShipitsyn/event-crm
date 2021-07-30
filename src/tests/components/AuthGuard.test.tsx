@@ -11,7 +11,7 @@ const ui = (
   </AuthGuard>
 );
 
-test('check guard when user not auth', async () => {
+test('check guard when user not auth', () => {
   const storeTest = createStoreTest({ auth: { isAuthenticated: false } });
 
   renderWithProviders(ui, storeTest);
@@ -19,7 +19,7 @@ test('check guard when user not auth', async () => {
   expect(screen.queryByText('children')).not.toBeInTheDocument();
 });
 
-test('check guard when user auth', async () => {
+test('check guard when user auth', () => {
   const storeTest = createStoreTest({ auth: { isAuthenticated: true } });
 
   renderWithProviders(ui, storeTest);

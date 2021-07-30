@@ -1,4 +1,4 @@
-export default {
+export const MuiButton = {
   root: {
     height: '35px',
     boxSizing: 'border-box',

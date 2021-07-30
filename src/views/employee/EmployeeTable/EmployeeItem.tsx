@@ -1,10 +1,4 @@
-import {
-  Box,
-  Hidden,
-  SvgIcon,
-  TableCell,
-  TableRow,
-} from '@material-ui/core';
+import { Box, Hidden, SvgIcon, TableCell, TableRow } from '@material-ui/core';
 import { SkeletonWrap } from 'components';
 import React from 'react';
 import { Trash2 as TrashIcon, User as UserIcon } from 'react-feather';
@@ -13,7 +7,7 @@ import { RootState } from 'store';
 import { User } from 'types/user';
 import { getUserFullName } from 'utils/getUserFullName';
 
-import { StyledAvatar, StyledIconButton,StyledTableCell } from './styled'
+import { StyledAvatar, StyledIconButton, StyledTableCell } from './styled';
 
 type EmployeeItemProps = {
   employee: User;
@@ -65,17 +59,13 @@ export const EmployeeItem = ({
       <StyledTableCell align="right">
         <SkeletonWrap isLoading={isEmployeesFetchLoading}>
           <Box mr="5px" clone>
-            <StyledIconButton
-              onClick={() => onEdit()}
-            >
+            <StyledIconButton onClick={() => onEdit()}>
               <SvgIcon fontSize="small">
                 <UserIcon />
               </SvgIcon>
             </StyledIconButton>
           </Box>
-          <StyledIconButton
-            onClick={() => onDelete()}
-          >
+          <StyledIconButton onClick={() => onDelete()}>
             <SvgIcon fontSize="small">
               <TrashIcon />
             </SvgIcon>

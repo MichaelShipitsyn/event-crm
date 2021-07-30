@@ -1,4 +1,4 @@
-export default {
+export const MuiTableCell = {
   root: {
     whiteSpace: 'nowrap',
     padding: '0 15px',

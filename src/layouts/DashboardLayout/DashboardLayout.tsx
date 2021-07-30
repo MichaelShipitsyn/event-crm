@@ -2,7 +2,12 @@ import type { FC, ReactNode } from 'react';
 import React, { useState } from 'react';
 
 import { NavBar } from './NavBar';
-import { Container, ContentContainer, StyledContent,StyledWrapper } from './styled'
+import {
+  Container,
+  ContentContainer,
+  StyledContent,
+  StyledWrapper,
+} from './styled';
 import { TopBar } from './TopBar';
 
 interface DashboardLayoutProps {

@@ -1,9 +1,4 @@
-import {
-  Box,
-  SvgIcon,
-  TableCell,
-  TableRow,
-} from '@material-ui/core';
+import { Box, SvgIcon, TableCell, TableRow } from '@material-ui/core';
 import { SkeletonWrap } from 'components';
 import React from 'react';
 import { Trash2 as TrashIcon, User as UserIcon } from 'react-feather';
@@ -11,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { Order } from 'types/order';
 
-import { StyledIconButton,StyledTableCell } from './styled'
+import { StyledIconButton, StyledTableCell } from './styled';
 
 type Props = {
   order: Order;
@@ -51,17 +46,13 @@ export const OrderItem = ({ order, onEdit, onDelete }: Props) => {
       <StyledTableCell align="right">
         <SkeletonWrap isLoading={isOrdersFetchLoading}>
           <Box mr="5px" clone>
-            <StyledIconButton
-              onClick={() => onEdit()}
-            >
+            <StyledIconButton onClick={() => onEdit()}>
               <SvgIcon fontSize="small">
                 <UserIcon />
               </SvgIcon>
             </StyledIconButton>
           </Box>
-          <StyledIconButton
-            onClick={() => onDelete()}
-          >
+          <StyledIconButton onClick={() => onDelete()}>
             <SvgIcon fontSize="small">
               <TrashIcon />
             </SvgIcon>

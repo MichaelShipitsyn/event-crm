@@ -4,7 +4,7 @@ import React from 'react';
 
 import { EmployeeTable } from './EmployeeTable';
 import { Header } from './Header';
-import { StyledPage } from './styled'
+import { StyledPage } from './styled';
 
 export const EmployeeView: FC = () => {
   return (

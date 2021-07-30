@@ -20,7 +20,7 @@ import { fetchEmployeesThunk } from 'store/employee/thunks';
 import { EmployeeForm } from 'views/employee/EmployeeForm';
 
 import { EmployeeItem } from './EmployeeItem';
-import { StyledTableCell,StyledTableContainer } from './styled'
+import { StyledTableCell, StyledTableContainer } from './styled';
 import { TableFilters } from './TableFilters';
 
 export const EmployeeTable: FC = () => {
@@ -85,9 +85,7 @@ export const EmployeeTable: FC = () => {
                 <TableCell>Электронная почта</TableCell>
                 <TableCell>Телефон</TableCell>
                 <TableCell>Уровень доступа</TableCell>
-                <StyledTableCell align="right">
-                  Действия
-                </StyledTableCell>
+                <StyledTableCell align="right">Действия</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -134,7 +132,7 @@ export const EmployeeTable: FC = () => {
         <EmployeeForm
           onClose={() => setEditableEmployee(null)}
           initialEmployee={editableEmployee}
-          onSave={async (employee) => handleEmployeeSave(employee)}
+          onSave={(employee) => handleEmployeeSave(employee)}
         />
       )}
       {removableEmployeeID && (

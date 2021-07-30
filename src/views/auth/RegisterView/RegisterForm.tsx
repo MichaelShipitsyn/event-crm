@@ -34,7 +34,7 @@ export const RegisterForm: FC = () => {
           .max(255)
           .required('Необходимо указать пароль'),
       })}
-      onSubmit={async (values) => {
+      onSubmit={(values) => {
         dispatch(
           registerRequest({
             firstname: values.firstname,

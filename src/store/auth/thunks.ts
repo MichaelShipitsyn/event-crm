@@ -36,7 +36,7 @@ export const loginRequest =
       dispatch(setAuthMessageError(null));
       dispatch(setLoginRequestLoader(false));
       history.push('/app/employees');
-    } catch (error) {
+    } catch (error: unknown) {
       const errorMessage = getErrorMessage(error);
       dispatch(setLoginRequestLoader(false));
       dispatch(setAuthMessageError(errorMessage));
@@ -60,7 +60,7 @@ export const registerRequest =
       dispatch(setAuthMessageError(null));
       dispatch(setRegisterRequestLoader(false));
       history.push('/app/employees');
-    } catch (error) {
+    } catch (error: unknown) {
       const errorMessage = getErrorMessage(error);
       dispatch(setRegisterRequestLoader(false));
       dispatch(setAuthMessageError(errorMessage));
@@ -79,7 +79,7 @@ export const checkAuthRequest = (): AppThunk => async (dispatch) => {
   dispatch(setAuthChecked());
 };
 
-export const logoutUser = (): AppThunk => async (dispatch) => {
+export const logoutUser = (): AppThunk => (dispatch) => {
   authApi.removeHeaderAuthorization();
   LocalStorage.removeItem('token');
   dispatch(removeCurrentUser());

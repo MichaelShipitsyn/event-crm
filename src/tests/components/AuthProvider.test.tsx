@@ -12,7 +12,7 @@ const ui = (
   </AuthProvider>
 );
 
-test('render children when isAuthChecked=true', async () => {
+test('render children when isAuthChecked=true', () => {
   const storeTest = createStoreTest({
     auth: { isAuthChecked: true },
   });
@@ -22,7 +22,7 @@ test('render children when isAuthChecked=true', async () => {
   expect(screen.queryByText('children')).toBeInTheDocument();
 });
 
-test('render LoadingScreen when isAuthChecked=false', async () => {
+test('render LoadingScreen when isAuthChecked=false', () => {
   const storeTest = createStoreTest({
     auth: { isAuthChecked: false },
   });

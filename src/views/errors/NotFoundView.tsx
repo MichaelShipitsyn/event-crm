@@ -11,7 +11,7 @@ import type { FC } from 'react';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { StyledNotFoundImage,StyledPage } from './styled'
+import { StyledNotFoundImage, StyledPage } from './styled';
 
 export const NotFoundView: FC = () => {
   const theme = useTheme();
@@ -28,16 +28,13 @@ export const NotFoundView: FC = () => {
           404: Страница не найдена
         </Typography>
         <Box mt={6} display="flex" justifyContent="center">
-          <StyledNotFoundImage
-            alt="Under development"
-            src={NotFoundImage}
-          />
+          <StyledNotFoundImage alt="Under development" src={NotFoundImage} />
         </Box>
         <Box mt={6} display="flex" justifyContent="center">
           <Button
             color="secondary"
             component={RouterLink}
-            to="/"
+            to="/app"
             variant="outlined"
           >
             Вернуться на главную

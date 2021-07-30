@@ -4,7 +4,7 @@ import {
   TableContainer,
   TextField,
 } from '@material-ui/core';
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledQueryField = styled(TextField)({
   width: 300,

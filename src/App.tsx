@@ -1,22 +1,22 @@
-import { jssPreset, StylesProvider, ThemeProvider as MuiThemeProvider } from '@material-ui/core';
+import {
+  StylesProvider,
+  ThemeProvider as MuiThemeProvider,
+} from '@material-ui/core';
 import {
   AuthProvider,
   GlobalStyles,
   Notification,
   ScrollReset,
 } from 'components';
-import { create } from 'jss';
 import { history } from 'libs/history';
 import type { FC } from 'react';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import routes, { renderRoutes } from 'routes';
-import store from 'store';
-import { createTheme } from 'theme';
+import { renderRoutes, routes } from 'routes';
+import { store } from 'store';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-
-const jss = create({ plugins: [...jssPreset().plugins] });
+import { createTheme } from 'theme';
 
 export const App: FC = () => {
   const theme = createTheme();
@@ -25,7 +25,7 @@ export const App: FC = () => {
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
         <StyledThemeProvider theme={theme}>
-          <StylesProvider jss={jss}>
+          <StylesProvider injectFirst>
             <AuthProvider>
               <Router history={history}>
                 <GlobalStyles />

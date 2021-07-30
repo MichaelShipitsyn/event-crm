@@ -9,28 +9,20 @@ import {
 import type { FC } from 'react';
 import React from 'react';
 import { Trash as TrashIcon } from 'react-feather';
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const StyledDrawerContent = styled('div')(
-  ({ theme }) => (
-    {
-      padding: theme.spacing(2),
-    }
-  )
-);
+const StyledDrawerContent = styled('div')(({ theme }) => ({
+  padding: theme.spacing(2),
+}));
 
-const StyledActions = styled('div')(
-  ({ theme }) => (
-    {
-      display: 'flex',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
-      '& > * + *': {
-        marginLeft: theme.spacing(2),
-      },
-    }
-  )
-);
+const StyledActions = styled('div')(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  flexWrap: 'wrap',
+  '& > * + *': {
+    marginLeft: theme.spacing(2),
+  },
+}));
 
 interface BulkOperationsProps {
   onDelete: () => void;

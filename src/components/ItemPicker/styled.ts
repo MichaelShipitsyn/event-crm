@@ -6,27 +6,21 @@ import {
   ListItem,
   ListItemSecondaryAction,
 } from '@material-ui/core';
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledIconButton = styled(IconButton)({
-  '& .MuiIconButton-root': {
-    border: '1px solid rgba(84, 110, 122, 0.3)',
-    width: '24px',
-    height: '24px',
-    padding: '5px',
-  },
+  border: '1px solid rgba(84, 110, 122, 0.3)',
+  width: '24px',
+  height: '24px',
+  padding: '5px',
 });
 
-export const StyledCheckedIcon = styled(StyledIconButton)(
-  ({ theme }) => (
-    {
-      backgroundColor: theme.palette.primary.main,
-      '&:hover': {
-        backgroundColor: theme.palette.primary.main,
-      },
-    }
-  )
-);
+export const StyledCheckedIcon = styled(StyledIconButton)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  '&:hover': {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
 
 export const StyledListWrap = styled('div')({
   maxHeight: '300px',

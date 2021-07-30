@@ -19,7 +19,11 @@ import { User } from 'types/user';
 import { getUserFullName } from 'utils/getUserFullName';
 import * as yup from 'yup';
 
-import { StyledDrawerContent,StyledToggleButton, StyledToggleButtonGroup } from './styled'
+import {
+  StyledDrawerContent,
+  StyledToggleButton,
+  StyledToggleButtonGroup,
+} from './styled';
 
 type FormData = {
   firstname: string;
@@ -134,15 +138,10 @@ export const EmployeeForm = ({ initialEmployee, onSave, onClose }: Props) => {
                 setValue('is_admin', value);
               }}
             >
-              <StyledToggleButton
-                color="primary"
-                value
-              >
+              <StyledToggleButton color="primary" value>
                 Администратор
               </StyledToggleButton>
-              <StyledToggleButton value={false}>
-                Сотрудник
-              </StyledToggleButton>
+              <StyledToggleButton value={false}>Сотрудник</StyledToggleButton>
             </StyledToggleButtonGroup>
           </Box>
         </Box>

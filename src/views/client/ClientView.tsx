@@ -4,7 +4,7 @@ import React from 'react';
 
 import { ClientTable } from './ClientTable';
 import { Header } from './Header';
-import { StyledPage } from './styled'
+import { StyledPage } from './styled';
 
 export const ClientView: FC = () => {
   return (

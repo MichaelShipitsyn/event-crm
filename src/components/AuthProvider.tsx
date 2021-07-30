@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { checkAuthRequest } from 'store/auth/thunks';
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled('div')({
   height: '100vh',

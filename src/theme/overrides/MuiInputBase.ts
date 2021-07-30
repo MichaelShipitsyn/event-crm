@@ -1,6 +1,6 @@
 import { colors } from '@material-ui/core';
 
-export default {
+export const MuiInputBase = {
   root: {
     fontSize: '14px',
     lineHeight: '1.5em',

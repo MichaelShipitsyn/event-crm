@@ -27,7 +27,11 @@ import { NewClient } from 'types/client';
 import { NewOrder, Order } from 'types/order';
 import * as yup from 'yup';
 
-import { StyledDrawerContent, StyledNameClientLabel, StyledSelectClientButton } from './styled'
+import {
+  StyledDrawerContent,
+  StyledNameClientLabel,
+  StyledSelectClientButton,
+} from './styled';
 
 type FormData = NewOrder & {
   newClient: NewClient | null;
@@ -128,9 +132,6 @@ export const OrderForm = ({ initialOrder }: Props) => {
       <Divider light variant="fullWidth" />
       <StyledDrawerContent>
         <Box px={3} py={1}>
-          <pre style={{ marginTop: 24 }}>
-            {JSON.stringify(watch(), null, 2)}
-          </pre>
           <FormControlLabel
             control={
               <Checkbox

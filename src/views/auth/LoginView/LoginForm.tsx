@@ -31,7 +31,7 @@ export const LoginForm: FC = () => {
           .required('Необходимо указать Email'),
         password: Yup.string().max(255).required('Необходимо указать пароль'),
       })}
-      onSubmit={async (values) => {
+      onSubmit={(values) => {
         dispatch(
           loginRequest({ email: values.email, password: values.password })
         );

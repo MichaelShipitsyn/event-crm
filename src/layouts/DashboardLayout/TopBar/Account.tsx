@@ -2,7 +2,6 @@ import {
   Box,
   ButtonBase,
   Hidden,
-  Menu,
   MenuItem,
   Typography,
 } from '@material-ui/core';
@@ -14,7 +13,7 @@ import { RootState } from 'store';
 import { getUserFullName } from 'store/auth/selector';
 import { logoutUser } from 'store/auth/thunks';
 
-import { StyledAvatar, StyledMenu } from './styled'
+import { StyledAvatar, StyledMenu } from './styled';
 
 export const Account: FC = () => {
   const dispatch = useDispatch();
@@ -47,10 +46,7 @@ export const Account: FC = () => {
         // @ts-expect-error
         ref={ref}
       >
-        <StyledAvatar
-          alt="User"
-          src={user?.avatar ?? ''}
-        />
+        <StyledAvatar alt="User" src={user?.avatar ?? ''} />
         <Hidden smDown>
           <Typography variant="h6" color="inherit">
             {userFullName}

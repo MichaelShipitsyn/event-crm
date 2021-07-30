@@ -1,10 +1,4 @@
-import {
-  Box,
-  Divider,
-  Hidden,
-  Link,
-  List,
-} from '@material-ui/core';
+import { Box, Divider, Hidden, Link, List } from '@material-ui/core';
 import { Logo } from 'components/Logo';
 import type { FC, ReactNode } from 'react';
 import React, { useEffect } from 'react';
@@ -16,7 +10,12 @@ import { RootState } from 'store';
 import { getUserFullName } from 'store/auth/selector';
 
 import { NavItem } from './NavItem';
-import { StyledAvatar, StyledDesktopDrawer, StyledList,StyledMobileDrawer } from './styled'
+import {
+  StyledAvatar,
+  StyledDesktopDrawer,
+  StyledList,
+  StyledMobileDrawer,
+} from './styled';
 
 type ReduceChildRoutesProps = {
   acc: any[];
@@ -165,10 +164,7 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
         <Box p={2}>
           <Box display="flex" justifyContent="center">
             <RouterLink to="/app/account">
-              <StyledAvatar
-                alt="User"
-                src={user?.avatar ?? ''}
-              />
+              <StyledAvatar alt="User" src={user?.avatar ?? ''} />
             </RouterLink>
           </Box>
           <Box mt={2} textAlign="center">
@@ -211,11 +207,7 @@ export const NavBar: FC<NavBarProps> = ({ onMobileClose, openMobile }) => {
         </StyledMobileDrawer>
       </Hidden>
       <Hidden mdDown>
-        <StyledDesktopDrawer
-          anchor="left"
-          open
-          variant="persistent"
-        >
+        <StyledDesktopDrawer anchor="left" open variant="persistent">
           {content}
         </StyledDesktopDrawer>
       </Hidden>

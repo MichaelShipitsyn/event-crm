@@ -21,7 +21,7 @@ import { fetchOrdersThunk } from 'store/order/thunks';
 import { OrderForm } from 'views/order/OrderForm';
 
 import { OrderItem } from './OrderItem';
-import { StyledTableCell,StyledTableContainer } from './styled'
+import { StyledTableCell, StyledTableContainer } from './styled';
 import { TableFilters } from './TableFilters';
 
 export const OrderTable: FC = () => {
@@ -88,9 +88,7 @@ export const OrderTable: FC = () => {
                 <TableCell>Адрес</TableCell>
                 <TableCell>Стоимость</TableCell>
                 <TableCell>Предоплата</TableCell>
-                <StyledTableCell align="right">
-                  Действия
-                </StyledTableCell>
+                <StyledTableCell align="right">Действия</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>

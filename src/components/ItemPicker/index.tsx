@@ -22,7 +22,7 @@ import {
   StyledList,
   StyledListItem,
   StyledListWrap,
-} from './styled'
+} from './styled';
 
 type Entity = {
   [key: string]: unknown;
@@ -81,10 +81,7 @@ export const ItemPicker = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <StyledDialogTitle
-        disableTypography
-        id="alert-dialog-title"
-      >
+      <StyledDialogTitle disableTypography id="alert-dialog-title">
         <Typography variant="h4">Выбор клиента</Typography>
         <StyledCloseButton onClick={onClose}>
           <SvgIcon fontSize="small">
@@ -124,9 +121,7 @@ export const ItemPicker = ({
                           </SvgIcon>
                         </StyledCheckedIcon>
                       ) : (
-                        <StyledIconButton>
-                          {' '}
-                        </StyledIconButton>
+                        <StyledIconButton />
                       )}
                     </StyledItemSecondaryAction>
                   </StyledListItem>

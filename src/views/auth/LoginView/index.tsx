@@ -1,17 +1,11 @@
-import {
-  Box,
-  Card,
-  Divider,
-  Link,
-  Typography,
-} from '@material-ui/core';
+import { Box, Card, Divider, Link, Typography } from '@material-ui/core';
 import { Logo } from 'components/Logo';
 import type { FC } from 'react';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { LoginForm } from './LoginForm';
-import { StyledCardContainer, StyledCardContent, StyledPage } from './styled'
+import { StyledCardContainer, StyledCardContent, StyledPage } from './styled';
 
 export const LoginView: FC = () => {
   return (

@@ -1,4 +1,4 @@
-export default {
+export const MuiInputLabel = {
   formControl: {
     position: 'relative',
   },

@@ -1,6 +1,6 @@
 import { TableCell, TableRow } from '@material-ui/core';
 import React from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledTableCell = styled(TableCell)({
   textAlign: 'center',
@@ -13,9 +13,7 @@ type Props = {
 export const NoTableData = ({ numberColumns }: Props) => {
   return (
     <TableRow>
-      <StyledTableCell colSpan={numberColumns}>
-        Нет данных
-      </StyledTableCell>
+      <StyledTableCell colSpan={numberColumns}>Нет данных</StyledTableCell>
     </TableRow>
   );
 };

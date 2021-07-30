@@ -1,4 +1,4 @@
-export default {
+export const typography = {
   h1: {
     fontWeight: 500,
     fontSize: 35,

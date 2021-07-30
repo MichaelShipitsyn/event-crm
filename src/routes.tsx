@@ -14,17 +14,16 @@ type Routes = Array<{
   routes?: Routes;
 }>;
 
-export const renderRoutes = (routes: Routes = []): JSX.Element => (
+export const renderRoutes = (routes: Routes = []): React.ReactNode => (
   <Suspense fallback={<LoadingScreen />}>
     <Switch>
-      {routes.map((route, i) => {
+      {routes.map((route) => {
         const Guard = route.guard || Fragment;
         const Layout = route.layout || Fragment;
         const Component = route.component;
 
         return (
           <Route
-            key={i}
             path={route.path}
             exact={route.exact}
             render={(props) => (
@@ -45,16 +44,7 @@ export const renderRoutes = (routes: Routes = []): JSX.Element => (
   </Suspense>
 );
 
-const routes: Routes = [
-  {
-    exact: true,
-    path: '/404',
-    component: lazy(async () =>
-      import('views/errors/NotFoundView').then((m) => ({
-        default: m.NotFoundView,
-      }))
-    ),
-  },
+export const routes: Routes = [
   {
     exact: true,
     guard: GuestGuard,
@@ -113,14 +103,12 @@ const routes: Routes = [
         component: () => <Redirect to="/app/employees" />,
       },
       {
-        component: () => <Redirect to="/404" />,
+        component: () => <Redirect to="/app" />,
       },
     ],
   },
   {
     path: '*',
-    component: () => <Redirect to="/404" />,
+    component: () => <Redirect to="/app" />,
   },
 ];
-
-export default routes;

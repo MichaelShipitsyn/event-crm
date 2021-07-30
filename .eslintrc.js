@@ -161,6 +161,10 @@ const config = {
         ignoreFunctionalComponents: true,
       },
     ],
+    'consistent-return': 'off',
+    'import/no-cycle': 'off',
+    'no-param-reassign': 'off',
+
     'import/prefer-default-export': 'off',
     'import/no-default-export': 'error',
 
@@ -175,6 +179,7 @@ const config = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/restrict-plus-operands': 'off',
     '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/restrict-template-expressions': 'off',
 
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',

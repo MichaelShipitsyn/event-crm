@@ -24,7 +24,6 @@ export const Search: FC = () => {
   const [value, setValue] = useState<string>('');
   const [isOpen, setOpen] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);
-  const [results, setResults] = useState<Result[]>([]);
 
   const handleOpen = (): void => {
     setOpen(true);

@@ -1,16 +1,19 @@
-import { Button, Collapse, ListItem, makeStyles } from '@material-ui/core';
+import { Collapse } from '@material-ui/core';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import clsx from 'clsx';
 import type { FC, ReactNode } from 'react';
 import React, { useState } from 'react';
 import {
   LinkProps as RouterLinkProps,
   NavLink as RouterLink,
 } from 'react-router-dom';
-import type { Theme } from 'theme';
 
-import { StyledListItem, StyledButton, StyledButtonLeaf, StyledTitle } from './styled'
+import {
+  StyledButton,
+  StyledButtonLeaf,
+  StyledListItem,
+  StyledTitle,
+} from './styled';
 
 interface NavItemProps {
   children?: ReactNode;
@@ -50,12 +53,7 @@ export const NavItem: FC<NavItemProps> = ({
 
   if (children) {
     return (
-      <StyledListItem
-        disableGutters
-        key={title}
-        button
-        {...rest}
-      >
+      <StyledListItem disableGutters key={title} button {...rest}>
         <StyledButton onClick={handleToggle} style={style}>
           {Icon && <Icon size="20" />}
           <StyledTitle>{title}</StyledTitle>
@@ -79,12 +77,7 @@ export const NavItem: FC<NavItemProps> = ({
   );
 
   return (
-    <StyledListItem
-      disableGutters
-      key={title}
-      button
-      {...rest}
-    >
+    <StyledListItem disableGutters key={title} button {...rest}>
       <StyledButtonLeaf
         // @ts-expect-error
         component={LinkBehavior}

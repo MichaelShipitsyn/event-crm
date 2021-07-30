@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Header } from './Header';
 import { OrderTable } from './OrderTable';
-import { StyledPage } from './styled'
+import { StyledPage } from './styled';
 
 export const OrderView = () => {
   return (

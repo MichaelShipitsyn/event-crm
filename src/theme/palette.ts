@@ -1,6 +1,6 @@
 import { colors } from '@material-ui/core';
 
-export default {
+export const palette = {
   type: 'light',
   action: {
     active: colors.blueGrey[600],

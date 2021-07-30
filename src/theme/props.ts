@@ -1,4 +1,4 @@
-export default {
+export const props = {
   MuiTextField: {
     autoComplete: 'off',
     InputProps: {

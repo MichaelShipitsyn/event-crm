@@ -19,7 +19,7 @@ export const useEditEmployee = () => {
     }
   }, [updateEmployeeRequestStatus]);
 
-  const handleEmployeeSave = async (employee: User) => {
+  const handleEmployeeSave = (employee: User) => {
     dispatch(updateEmployeesThunk(employee));
   };
 

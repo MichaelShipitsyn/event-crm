@@ -14,7 +14,6 @@ import {
   fetchClientsRequestStart,
   fetchClientsRequestSuccess,
   setClientFormShow,
-  setSearchQuery,
   updateClientRequestFail,
   updateClientRequestStart,
   updateClientRequestSuccess,

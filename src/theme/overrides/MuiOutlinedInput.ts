@@ -1,4 +1,4 @@
-export default {
+export const MuiOutlinedInput = {
   input: {
     padding: '7px 7px 7px 14px',
   },

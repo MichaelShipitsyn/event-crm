@@ -6,7 +6,7 @@ import { employeeSliceReducer } from 'store/employee/slice';
 import { globalSliceReducer } from 'store/global/slice';
 import { orderSliceReducer } from 'store/order/slice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   auth: authSliceReducer,
   global: globalSliceReducer,
   cache: cacheSliceReducer,
@@ -14,5 +14,3 @@ const rootReducer = combineReducers({
   client: clientSliceReducer,
   order: orderSliceReducer,
 });
-
-export default rootReducer;

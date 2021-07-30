@@ -18,7 +18,7 @@ import { RootState } from 'store';
 import { Client, NewClient } from 'types/client';
 import * as yup from 'yup';
 
-import { StyledDrawerContent } from './styled'
+import { StyledDrawerContent } from './styled';
 
 type FormData = {
   name: string;

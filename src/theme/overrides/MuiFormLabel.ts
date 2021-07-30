@@ -1,6 +1,6 @@
-import palette from '../palette';
+import { palette } from 'theme/palette';
 
-export default {
+export const MuiFormLabel = {
   root: {
     fontSize: '12px',
     fontWeight: '500',

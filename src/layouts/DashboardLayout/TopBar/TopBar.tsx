@@ -1,9 +1,4 @@
-import {
-  Box,
-  Hidden,
-  IconButton,
-  SvgIcon,
-} from '@material-ui/core';
+import { Box, Hidden, IconButton, SvgIcon } from '@material-ui/core';
 import { Logo } from 'components/Logo';
 import type { FC } from 'react';
 import React from 'react';
@@ -12,16 +7,13 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import { Account } from './Account';
 import { Search } from './Search';
-import { StyledAppBar, StyledToolbar } from './styled'
+import { StyledAppBar, StyledToolbar } from './styled';
 
 interface TopBarProps {
   onMobileNavOpen?: () => void;
 }
 
-export const TopBar: FC<TopBarProps> = ({
-  onMobileNavOpen,
-  ...rest
-}) => {
+export const TopBar: FC<TopBarProps> = ({ onMobileNavOpen, ...rest }) => {
   return (
     <StyledAppBar {...rest}>
       <StyledToolbar>
